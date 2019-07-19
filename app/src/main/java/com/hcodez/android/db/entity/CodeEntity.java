@@ -14,16 +14,16 @@ import androidx.room.PrimaryKey;
 public class CodeEntity {
 
     @PrimaryKey
-    public int id;
+    private int id;
 
     @ColumnInfo(name = "identifier")
-    public String identifier;
+    private String identifier;
 
     @ColumnInfo(name = "owner")
-    public String owner;
+    private String owner;
 
     @ColumnInfo(name = "passcode")
-    public String passcode;
+    private String passcode;
 
     @ColumnInfo(name = "name")
     private String name;
@@ -39,4 +39,76 @@ public class CodeEntity {
 
     @ColumnInfo(name = "code_type")
     private CodeType codeType;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getPasscode() {
+        return passcode;
+    }
+
+    public void setPasscode(String passcode) {
+        this.passcode = passcode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public URL getUrl() {
+        return url;
+    }
+
+    public void setUrl(URL url) {
+        this.url = url;
+    }
+
+    public Instant getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Instant createTime) {
+        this.createTime = createTime;
+    }
+
+    public Instant getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Instant updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public CodeType getCodeType() {
+        return codeType;
+    }
+
+    public void setCodeType(CodeType codeType) {
+        this.codeType = codeType;
+    }
 }

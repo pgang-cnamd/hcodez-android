@@ -32,5 +32,4 @@ public interface CodeDao {
     @Delete
     void delete(CodeEntity code);
 
-
 }
