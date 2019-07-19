@@ -76,7 +76,6 @@ public abstract class AppDatabase extends RoomDatabase {
                         });
                     }
                 })
-//                .addMigrations(MIGRATION_1_2)
                 .build();
     }
 
@@ -110,17 +109,5 @@ public abstract class AppDatabase extends RoomDatabase {
     public LiveData<Boolean> getDatabaseCreated() {
         return mIsDatabaseCreated;
     }
-
-//    private static final Migration MIGRATION_1_2 = new Migration(1, 2) { // FIXME: 19/07/2019 fix method
-//
-//        @Override
-//        public void migrate(@NonNull SupportSQLiteDatabase database) {
-//            database.execSQL("CREATE VIRTUAL TABLE IF NOT EXISTS `productsFts` USING FTS4("
-//                    + "`name` TEXT, `description` TEXT, content=`products`)");
-//            database.execSQL("INSERT INTO productsFts (`rowid`, `name`, `description`) "
-//                    + "SELECT `id`, `name`, `description` FROM products");
-//
-//        }
-//    };
 }
 
