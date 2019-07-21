@@ -3,6 +3,9 @@ package com.hcodez.android.db;
 import android.content.Context;
 
 import com.hcodez.android.AppExecutors;
+import com.hcodez.android.db.converter.CodeTypeConverter;
+import com.hcodez.android.db.converter.InstantConverter;
+import com.hcodez.android.db.converter.URLConverter;
 import com.hcodez.android.db.dao.CodeDao;
 import com.hcodez.android.db.entity.CodeEntity;
 
@@ -14,9 +17,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {CodeEntity.class}, version = 1)
+@Database(entities = {CodeEntity.class}, version = 1, exportSchema = false)
+@TypeConverters({InstantConverter.class, URLConverter.class, CodeTypeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     /**
