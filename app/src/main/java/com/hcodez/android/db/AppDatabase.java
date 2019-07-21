@@ -1,7 +1,6 @@
 package com.hcodez.android.db;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.hcodez.android.AppExecutors;
 import com.hcodez.android.db.dao.CodeDao;
@@ -9,6 +8,7 @@ import com.hcodez.android.db.entity.CodeEntity;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.room.Database;
