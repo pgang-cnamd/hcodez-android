@@ -25,11 +25,9 @@ public interface CodeDao {
     @Query("SELECT * FROM code WHERE id = :codeId")
     CodeEntity loadCodeSync(int codeId);
 
-
     @Query("SELECT * FROM code WHERE identifier IN (:identifiers)")
     LiveData<List<CodeEntity>> loadCodesWithIdentifier(List<String> identifiers);
 
     @Delete
     void delete(CodeEntity code);
-
 }
