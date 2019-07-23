@@ -1,4 +1,4 @@
-package com.hcodez.android.activity;
+package com.hcodez.android.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
