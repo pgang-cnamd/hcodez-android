@@ -1,0 +1,114 @@
+package com.hcodez.android.db.entity;
+
+import com.hcodez.codeengine.model.CodeType;
+
+import org.joda.time.Instant;
+
+import java.net.URL;
+
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "code")
+public class CodeEntity {
+
+    @PrimaryKey
+    private int id;
+
+    @ColumnInfo(name = "identifier")
+    private String identifier;
+
+    @ColumnInfo(name = "owner")
+    private String owner;
+
+    @ColumnInfo(name = "passcode")
+    private String passcode;
+
+    @ColumnInfo(name = "name")
+    private String name;
+
+    @ColumnInfo(name = "url")
+    private URL url;
+
+    @ColumnInfo(name = "create_time")
+    private Instant createTime;
+
+    @ColumnInfo(name = "update_time")
+    private Instant updateTime;
+
+    @ColumnInfo(name = "code_type")
+    private CodeType codeType;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getPasscode() {
+        return passcode;
+    }
+
+    public void setPasscode(String passcode) {
+        this.passcode = passcode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public URL getUrl() {
+        return url;
+    }
+
+    public void setUrl(URL url) {
+        this.url = url;
+    }
+
+    public Instant getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Instant createTime) {
+        this.createTime = createTime;
+    }
+
+    public Instant getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Instant updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public CodeType getCodeType() {
+        return codeType;
+    }
+
+    public void setCodeType(CodeType codeType) {
+        this.codeType = codeType;
+    }
+}

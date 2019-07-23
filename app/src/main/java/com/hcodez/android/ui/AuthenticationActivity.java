@@ -1,6 +1,6 @@
-package com.hcodez.android.activity;
+package com.hcodez.android.ui;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.hcodez.android.R;
