@@ -1,5 +1,7 @@
 package com.hcodez.android.db.entity;
 
+import com.hcodez.codeengine.builder.CodeBuilder;
+import com.hcodez.codeengine.model.Code;
 import com.hcodez.codeengine.model.CodeType;
 
 import org.joda.time.Instant;
@@ -110,5 +112,23 @@ public class CodeEntity {
 
     public void setCodeType(CodeType codeType) {
         this.codeType = codeType;
+    }
+
+
+    /**
+     * Create a library Code model from a CodeEntity
+     * @return the Code model built
+     */
+    public Code toLibraryCode() {
+        return CodeBuilder.createBuilder()
+                .withIdentifier(this.getIdentifier())
+                .withOwner(this.getOwner())
+                .withPasscode(this.getPasscode())
+                .withName(this.getName())
+                .withUrl(this.getUrl())
+                .withCreateTime(this.getCreateTime())
+                .withUpdateTime(this.getUpdateTime())
+                .withCodeType(this.getCodeType())
+                .build();
     }
 }
