@@ -8,6 +8,7 @@ import com.hcodez.android.db.converter.InstantConverter;
 import com.hcodez.android.db.converter.URLConverter;
 import com.hcodez.android.db.dao.CodeDao;
 import com.hcodez.android.db.entity.CodeEntity;
+import com.hcodez.android.db.entity.CodeFtsEntity;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {CodeEntity.class}, version = 2)
+@Database(entities = {CodeEntity.class, CodeFtsEntity.class}, version = 2)
 @TypeConverters({InstantConverter.class, URLConverter.class, CodeTypeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -80,6 +81,7 @@ public abstract class AppDatabase extends RoomDatabase {
                         });
                     }
                 })
+                .addMigrations(Migrations.MIGRATION_1_2)
                 .build();
     }
 
