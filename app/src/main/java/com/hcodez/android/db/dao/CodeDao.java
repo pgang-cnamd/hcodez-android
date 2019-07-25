@@ -25,9 +25,6 @@ public interface CodeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<CodeEntity> code);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(CodeEntity... code);
-
     @Query("SELECT * FROM code WHERE id = :codeId")
     LiveData<CodeEntity> loadCode(int codeId);
 
