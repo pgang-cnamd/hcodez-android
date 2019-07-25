@@ -16,11 +16,17 @@ public interface CodeDao {
     @Query("SELECT * FROM code")
     LiveData<List<CodeEntity>> loadAllCodes();
 
+    @Query("SELECT * FROM code")
+    List<CodeEntity> loadAllCodesSync();
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(CodeEntity code);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<CodeEntity> codes);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(CodeEntity... codes);
 
     @Query("SELECT * FROM code WHERE id = :codeId")
     LiveData<CodeEntity> loadCode(int codeId);
