@@ -20,7 +20,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {CodeEntity.class}, version = 1, exportSchema = false)
+@Database(entities = {CodeEntity.class}, version = 2)
 @TypeConverters({InstantConverter.class, URLConverter.class, CodeTypeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -96,8 +96,7 @@ public abstract class AppDatabase extends RoomDatabase {
         mIsDatabaseCreated.postValue(true);
     }
 
-    private static void insertData(final AppDatabase database, final List<CodeEntity> codes/*,
-                                   final List<CommentEntity> comments*/) {
+    private static void insertData(final AppDatabase database, final List<CodeEntity> codes) {
         database.runInTransaction(() -> {
             database.codeDao().insertAll(codes);
         });
