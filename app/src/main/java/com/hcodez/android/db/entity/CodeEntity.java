@@ -1,5 +1,7 @@
 package com.hcodez.android.db.entity;
 
+import com.hcodez.codeengine.builder.CodeBuilder;
+import com.hcodez.codeengine.model.Code;
 import com.hcodez.codeengine.model.CodeType;
 
 import org.joda.time.Instant;
@@ -110,5 +112,43 @@ public class CodeEntity {
 
     public void setCodeType(CodeType codeType) {
         this.codeType = codeType;
+    }
+
+
+    /**
+     * Create a library Code model from a CodeEntity
+     * @return the Code model built
+     */
+    public Code toLibraryCode() {
+        return CodeBuilder.createBuilder()
+                .withIdentifier(this.getIdentifier())
+                .withOwner(this.getOwner())
+                .withPasscode(this.getPasscode())
+                .withName(this.getName())
+                .withUrl(this.getUrl())
+                .withCreateTime(this.getCreateTime())
+                .withUpdateTime(this.getUpdateTime())
+                .withCodeType(this.getCodeType())
+                .build();
+    }
+
+    /**
+     * Create a CodeEntity from a library Code model
+     * @param libraryCode the library Code model used
+     * @return the CodeEntity built
+     */
+    public static CodeEntity fromLibraryCode(final Code libraryCode) {
+        final CodeEntity codeEntity = new CodeEntity();
+
+        codeEntity.setIdentifier(libraryCode.getIdentifier());
+        codeEntity.setOwner(libraryCode.getOwner());
+        codeEntity.setPasscode(libraryCode.getPasscode());
+        codeEntity.setName(libraryCode.getName());
+        codeEntity.setUrl(libraryCode.getUrl());
+        codeEntity.setCreateTime(libraryCode.getCreateTime());
+        codeEntity.setUpdateTime(libraryCode.getUpdateTime());
+        codeEntity.setCodeType(libraryCode.getCodeType());
+
+        return codeEntity;
     }
 }

@@ -3,6 +3,7 @@ package com.hcodez.android;
 import com.hcodez.android.db.AppDatabase;
 import com.hcodez.android.db.entity.CodeEntity;
 
+import java.util.Arrays;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -45,7 +46,27 @@ public class DataRepository {
         return this.mObservableCodes;
     }
 
-    public LiveData<CodeEntity> getCodeById(final int codeId) {
+    public LiveData<CodeEntity> loadCode(final int codeId) {
         return this.mDatabase.codeDao().loadCode(codeId);
+    }
+
+    public void insertCode(final CodeEntity codeEntity) {
+        mDatabase.codeDao().insert(codeEntity);
+    }
+
+    public void insertCodes(final List<CodeEntity> codeEntities) {
+        mDatabase.codeDao().insertAll(codeEntities);
+    }
+
+    public void insertCodes(final CodeEntity... codeEntities) {
+        mDatabase.codeDao().insertAll(Arrays.asList(codeEntities));
+    }
+
+    public void deleteCode(final CodeEntity codeEntity) {
+        mDatabase.codeDao().delete(codeEntity);
+    }
+
+    public LiveData<List<CodeEntity>> searchCodes(String query) {
+        return mDatabase.codeDao().searchAllProducts(query);
     }
 }
