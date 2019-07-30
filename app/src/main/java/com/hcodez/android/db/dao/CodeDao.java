@@ -36,11 +36,11 @@ public interface CodeDao {
 
     @Query("SELECT code.* FROM code JOIN codeFts ON (code.id = codeFts.rowid) "
             + "WHERE codeFts MATCH :query")
-    LiveData<List<CodeEntity>> searchAllProducts(String query);
+    LiveData<List<CodeEntity>> searchAllCodes(String query);
 
     @Query("SELECT code.* FROM code JOIN codeFts ON (code.id = codeFts.rowid) "
             + "WHERE codeFts MATCH :query")
-    List<CodeEntity> searchAllProductsSync(String query);
+    List<CodeEntity> searchAllCodesSync(String query);
 
     @Delete
     void delete(CodeEntity code);
