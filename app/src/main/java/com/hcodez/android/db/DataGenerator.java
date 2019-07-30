@@ -7,22 +7,23 @@ import com.hcodez.codeengine.model.CodeType;
 import org.joda.time.Instant;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataGenerator {
+class DataGenerator {
 
     private static class CodePrepoulateValues {
-        public static final CodeType CODE_TYPE = CodeType.PRIVATE;
-        public static final Instant CREATE_TIME = Instant.now();
-        public static final int ID = 0;
-        public static final String IDENTIFIER = "aB12";
-        public static final String NAME = "default";
-        public static final String OWNER = "owner";
-        public static final String PASSCODE = "DefaultPasscode123";
-        public static final Instant UPDATE_TIME = Instant.now();
-        public static final URL mURL;
+        static final CodeType CODE_TYPE = CodeType.PRIVATE;
+        static final Instant CREATE_TIME = Instant.now();
+        static final int ID = 0;
+        static final String IDENTIFIER = "aB12";
+        static final String NAME = "default";
+        static final String OWNER = "owner";
+        static final String PASSCODE = "DefaultPasscode123";
+        static final Instant UPDATE_TIME = Instant.now();
+        static final URL mURL;
         static {
             URL mURL1;
             try {
@@ -36,10 +37,13 @@ public class DataGenerator {
     }
 
     private static class ContentPrepopulateValues {
-        // TODO: 2019-07-30 add dummy content
+        static final int ID = 0;
+        static final String DESCRIPTION = "A dummy content";
+        static final URI RESOURCE_URI = URI.create("https://example.com");
+        static final int CODE_ID = 0;
     }
 
-    public static List<CodeEntity> generateCodes() {
+    static List<CodeEntity> generateCodes() {
         List<CodeEntity> codes = new ArrayList<>(1);
 
         CodeEntity code = new CodeEntity();
@@ -59,9 +63,18 @@ public class DataGenerator {
         return codes;
     }
 
-    public static List<ContentEntity> generateContent() {
+    static List<ContentEntity> generateContent() {
         List <ContentEntity> contentList = new ArrayList<>(1);
-        // TODO: 2019-07-30 finish implementation
+
+        final ContentEntity contentEntity = new ContentEntity();
+
+        contentEntity.setId(ContentPrepopulateValues.ID);
+        contentEntity.setDescription(ContentPrepopulateValues.DESCRIPTION);
+        contentEntity.setResourceURI(ContentPrepopulateValues.RESOURCE_URI);
+        contentEntity.setCodeId(ContentPrepopulateValues.CODE_ID);
+
+        contentList.add(contentEntity);D
+
         return contentList;
     }
 }
