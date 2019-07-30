@@ -90,7 +90,7 @@ public abstract class AppDatabase extends RoomDatabase {
                         });
                     }
                 })
-                .addMigrations(Migrations.MIGRATION_1_2) // TODO: 2019-07-30 add migration_2_3
+                .addMigrations(Migrations.MIGRATION_1_2, Migrations.MIGRATION_2_3)
                 .build();
     }
 
