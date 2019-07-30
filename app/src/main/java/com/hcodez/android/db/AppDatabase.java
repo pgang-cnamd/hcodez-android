@@ -78,14 +78,17 @@ public abstract class AppDatabase extends RoomDatabase {
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
                         super.onCreate(db);
                         executors.diskIO().execute(() -> {
-                            // Add a delay to simulate a long-running operation
+                            /*Add a delay to simulate a long-running operation*/
                             addDelay();
-                            // Generate the data for pre-population
+
                             AppDatabase database = AppDatabase.getInstance(appContext, executors);
-                            List<CodeEntity> codes = DataGenerator.generateCodes();
-                            // TODO: 2019-07-30 prepopulate with content
-                            insertData(database, codes);
-                            // notify that the database was created and it's ready to be used
+
+                            /*Generate the data for pre-population*/
+                            final List<CodeEntity> codes = DataGenerator.generateCodes();
+                            final List<ContentEntity> content = DataGenerator.generateContent();
+                            insertData(database, codes, content);
+
+                            /*notify that the database was created and it's ready to be used*/
                             database.setDatabaseCreated();
                         });
                     }
@@ -107,9 +110,12 @@ public abstract class AppDatabase extends RoomDatabase {
         mIsDatabaseCreated.postValue(true);
     }
 
-    private static void insertData(final AppDatabase database, final List<CodeEntity> codes) { // TODO: 2019-07-30 change in order to accept content
+    private static void insertData(final AppDatabase database,
+                                   final List<CodeEntity> codes,
+                                   final List<ContentEntity> content) {
         database.runInTransaction(() -> {
             database.codeDao().insertAll(codes);
+            database.contentDao().insertAll(content);
         });
     }
 
