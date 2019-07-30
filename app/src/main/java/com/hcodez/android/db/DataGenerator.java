@@ -14,21 +14,24 @@ import java.util.List;
 public class DataGenerator {
 
     private static class CodePrepoulateValues {
-        public static CodeType CODE_TYPE = CodeType.PRIVATE;
-        public static Instant CREATE_TIME = Instant.now();
-        public static int ID = 0;
-        public static String IDENTIFIER = "aB12";
-        public static String NAME = "default";
-        public static String OWNER = "owner";
-        public static String PASSCODE = "DefaultPasscode123";
-        public static Instant UPDATE_TIME = Instant.now();
-        public static URL mURL;
+        public static final CodeType CODE_TYPE = CodeType.PRIVATE;
+        public static final Instant CREATE_TIME = Instant.now();
+        public static final int ID = 0;
+        public static final String IDENTIFIER = "aB12";
+        public static final String NAME = "default";
+        public static final String OWNER = "owner";
+        public static final String PASSCODE = "DefaultPasscode123";
+        public static final Instant UPDATE_TIME = Instant.now();
+        public static final URL mURL;
         static {
+            URL mURL1;
             try {
-                mURL = new URL("https://www.example.com");
+                mURL1 = new URL("https://www.example.com");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
+                mURL1 = null;
             }
+            mURL = mURL1;
         }
     }
 
