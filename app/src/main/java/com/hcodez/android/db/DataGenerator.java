@@ -1,6 +1,7 @@
 package com.hcodez.android.db;
 
 import com.hcodez.android.db.entity.CodeEntity;
+import com.hcodez.android.db.entity.ContentEntity;
 import com.hcodez.codeengine.model.CodeType;
 
 import org.joda.time.Instant;
@@ -31,6 +32,10 @@ public class DataGenerator {
         }
     }
 
+    private static class ContentPrepopulateValues {
+        // TODO: 2019-07-30 add dummy content
+    }
+
     public static List<CodeEntity> generateCodes() {
         List<CodeEntity> codes = new ArrayList<>(1);
 
@@ -46,6 +51,14 @@ public class DataGenerator {
         code.setUpdateTime(CodePrepoulateValues.UPDATE_TIME);
         code.setUrl(CodePrepoulateValues.mURL);
 
+        // FIXME: 2019-07-30 codes.add(code);
+
         return codes;
+    }
+
+    public static List<ContentEntity> generateContent() {
+        List <ContentEntity> contentList = new ArrayList<>(1);
+        // TODO: 2019-07-30 finish implementation
+        return contentList;
     }
 }

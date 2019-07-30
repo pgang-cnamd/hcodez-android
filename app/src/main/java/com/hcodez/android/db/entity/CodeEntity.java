@@ -10,9 +10,15 @@ import java.net.URL;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "code")
+@Entity(tableName = "code",
+        foreignKeys = @ForeignKey(
+                entity = ContentEntity.class,
+                parentColumns = "id",
+                childColumns = "content_id"
+        ))
 public class CodeEntity {
 
     @PrimaryKey
@@ -41,6 +47,13 @@ public class CodeEntity {
 
     @ColumnInfo(name = "code_type")
     private CodeType codeType;
+
+    @ColumnInfo(name = "content_id")
+    private int content_id;
+
+
+    public CodeEntity() {}
+
 
     public int getId() {
         return id;
@@ -114,6 +127,13 @@ public class CodeEntity {
         this.codeType = codeType;
     }
 
+    public int getContent_id() {
+        return content_id;
+    }
+
+    public void setContent_id(int content_id) {
+        this.content_id = content_id;
+    }
 
     /**
      * Create a library Code model from a CodeEntity

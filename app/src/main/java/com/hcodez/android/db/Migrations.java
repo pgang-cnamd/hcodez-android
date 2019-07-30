@@ -15,4 +15,11 @@ public final class Migrations {
                     "SELECT `id`, `identifier`, `owner`, `name` FROM code");
         }
     };
+
+    public static final Migration MIGRATION_2_3 = new Migration(2,3) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            // TODO: 2019-07-30 implement
+        }
+    };
 }
