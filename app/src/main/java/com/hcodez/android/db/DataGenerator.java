@@ -34,6 +34,7 @@ class DataGenerator {
             }
             mURL = mURL1;
         }
+        static final int CONTENT_ID = 0;
     }
 
     private static class ContentPrepopulateValues {
@@ -46,7 +47,7 @@ class DataGenerator {
     static List<CodeEntity> generateCodes() {
         List<CodeEntity> codes = new ArrayList<>(1);
 
-        CodeEntity code = new CodeEntity();
+        final CodeEntity code = new CodeEntity();
 
         code.setCodeType(CodePrepoulateValues.CODE_TYPE);
         code.setCreateTime(CodePrepoulateValues.CREATE_TIME);
@@ -57,8 +58,9 @@ class DataGenerator {
         code.setPasscode(CodePrepoulateValues.PASSCODE);
         code.setUpdateTime(CodePrepoulateValues.UPDATE_TIME);
         code.setUrl(CodePrepoulateValues.mURL);
+        code.setContentId(CodePrepoulateValues.CONTENT_ID);
 
-        // FIXME: 2019-07-30 codes.add(code);
+        codes.add(code);
 
         return codes;
     }
@@ -73,7 +75,7 @@ class DataGenerator {
         contentEntity.setResourceURI(ContentPrepopulateValues.RESOURCE_URI);
         contentEntity.setCodeId(ContentPrepopulateValues.CODE_ID);
 
-        contentList.add(contentEntity);D
+        contentList.add(contentEntity);
 
         return contentList;
     }

@@ -49,7 +49,7 @@ public class CodeEntity {
     private CodeType codeType;
 
     @ColumnInfo(name = "content_id")
-    private int content_id;
+    private int contentId;
 
 
     public CodeEntity() {}
@@ -127,12 +127,12 @@ public class CodeEntity {
         this.codeType = codeType;
     }
 
-    public int getContent_id() {
-        return content_id;
+    public int getContentId() {
+        return contentId;
     }
 
-    public void setContent_id(int content_id) {
-        this.content_id = content_id;
+    public void setContentId(int contentId) {
+        this.contentId = contentId;
     }
 
     /**
