@@ -43,4 +43,5 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
 }

@@ -8,7 +8,13 @@ public class CodeTypeConverter {
 
     @TypeConverter
     public static CodeType toCodeType(String codeType) {
-        return codeType == null ? null : CodeType.fromString(codeType);
+        if (codeType == null) {
+            return null;
+        }
+        if (!CodeType.fromString(codeType).isPresent()) {
+            return null;
+        }
+        return CodeType.fromString(codeType).get();
     }
 
     @TypeConverter

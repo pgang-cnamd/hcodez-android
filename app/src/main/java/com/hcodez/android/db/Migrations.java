@@ -10,8 +10,8 @@ public final class Migrations {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("CREATE VIRTUAL TABLE IF NOT EXISTS `codeFts` USING FTS4(" +
-                    "`rowid` INTEGER, `identifier` TEXT, `owner` TEXT, `name` TEXT");
-            database.execSQL("INSERT INTO codeFts (`rowid`, `identifier`, `owner`, `passcode`, `name`)" +
+                    "`identifier` TEXT, `owner` TEXT, `name` TEXT, content=`code`)");
+            database.execSQL("INSERT INTO codeFts (`rowid`, `identifier`, `owner`, `name`) " +
                     "SELECT `id`, `identifier`, `owner`, `name` FROM code");
         }
     };
