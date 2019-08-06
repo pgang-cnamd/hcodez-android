@@ -5,6 +5,7 @@ import android.content.Context;
 import com.hcodez.android.AppExecutors;
 import com.hcodez.android.db.converter.CodeTypeConverter;
 import com.hcodez.android.db.converter.InstantConverter;
+import com.hcodez.android.db.converter.URIConverter;
 import com.hcodez.android.db.converter.URLConverter;
 import com.hcodez.android.db.dao.CodeDao;
 import com.hcodez.android.db.dao.ContentDao;
@@ -30,7 +31,10 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
             ContentEntity.class,
             ContentFtsEntity.class},
         version = 2)
-@TypeConverters({InstantConverter.class, URLConverter.class, CodeTypeConverter.class})
+@TypeConverters({InstantConverter.class,
+        URLConverter.class,
+        CodeTypeConverter.class,
+        URIConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     /**

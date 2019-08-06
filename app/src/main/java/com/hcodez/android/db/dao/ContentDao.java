@@ -16,7 +16,7 @@ public interface ContentDao {
     @Query("SELECT * FROM content")
     LiveData<List<ContentEntity>> loadAllContent();
 
-    @Query("SELECT * FROM code")
+    @Query("SELECT * FROM content")
     List<ContentEntity> loadAllContentSync();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

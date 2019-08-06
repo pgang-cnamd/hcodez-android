@@ -41,7 +41,6 @@ class DataGenerator {
         static final int ID = 0;
         static final String DESCRIPTION = "A dummy content";
         static final URI RESOURCE_URI = URI.create("https://example.com");
-        static final int CODE_ID = 0;
     }
 
     static List<CodeEntity> generateCodes() {
@@ -73,8 +72,6 @@ class DataGenerator {
         contentEntity.setId(ContentPrepopulateValues.ID);
         contentEntity.setDescription(ContentPrepopulateValues.DESCRIPTION);
         contentEntity.setResourceURI(ContentPrepopulateValues.RESOURCE_URI);
-        contentEntity.setCodeId(ContentPrepopulateValues.CODE_ID);
-
         contentList.add(contentEntity);
 
         return contentList;

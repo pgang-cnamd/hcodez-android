@@ -48,7 +48,7 @@ public class CodeEntity {
     @ColumnInfo(name = "code_type")
     private CodeType codeType;
 
-    @ColumnInfo(name = "content_id")
+    @ColumnInfo(name = "content_id", index = true)
     private int contentId;
 
 

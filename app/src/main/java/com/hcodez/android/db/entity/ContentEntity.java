@@ -7,11 +7,7 @@ import androidx.room.PrimaryKey;
 
 import java.net.URI;
 
-@Entity(tableName = "content",
-        foreignKeys = @ForeignKey(
-                entity = CodeEntity.class,
-                parentColumns = "id",
-                childColumns = "code_id"))
+@Entity(tableName = "content")
 public class ContentEntity {
 
     @PrimaryKey
@@ -23,9 +19,6 @@ public class ContentEntity {
 
     @ColumnInfo(name = "resource_uri")
     private URI resourceURI;
-
-    @ColumnInfo(name = "code_id")
-    private int codeId;
 
 
     public ContentEntity() {}
@@ -53,13 +46,5 @@ public class ContentEntity {
 
     public void setResourceURI(URI resourceURI) {
         this.resourceURI = resourceURI;
-    }
-
-    public int getCodeId() {
-        return codeId;
-    }
-
-    public void setCodeId(int codeId) {
-        this.codeId = codeId;
     }
 }
