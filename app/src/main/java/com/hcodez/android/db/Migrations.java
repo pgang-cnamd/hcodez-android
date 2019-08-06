@@ -23,8 +23,8 @@ public final class Migrations {
                     "`id` INTEGER, `identifier` TEXT, `owner` TEXT, `name` TEXT)");
 
             database.execSQL("CREATE VIRTUAL TABLE IF NOT EXISTS `contentFts` USING FTS4(" +
-                    "`rowid` INTEGER, `description` TEXT, `resource_uri` TEXT)");
-            database.execSQL("INSERT INTO contentFts (`rowid` INTEGER, `description` TEXT, `resource_uri` TEXT)" +
+                    "`description` TEXT, `resource_uri` TEXT, content=`content`)");
+            database.execSQL("INSERT INTO contentFts (`rowid`, `description`, `resource_uri`)" +
                     "SELECT `id`, `description`, `resource_uri` FROM content");
         }
     };
