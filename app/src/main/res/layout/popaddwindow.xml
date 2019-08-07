@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" android:background="@drawable/rounded_corners"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    >
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/codeName"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:hint="@string/codename">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/Content"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:hint="@string/content"
+        android:layout_below="@id/codeName">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/Gallery"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_below="@id/Content"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/content_choice"
+        android:foreground="@android:drawable/ic_menu_gallery" tools:targetApi="m"/>
+
+    <TextView
+        android:id="@+id/publicChoice"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Gallery"
+        android:text="@string/public_code" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Gallery"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true" />
+
+    <Button
+        android:id="@+id/buttonSave"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_below="@id/publicChoice"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rounded_corners"
+        android:text="@string/save" />
+
+</RelativeLayout>
