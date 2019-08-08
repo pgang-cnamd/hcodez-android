@@ -4,21 +4,21 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.SearchView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hcodez.android.R;
 
-class MainMenu extends Activity {
+public class MainMenu extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FloatingActionButton buttonAdd = (FloatingActionButton) findViewById(R.id.buttonAdd);
+        FloatingActionButton buttonAdd = findViewById(R.id.buttonAdd);
+        FloatingActionButton buttonFind = findViewById(R.id.buttonFind);
+        SearchView searchBar = findViewById(R.id.codeSearch);
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -27,12 +27,17 @@ class MainMenu extends Activity {
             }
         });
 
-        FloatingActionButton buttonFind = (FloatingActionButton) findViewById(R.id.buttonFind);
-
         buttonFind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainMenu.this, PopFind.class));
+            }
+        });
+
+        searchBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchBar.setIconified(false);
             }
         });
 

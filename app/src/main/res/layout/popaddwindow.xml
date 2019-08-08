@@ -11,7 +11,13 @@
         android:id="@+id/codeName"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:hint="@string/codename">
+        android:hint="@string/codename"
+        android:textColorHint="@android:color/darker_gray"
+        app:boxStrokeColor="@color/cardview_dark_background"
+        app:endIconTint="@color/cardview_dark_background"
+        app:hintTextColor="@color/cardview_dark_background"
+        app:passwordToggleTint="@color/cardview_dark_background"
+        app:startIconTint="#009688">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -22,8 +28,13 @@
         android:id="@+id/Content"
         android:layout_width="match_parent"
         android:layout_height="75dp"
+        android:layout_below="@id/codeName"
         android:hint="@string/content"
-        android:layout_below="@id/codeName">
+        android:textColorHint="@android:color/darker_gray"
+        app:boxStrokeColor="@color/cardview_dark_background"
+        app:endIconTint="@color/cardview_dark_background"
+        app:passwordToggleTint="@color/cardview_dark_background"
+        app:startIconTint="@color/cardview_dark_background">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -31,6 +42,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
+        android:background="@drawable/button_design"
         android:id="@+id/Gallery"
         android:layout_width="75dp"
         android:layout_height="75dp"
@@ -47,6 +59,7 @@
         android:text="@string/public_code" />
 
     <Switch
+        android:textColorHighlight="#FF008577"
         android:id="@+id/switch1"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
@@ -56,12 +69,11 @@
 
     <Button
         android:id="@+id/buttonSave"
-        style="@style/Widget.AppCompat.Button"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_below="@id/publicChoice"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/rounded_corners"
+        android:background="@drawable/button_design"
         android:text="@string/save" />
 
 </RelativeLayout>

@@ -6,10 +6,10 @@ import android.util.DisplayMetrics;
 
 import com.hcodez.android.R;
 
-class PopFind extends Activity {
+public class PopFind extends Activity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.popfindwindow);
@@ -20,7 +20,7 @@ class PopFind extends Activity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int)(width*.8),(int)(height*.2));
+        getWindow().setLayout((int) (width * .8), (int) (height * .2));
 
         //WindowManager.LayoutParams params = getWindow().getAttributes();
     }

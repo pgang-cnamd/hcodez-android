@@ -7,10 +7,10 @@ import android.view.WindowManager;
 
 import com.hcodez.android.R;
 
-class PopAdd extends Activity {
+public class PopAdd extends Activity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.popaddwindow);
@@ -21,7 +21,7 @@ class PopAdd extends Activity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int)(width*.8),(int)(height*.5));
+        getWindow().setLayout((int) (width * .8), (int) (height * .5));
 
         WindowManager.LayoutParams params = getWindow().getAttributes();
     }
