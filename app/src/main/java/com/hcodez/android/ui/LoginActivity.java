@@ -36,8 +36,11 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    //function has the role of checking the username and password
-
+    /**
+     * Validate login credentials
+     * @param userName the user name
+     * @param userPassword the user password
+     */
     private void validate(String userName, String userPassword) {
 
         if ((userName.equals("")) && (userPassword.equals(""))) {

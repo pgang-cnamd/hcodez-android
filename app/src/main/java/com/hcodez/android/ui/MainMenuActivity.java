@@ -28,14 +28,14 @@ public class MainMenuActivity extends Activity {
         mAddCodeFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainMenuActivity.this, CodeAddPopUpActivity.class));
+                startActivity(new Intent(MainMenuActivity.this, CodeAddActivity.class));
             }
         });
 
         mFindCodeFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainMenuActivity.this, CodFindPopUpActivity.class));
+                startActivity(new Intent(MainMenuActivity.this, CodFindActivity.class));
             }
         });
 

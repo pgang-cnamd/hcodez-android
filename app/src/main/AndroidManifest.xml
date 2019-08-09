@@ -19,12 +19,12 @@
 
         <activity android:name=".ui.LoginActivity" />
 
-        <activity android:name=".ui.CodeAddPopUpActivity"
+        <activity android:name=".ui.CodeAddActivity"
             android:theme="@style/AppTheme.CustomTheme"
             >
         </activity>
 
-        <activity android:name=".ui.CodFindPopUpActivity"
+        <activity android:name=".ui.CodFindActivity"
             android:theme="@style/AppTheme.CustomTheme"
             >
         </activity>
