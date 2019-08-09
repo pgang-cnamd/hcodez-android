@@ -11,7 +11,6 @@ public class CodFindActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_code_find_pop_up);
 
         DisplayMetrics dm = new DisplayMetrics();

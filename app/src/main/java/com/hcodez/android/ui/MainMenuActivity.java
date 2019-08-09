@@ -3,7 +3,6 @@ package com.hcodez.android.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.SearchView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -15,7 +14,6 @@ public class MainMenuActivity extends Activity {
     private FloatingActionButton mFindCodeFloatingActionButton;
     private SearchView           mCodeSearchView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,26 +23,10 @@ public class MainMenuActivity extends Activity {
         mFindCodeFloatingActionButton = findViewById(R.id.buttonFind);
         mCodeSearchView = findViewById(R.id.codeSearch);
 
-        mAddCodeFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainMenuActivity.this, CodeAddActivity.class));
-            }
-        });
+        mAddCodeFloatingActionButton.setOnClickListener(view -> startActivity(new Intent(MainMenuActivity.this, CodeAddActivity.class)));
 
-        mFindCodeFloatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainMenuActivity.this, CodFindActivity.class));
-            }
-        });
+        mFindCodeFloatingActionButton.setOnClickListener(view -> startActivity(new Intent(MainMenuActivity.this, CodFindActivity.class)));
 
-        mCodeSearchView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mCodeSearchView.setIconified(false);
-            }
-        });
-
+        mCodeSearchView.setOnClickListener(view -> mCodeSearchView.setIconified(false));
     }
 }
