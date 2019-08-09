@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="32dp">
+
+    <Button
+        android:id="@+id/buttonCode"
+        android:layout_width="75dp"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:background="@drawable/button_design"
+        android:forceHasOverlappingRendering="true"
+        android:foreground="@drawable/ic_code_scan"
+        tools:targetApi="m" />
+
+    <Button
+        android:layout_centerHorizontal="true"
+        android:id="@+id/buttonGallery"
+        android:layout_width="75dp"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:background="@drawable/button_design"
+        android:foreground="@android:drawable/ic_menu_gallery" />
+
+    <Button
+        android:id="@+id/buttonScan"
+        android:layout_width="75dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/button_design"
+        android:foreground="@android:drawable/ic_menu_search" />
+
+</RelativeLayout>
