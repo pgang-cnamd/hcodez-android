@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.loginscreen);
 
         Name = findViewById(R.id.loginName);
@@ -31,10 +30,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 validate(Name.getText().toString(), Password.getText().toString());
+                finish();
             }
         });
 
     }
+
+    //function has the role of checking the username and password
 
     private void validate(String userName, String userPassword) {
 

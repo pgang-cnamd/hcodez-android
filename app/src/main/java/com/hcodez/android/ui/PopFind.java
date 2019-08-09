@@ -22,6 +22,5 @@ public class PopFind extends Activity {
 
         getWindow().setLayout((int) (width * .8), (int) (height * .2));
 
-        //WindowManager.LayoutParams params = getWindow().getAttributes();
     }
 }

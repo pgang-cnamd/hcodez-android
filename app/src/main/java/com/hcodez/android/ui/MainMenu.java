@@ -11,14 +11,19 @@ import com.hcodez.android.R;
 
 public class MainMenu extends Activity {
 
+    private FloatingActionButton buttonAdd;
+    private FloatingActionButton buttonFind;
+    private SearchView searchBar;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FloatingActionButton buttonAdd = findViewById(R.id.buttonAdd);
-        FloatingActionButton buttonFind = findViewById(R.id.buttonFind);
-        SearchView searchBar = findViewById(R.id.codeSearch);
+        buttonAdd = findViewById(R.id.buttonAdd);
+        buttonFind = findViewById(R.id.buttonFind);
+        searchBar = findViewById(R.id.codeSearch);
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,5 +47,4 @@ public class MainMenu extends Activity {
         });
 
     }
-
 }

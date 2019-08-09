@@ -23,6 +23,5 @@ public class PopAdd extends Activity {
 
         getWindow().setLayout((int) (width * .8), (int) (height * .5));
 
-        WindowManager.LayoutParams params = getWindow().getAttributes();
     }
 }
