@@ -3,17 +3,16 @@ package com.hcodez.android.ui;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.WindowManager;
 
 import com.hcodez.android.R;
 
-public class PopAdd extends Activity {
+public class CodFindPopUpActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.popaddwindow);
+        setContentView(R.layout.activity_code_find_pop_up);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -21,7 +20,6 @@ public class PopAdd extends Activity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width * .8), (int) (height * .5));
-
+        getWindow().setLayout((int) (width * .8), (int) (height * .2));
     }
 }

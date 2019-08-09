@@ -17,19 +17,19 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.LoginActivity" />
 
-        <activity android:name=".ui.PopAdd"
+        <activity android:name=".ui.CodeAddPopUpActivity"
             android:theme="@style/AppTheme.CustomTheme"
             >
         </activity>
 
-        <activity android:name=".ui.PopFind"
+        <activity android:name=".ui.CodFindPopUpActivity"
             android:theme="@style/AppTheme.CustomTheme"
             >
         </activity>
 
-        <activity android:name=".ui.MainMenu">
+        <activity android:name=".ui.MainMenuActivity">
         </activity>
 
     </application>
