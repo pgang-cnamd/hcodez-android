@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#00920A0A"
-    tools:context=".ui.MainMenuActivity">
+    tools:context=".ui.MainMenuActivity"
+    android:onClick="hideKeyboard">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/buttonAdd"
