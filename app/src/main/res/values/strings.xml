@@ -16,4 +16,6 @@
     <string name="login">Login</string>
     <string name="sign_up">Sign up?</string>
     <string name="name">Name</string>
+    <string name="this_is_your_code">This is your code</string>
+    <string name="open">Open</string>
 </resources>

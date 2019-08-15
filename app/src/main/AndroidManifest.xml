@@ -24,13 +24,16 @@
             >
         </activity>
 
-        <activity android:name=".ui.CodFindActivity"
+        <activity android:name=".ui.CodeFindActivity"
             android:theme="@style/AppTheme.CustomTheme"
             >
         </activity>
 
         <activity android:name=".ui.MainMenuActivity">
         </activity>
+
+        <activity android:name=".ui.ContentRetrievalActivity"
+            android:theme="@style/AppTheme.CustomTheme"/>
 
     </application>
 

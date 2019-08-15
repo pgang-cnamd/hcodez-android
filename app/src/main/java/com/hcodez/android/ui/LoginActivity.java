@@ -6,11 +6,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.hcodez.android.R;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends MainMenuActivity {
 
     private EditText mUsernameEditText;
     private EditText mPasswordEditText;
@@ -23,11 +21,10 @@ public class LoginActivity extends AppCompatActivity {
 
         mUsernameEditText = findViewById(R.id.loginName);
         mPasswordEditText = findViewById(R.id.loginPass);
-        mLoginButton = findViewById(R.id.loginButton);
+        mLoginButton      = findViewById(R.id.loginButton);
 
         mLoginButton.setOnClickListener(view -> {
             validate(mUsernameEditText.getText().toString(), mPasswordEditText.getText().toString());
-            finish();
         });
     }
 
@@ -41,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         if ((userName.equals("")) && (userPassword.equals(""))) {
             Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
             startActivity(intent);
+            finish();
         } else {
             Toast.makeText(getApplicationContext(), "WRONG NAME AND PASSWORD!", Toast.LENGTH_SHORT).show();
         }
