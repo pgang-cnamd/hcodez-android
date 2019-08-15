@@ -6,12 +6,14 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:padding="8dp"
         android:id="@+id/list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="50sp"
+        android:background="@drawable/list_design"
+        android:clickable="false"
+        android:focusable="true"
+        android:padding="8dp"
         android:textColor="@android:color/black"
-        tools:text="Title"
-        android:background="@drawable/list_design"/>
+        android:textSize="35sp"
+        tools:text="Title" />
 </LinearLayout>

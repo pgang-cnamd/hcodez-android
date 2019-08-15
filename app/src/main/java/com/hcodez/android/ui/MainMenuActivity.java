@@ -17,13 +17,14 @@ import com.hcodez.android.ui.adapter.CodeAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainMenuActivity extends Activity {
+public class MainMenuActivity extends Activity implements CodeAdapter.OnNoteListener {
 
     private FloatingActionButton mAddCodeFloatingActionButton;
     private FloatingActionButton mFindCodeFloatingActionButton;
     private SearchView           mCodeSearchView;
     private RecyclerView         mCodeListRecyclerView;
     private CodeAdapter          mCodeAdapter;
+    private ArrayList<String>    mCodeItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +35,29 @@ public class MainMenuActivity extends Activity {
         mFindCodeFloatingActionButton = findViewById(R.id.buttonFind);
         mCodeSearchView               = findViewById(R.id.codeSearch);
         mCodeListRecyclerView         = findViewById(R.id.codeList);
-        mCodeAdapter                  = new CodeAdapter();
 
+        createAdapter();
+
+        mAddCodeFloatingActionButton.setOnClickListener(view -> startActivity(new Intent(MainMenuActivity.this, CodeAddActivity.class)));
+
+        mFindCodeFloatingActionButton.setOnClickListener(view -> startActivity(new Intent(MainMenuActivity.this, CodeFindActivity.class)));
+
+        mCodeSearchView.setOnClickListener(view -> mCodeSearchView.setIconified(false));
+    }
+
+    /**
+     * Method used for hiding the keyboard when touching outside the text
+     */
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    /**
+     * Method for creating the adapter and adding an ArrayList
+     */
+    public void createAdapter(){
+        mCodeAdapter = new CodeAdapter();
         mCodeListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mCodeListRecyclerView.setAdapter(mCodeAdapter);
 
@@ -48,30 +70,23 @@ public class MainMenuActivity extends Activity {
         listExample.add("code3");
         listExample.add("code4");
 
-        List<String> list = new ArrayList<>();
-        list.addAll(listExample);
-        list.addAll(listExample);
-        list.addAll(listExample);
-        list.addAll(listExample);
-        list.addAll(listExample);
-        list.addAll(listExample);
-        list.addAll(listExample);
-        list.addAll(listExample);
+        mCodeItems = new ArrayList<>();
+        mCodeItems.addAll(listExample);
+        mCodeItems.addAll(listExample);
+        mCodeItems.addAll(listExample);
+        mCodeItems.addAll(listExample);
+        mCodeItems.addAll(listExample);
+        mCodeItems.addAll(listExample);
+        mCodeItems.addAll(listExample);
+        mCodeItems.addAll(listExample);
 
-        mCodeAdapter.setItems(list);
-
-        mAddCodeFloatingActionButton.setOnClickListener(view -> startActivity(new Intent(MainMenuActivity.this, CodeAddActivity.class)));
-
-        mFindCodeFloatingActionButton.setOnClickListener(view -> startActivity(new Intent(MainMenuActivity.this, CodFindActivity.class)));
-
-        mCodeSearchView.setOnClickListener(view -> mCodeSearchView.setIconified(false));
+        mCodeAdapter.setItems(mCodeItems, this);
     }
 
-    /**
-     * Method used for hiding the keyboard when touching outside the text
-     */
-    public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    @Override
+    public void onNoteClick(int position) {
+        mCodeItems.get(position);
+        Intent intent = new Intent(this, ContentRetrievalActivity.class);
+        startActivity(intent);
     }
 }

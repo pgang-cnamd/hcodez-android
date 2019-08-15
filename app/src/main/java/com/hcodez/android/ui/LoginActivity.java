@@ -25,7 +25,6 @@ public class LoginActivity extends MainMenuActivity {
 
         mLoginButton.setOnClickListener(view -> {
             validate(mUsernameEditText.getText().toString(), mPasswordEditText.getText().toString());
-            finish();
         });
     }
 
@@ -39,6 +38,7 @@ public class LoginActivity extends MainMenuActivity {
         if ((userName.equals("")) && (userPassword.equals(""))) {
             Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
             startActivity(intent);
+            finish();
         } else {
             Toast.makeText(getApplicationContext(), "WRONG NAME AND PASSWORD!", Toast.LENGTH_SHORT).show();
         }
