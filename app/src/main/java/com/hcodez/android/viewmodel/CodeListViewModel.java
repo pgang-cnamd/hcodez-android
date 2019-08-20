@@ -5,8 +5,12 @@ import android.app.Application;
 import com.hcodez.android.DataRepository;
 import com.hcodez.android.HcodezApp;
 import com.hcodez.android.db.entity.CodeEntity;
+import com.hcodez.android.ui.fragment.CodeListFragment;
 
+import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
