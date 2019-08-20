@@ -39,10 +39,10 @@ public class LoginActivity extends AppCompatActivity {
     private void validate(String userName, String userPassword) {
 
         if ((userName.equals("")) && (userPassword.equals(""))) {
-            Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
-            startActivity(intent);
-        } else {
-            Toast.makeText(getApplicationContext(), "WRONG NAME AND PASSWORD!", Toast.LENGTH_SHORT).show();
-        }
+        Intent intent = new Intent(LoginActivity.this, MainMenuActivity.class);
+        startActivity(intent);
+    } else {
+        Toast.makeText(getApplicationContext(), "WRONG NAME AND PASSWORD!", Toast.LENGTH_SHORT).show();
     }
+}
 }

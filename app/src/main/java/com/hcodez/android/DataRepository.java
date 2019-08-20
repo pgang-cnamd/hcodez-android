@@ -17,8 +17,7 @@ public class DataRepository {
 
     private MediatorLiveData<List<CodeEntity>> mObservableCodes;
 
-
-    private DataRepository(final AppDatabase database) {
+    public DataRepository(final AppDatabase database) {
         this.mDatabase = database;
         this.mObservableCodes = new MediatorLiveData<>();
 
