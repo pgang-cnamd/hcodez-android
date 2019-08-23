@@ -5,38 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.provider.ContactsContract;
 import android.widget.SearchView;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.hcodez.android.AppExecutors;
-import com.hcodez.android.DataRepository;
-import com.hcodez.android.HcodezApp;
 import com.hcodez.android.R;
-
 import com.hcodez.android.ui.adapter.CodeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hcodez.android.db.entity.CodeEntity;
-import com.hcodez.android.ui.adapter.CodeAdapter;
-import com.hcodez.android.ui.fragment.CodeListFragment;
-import com.hcodez.android.viewmodel.CodeListViewModel;
-import com.hcodez.codeengine.model.Code;
-
-import static org.checkerframework.checker.nullness.Opt.get;
 public class MainMenuActivity extends Activity implements CodeAdapter.OnNoteListener {
 
     private FloatingActionButton mAddCodeFloatingActionButton;
