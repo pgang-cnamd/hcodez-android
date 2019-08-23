@@ -45,8 +45,6 @@ public class MainMenuActivity extends Activity implements CodeAdapter.OnNoteList
     private RecyclerView         mCodeListRecyclerView;
     private CodeAdapter          mCodeAdapter;
     private ArrayList<String>    mCodeItems;
-    private HcodezApp            app;
-    private TextView             mTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,23 +63,6 @@ public class MainMenuActivity extends Activity implements CodeAdapter.OnNoteList
         mFindCodeFloatingActionButton.setOnClickListener(view -> startActivity(new Intent(MainMenuActivity.this, CodeFindActivity.class)));
 
         mCodeSearchView.setOnClickListener(view -> mCodeSearchView.setIconified(false));
-
-        app = new HcodezApp();
-
-        final CodeListViewModel model;
-        model = ViewModelProviders.of(this).get(CodeListViewModel.class);
-
-        model.getCodes().observe(this, codeEntities -> {
-            if (codeEntities != null) {
-                if (codeEntities.size() != 0) {
-                    mTextView.setText(codeEntities.get(0).toLibraryCode().toString());
-                } else {
-                    mTextView.setText("empty list");
-                }
-            } else {
-                mTextView.setText("null code list");
-            }
-        });
     }
 
     /**
