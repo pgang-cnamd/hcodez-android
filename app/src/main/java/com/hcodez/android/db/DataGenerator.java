@@ -12,7 +12,7 @@ import java.util.List;
 
 public class DataGenerator {
 
-    private static class CodePrepoulateValues {
+    private static class CodePrepopulateValues {
         public static CodeType CODE_TYPE = CodeType.PRIVATE;
         public static Instant CREATE_TIME = Instant.now();
         public static int ID = 0;
@@ -36,15 +36,15 @@ public class DataGenerator {
 
         CodeEntity code = new CodeEntity();
 
-        code.setCodeType(CodePrepoulateValues.CODE_TYPE);
-        code.setCreateTime(CodePrepoulateValues.CREATE_TIME);
-        code.setId(CodePrepoulateValues.ID);
-        code.setIdentifier(CodePrepoulateValues.IDENTIFIER);
-        code.setName(CodePrepoulateValues.NAME);
-        code.setOwner(CodePrepoulateValues.OWNER);
-        code.setPasscode(CodePrepoulateValues.PASSCODE);
-        code.setUpdateTime(CodePrepoulateValues.UPDATE_TIME);
-        code.setUrl(CodePrepoulateValues.mURL);
+        code.setCodeType(CodePrepopulateValues.CODE_TYPE);
+        code.setCreateTime(CodePrepopulateValues.CREATE_TIME);
+        code.setId(CodePrepopulateValues.ID);
+        code.setIdentifier(CodePrepopulateValues.IDENTIFIER);
+        code.setName(CodePrepopulateValues.NAME);
+        code.setOwner(CodePrepopulateValues.OWNER);
+        code.setPasscode(CodePrepopulateValues.PASSCODE);
+        code.setUpdateTime(CodePrepopulateValues.UPDATE_TIME);
+        code.setUrl(CodePrepopulateValues.mURL);
 
         return codes;
     }
