@@ -2,10 +2,14 @@ package com.hcodez.android.ui;
 
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.widget.TextView;
 
 import com.hcodez.android.R;
 
 public class CodeAddActivity extends MainMenuActivity{
+
+    private TextView mCodeName;
+    private TextView mUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,5 +23,9 @@ public class CodeAddActivity extends MainMenuActivity{
         int height = dm.heightPixels;
 
         getWindow().setLayout((int) (width * .8), (int) (height * .6));
+
+        mCodeName = findViewById(R.id.codeName);
+        mUrl = findViewById(R.id.url);
+
     }
 }

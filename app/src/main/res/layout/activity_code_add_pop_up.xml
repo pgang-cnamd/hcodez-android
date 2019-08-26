@@ -26,7 +26,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/Content"
+        android:id="@+id/url"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_below="@id/codeName"
@@ -47,7 +47,7 @@
         android:id="@+id/Gallery"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_below="@id/Content"
+        android:layout_below="@id/url"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/content_choice"
         android:foreground="@android:drawable/ic_menu_gallery" tools:targetApi="m"/>
