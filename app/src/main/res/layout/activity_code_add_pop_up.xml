@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_below="@id/codeName"
-        android:hint="@string/content"
+        android:hint="@string/URL"
         android:textColorHint="@android:color/darker_gray"
         app:boxStrokeColor="@color/cardview_dark_background"
         app:endIconTint="@color/cardview_dark_background"
@@ -60,6 +60,7 @@
         android:text="@string/public_code" />
 
     <Switch
+        android:theme="@style/SCBSwitch"
         android:textColorHighlight="#FF008577"
         android:id="@+id/switch1"
         android:layout_width="100dp"
@@ -72,9 +73,19 @@
         android:id="@+id/buttonSave"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_below="@id/publicChoice"
+        android:layout_below="@id/codePassword"
         android:layout_centerHorizontal="true"
         android:background="@drawable/button_design"
         android:text="@string/save" />
+
+    <EditText
+        android:id="@+id/codePassword"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_below="@+id/publicChoice"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:autofillHints="" />
 
 </RelativeLayout>

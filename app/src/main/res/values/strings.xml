@@ -2,7 +2,7 @@
     <string name="app_name">HCode</string>
     <string name="codename">CodeName</string>
     <string name="hint">hint</string>
-    <string name="content">Content</string>
+    <string name="URL">URL</string>
     <string name="content_choice">content choice</string>
     <string name="public_code">Public code?</string>
     <string name="yes_no">Yes/no</string>
