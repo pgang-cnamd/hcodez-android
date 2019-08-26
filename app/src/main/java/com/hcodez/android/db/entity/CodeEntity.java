@@ -12,7 +12,16 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity(tableName = "code")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class CodeEntity {
 
     @PrimaryKey
@@ -113,7 +122,6 @@ public class CodeEntity {
     public void setCodeType(CodeType codeType) {
         this.codeType = codeType;
     }
-
 
     /**
      * Create a library Code model from a CodeEntity

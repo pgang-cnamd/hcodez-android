@@ -62,7 +62,7 @@
     <Switch
         android:theme="@style/SCBSwitch"
         android:textColorHighlight="#FF008577"
-        android:id="@+id/switch1"
+        android:id="@+id/codeSwitch"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/Gallery"
@@ -70,7 +70,7 @@
         android:layout_alignParentRight="true" />
 
     <Button
-        android:id="@+id/buttonSave"
+        android:id="@+id/codeSave"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_below="@id/codePassword"

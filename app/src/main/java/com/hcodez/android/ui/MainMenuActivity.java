@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hcodez.android.HcodezApp;
 import com.hcodez.android.R;
-import com.hcodez.android.db.entity.CodeEntity;
 import com.hcodez.android.ui.adapter.CodeAdapter;
 import com.hcodez.android.viewmodel.CodeListViewModel;
 
@@ -71,7 +70,6 @@ public class MainMenuActivity extends AppCompatActivity implements CodeAdapter.O
         mCodeItems = new ArrayList<>();
 
         final CodeListViewModel model = ViewModelProviders.of(this).get(CodeListViewModel.class);
-        //final CodeEntity cod = new CodeEntity();
 
         model.getCodes().observe(this, codeEntities -> {
             if (codeEntities != null) {
@@ -80,7 +78,6 @@ public class MainMenuActivity extends AppCompatActivity implements CodeAdapter.O
                             /**
                              * idea? works like this?
                              */
-                           // cod.getOwner()
                             codeEntities.get(0).toLibraryCode().toString()
                     );
                 } else {
