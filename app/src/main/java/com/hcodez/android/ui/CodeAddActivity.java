@@ -103,7 +103,7 @@ public class CodeAddActivity extends MainMenuActivity {
         getWindow().setLayout((int) (width * .8), (int) (height * .6));
 
         mCodeNameEditText = findViewById(R.id.codeName);
-        mSwitch = (Switch) findViewById(R.id.codeSwitch);
+        mSwitch = findViewById(R.id.codeSwitch);
         mPasscodeEditText = findViewById(R.id.codePassword);
         mSaveButton = findViewById(R.id.codeSave);
 
