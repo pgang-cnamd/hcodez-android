@@ -8,46 +8,12 @@
     android:onClick="hideKeyboard"
     >
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/codeName"
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:hint="@string/codename"
-        android:textColorHint="@android:color/darker_gray"
-        app:boxStrokeColor="@color/cardview_dark_background"
-        app:endIconTint="@color/cardview_dark_background"
-        app:hintTextColor="@color/cardview_dark_background"
-        app:passwordToggleTint="@color/cardview_dark_background"
-        app:startIconTint="#009688">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/url"
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:layout_below="@id/codeName"
-        android:hint="@string/URL"
-        android:textColorHint="@android:color/darker_gray"
-        app:boxStrokeColor="@color/cardview_dark_background"
-        app:endIconTint="@color/cardview_dark_background"
-        app:passwordToggleTint="@color/cardview_dark_background"
-        app:startIconTint="@color/cardview_dark_background">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </com.google.android.material.textfield.TextInputLayout>
-
     <Button
         android:background="@drawable/button_design"
         android:id="@+id/Gallery"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_below="@id/url"
+        android:layout_below="@id/urlContent"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/content_choice"
         android:foreground="@android:drawable/ic_menu_gallery" tools:targetApi="m"/>
@@ -83,9 +49,30 @@
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_below="@+id/publicChoice"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:autofillHints="" />
+        android:textColor="@android:color/tertiary_text_light" />
+
+    <EditText
+        android:id="@+id/codeName"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:ems="10"
+        android:hint="@string/codename"
+        android:inputType="textPersonName"
+        android:textColor="@android:color/darker_gray"
+        android:importantForAutofill="no" />
+
+    <EditText
+        android:id="@+id/urlContent"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_below="@id/codeName"
+        android:ems="10"
+        android:hint="@string/URL"
+        android:inputType="textPersonName"
+        android:textColor="@android:color/darker_gray" />
 
 </RelativeLayout>

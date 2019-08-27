@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -30,6 +32,7 @@ public class MainMenuActivity extends AppCompatActivity implements CodeAdapter.O
     private CodeAdapter          mCodeAdapter;
     private ArrayList<String>    mCodeItems;
     private HcodezApp            app;
+    private TextView             mTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +78,6 @@ public class MainMenuActivity extends AppCompatActivity implements CodeAdapter.O
             if (codeEntities != null) {
                 if (codeEntities.size() != 0) {
                     mCodeItems.add(
-                            /**
-                             * idea? works like this?
-                             */
                             codeEntities.get(0).toLibraryCode().toString()
                     );
                 } else {
@@ -94,7 +94,14 @@ public class MainMenuActivity extends AppCompatActivity implements CodeAdapter.O
     @Override
     public void onNoteClick(int position) {
         mCodeItems.get(position);
+        String codeItem = mCodeItems.get(position);
+
         Intent intent = new Intent(this, ContentRetrievalActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("codeItem", codeItem);
+        intent.putExtras(bundle);
+
         startActivity(intent);
     }
 }

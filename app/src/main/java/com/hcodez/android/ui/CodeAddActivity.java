@@ -1,5 +1,6 @@
 package com.hcodez.android.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -8,6 +9,9 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.textfield.TextInputLayout;
 import com.hcodez.android.DataRepository;
 import com.hcodez.android.HcodezApp;
 import com.hcodez.android.R;
@@ -21,10 +25,10 @@ import java.net.URL;
 
 public class CodeAddActivity extends MainMenuActivity {
 
-    private EditText mCodeNameEditText;
-    private Switch mSwitch;
-    private EditText mPasscodeEditText;
-    private Button mSaveButton;
+    private EditText        mCodeNameEditText;
+    private Switch          mSwitch;
+    private EditText        mPasscodeEditText;
+    private Button          mSaveButton;
 
     private View.OnClickListener saveButtonOnClickListener = new View.OnClickListener() {
         @Override
@@ -35,17 +39,17 @@ public class CodeAddActivity extends MainMenuActivity {
             boolean buildingPublicCode = mSwitch.isChecked();
 
             /*
-              Filter out bas usage
+              Filter out bad usage
              */
-            if (mCodeNameEditText.getTextSize() == 0) {
+            if (mCodeNameEditText.getText().toString().length() == 0) {
                 Toast.makeText(getApplicationContext(), "Insert a code name", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (mCodeNameEditText.getTextSize() > 16) {
+            if (mCodeNameEditText.getText().toString().length() > 16) {
                 Toast.makeText(getApplicationContext(), "Code name longer than 16 characters", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (mPasscodeEditText.getTextSize() > 25 && buildingPublicCode) {
+            if (mPasscodeEditText.getText().toString().length() > 25 && buildingPublicCode) {
                 Toast.makeText(getApplicationContext(), "Password longer than 25 characters", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -65,7 +69,7 @@ public class CodeAddActivity extends MainMenuActivity {
                     )
                     .codeType(
                             buildingPublicCode ?
-                                    mPasscodeEditText.getTextSize() != 0 ?
+                                    mPasscodeEditText.getText().toString().length() != 0 ?
                                             CodeType.PUBLIC_WITH_PASSCODE : CodeType.PUBLIC_NO_PASSCODE
                                     : CodeType.PRIVATE
                     )
@@ -75,7 +79,6 @@ public class CodeAddActivity extends MainMenuActivity {
                     .name(mCodeNameEditText.getText().toString())
                     .owner(hardcodedOwner)
                     .build();
-
             /*
               Insert the code into the database
              */

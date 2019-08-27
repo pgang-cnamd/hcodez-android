@@ -18,4 +18,5 @@
     <string name="name">Name</string>
     <string name="this_is_your_code">This is your code</string>
     <string name="open">Open</string>
+    <string name="delete">Delete</string>
 </resources>
