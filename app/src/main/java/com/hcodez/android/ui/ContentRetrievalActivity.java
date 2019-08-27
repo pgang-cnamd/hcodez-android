@@ -13,7 +13,7 @@ import com.hcodez.android.viewmodel.CodeListViewModel;
 
 import java.util.ArrayList;
 
-public class ContentRetrievalActivity extends MainMenuActivity implements CodeAdapter.OnNoteListener {
+public class ContentRetrievalActivity extends MainMenuActivity{
 
     private TextView  mTextView;
     private String    mCodeItem;
