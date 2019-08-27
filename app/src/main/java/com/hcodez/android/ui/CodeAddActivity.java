@@ -86,6 +86,8 @@ public class CodeAddActivity extends MainMenuActivity {
                 DataRepository dataRepository = new HcodezApp().getRepository();
                 dataRepository.insertCode(code);
             }).start();
+
+            finish();
         }
     };
 
