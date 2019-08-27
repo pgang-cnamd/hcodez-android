@@ -82,8 +82,10 @@ public class CodeAddActivity extends MainMenuActivity {
             /*
               Insert the code into the database
              */
-            DataRepository dataRepository = new HcodezApp().getRepository();
-            dataRepository.insertCode(code);
+            new Thread(() -> {
+                DataRepository dataRepository = new HcodezApp().getRepository();
+                dataRepository.insertCode(code);
+            }).start();
         }
     };
 
