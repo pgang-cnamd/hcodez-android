@@ -1,27 +1,31 @@
 package com.hcodez.android.ui;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
-import com.google.android.material.textfield.TextInputLayout;
 import com.hcodez.android.DataRepository;
 import com.hcodez.android.HcodezApp;
 import com.hcodez.android.R;
 import com.hcodez.android.db.entity.CodeEntity;
+import com.hcodez.android.db.entity.ContentEntity;
 import com.hcodez.codeengine.model.CodeType;
 
 import org.joda.time.Instant;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.util.List;
+import java.util.Objects;
 
 public class CodeAddActivity extends MainMenuActivity {
 
@@ -31,6 +35,8 @@ public class CodeAddActivity extends MainMenuActivity {
     private Button          mSaveButton;
 
     private View.OnClickListener saveButtonOnClickListener = new View.OnClickListener() {
+
+        private static final String TAG = "SaveButtonOnClick";
         @Override
         public void onClick(View v) {
             /*
@@ -61,32 +67,54 @@ public class CodeAddActivity extends MainMenuActivity {
             String hardcodedIdentifier = "1234";
 
             /*
-              Build the code
+              Start the database handling thread
              */
-            final CodeEntity code = CodeEntity.builder()
-                    .passcode(
-                            buildingPublicCode ? mPasscodeEditText.getText().toString() : null
-                    )
-                    .codeType(
-                            buildingPublicCode ?
-                                    mPasscodeEditText.getText().toString().length() != 0 ?
-                                            CodeType.PUBLIC_WITH_PASSCODE : CodeType.PUBLIC_NO_PASSCODE
-                                    : CodeType.PRIVATE
-                    )
-                    .createTime(Instant.now())
-                    .identifier(hardcodedIdentifier)
-                    .updateTime(Instant.now())
-                    .name(mCodeNameEditText.getText().toString())
-                    .owner(hardcodedOwner)
-                    .build();
-            /*
-              Insert the code into the database
-             */
-            new Thread(() -> {
-                DataRepository dataRepository = new HcodezApp().getRepository();
-                dataRepository.insertCode(code);
-            }).start();
+            new Thread(() -> { // FIXME: 2019-08-28 missing content support, always adding a placeholder one
+                /*
+                  Get the data repository object
+                */
+                final DataRepository dataRepository = new HcodezApp().getRepository();
 
+                /*
+                  Build the content
+                 */
+                final ContentEntity contentEntity = ContentEntity.builder()
+                        .description("placeholder")
+                        .resourceURI(URI.create("https://example.com"))
+                        .build();
+
+                /*
+                  Insert the content
+                 */
+                Long contentId = dataRepository.insertContent(contentEntity);
+
+                /*
+                  Build the code
+                */
+                final CodeEntity code = CodeEntity.builder()
+                        .passcode(
+                                buildingPublicCode ? mPasscodeEditText.getText().toString() : null
+                        )
+                        .codeType(
+                                buildingPublicCode ?
+                                        mPasscodeEditText.getText().toString().length() != 0 ?
+                                                CodeType.PUBLIC_WITH_PASSCODE : CodeType.PUBLIC_NO_PASSCODE
+                                        : CodeType.PRIVATE
+                        )
+                        .createTime(Instant.now())
+                        .identifier(hardcodedIdentifier)
+                        .updateTime(Instant.now())
+                        .name(mCodeNameEditText.getText().toString())
+                        .owner(hardcodedOwner)
+                        .contentId(contentId.intValue())
+                        .build();
+
+                /*
+                  Insert the code into the database
+                 */
+                dataRepository.insertCode(code);
+
+            }).start();
             finish();
         }
     };
