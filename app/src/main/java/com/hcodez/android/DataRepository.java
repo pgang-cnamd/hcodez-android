@@ -89,7 +89,7 @@ public class DataRepository {
         return this.mObservableContent;
     }
 
-    public LiveData<ContentEntity> loadCOntent(final int contentId) {
+    public LiveData<ContentEntity> loadContent(final int contentId) {
         return this.mDatabase.contentDao().loadContent(contentId);
     }
 
