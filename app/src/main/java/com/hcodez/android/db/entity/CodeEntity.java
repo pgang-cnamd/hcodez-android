@@ -59,7 +59,7 @@ public class CodeEntity {
 
     @ColumnInfo(name = "content_id", index = true)
     private int contentId;
-    
+
 
     /**
      * Create a library Code model from a CodeEntity
@@ -84,17 +84,15 @@ public class CodeEntity {
      * @return the CodeEntity built
      */
     public static CodeEntity fromLibraryCode(final Code libraryCode) {
-        final CodeEntity codeEntity = new CodeEntity();
-
-        codeEntity.setIdentifier(libraryCode.getIdentifier());
-        codeEntity.setOwner(libraryCode.getOwner());
-        codeEntity.setPasscode(libraryCode.getPasscode());
-        codeEntity.setName(libraryCode.getName());
-        codeEntity.setUrl(libraryCode.getUrl());
-        codeEntity.setCreateTime(libraryCode.getCreateTime());
-        codeEntity.setUpdateTime(libraryCode.getUpdateTime());
-        codeEntity.setCodeType(libraryCode.getCodeType());
-
-        return codeEntity;
+        return CodeEntity.builder()
+                .identifier(libraryCode.getIdentifier())
+                .owner(libraryCode.getOwner())
+                .passcode(libraryCode.getPasscode())
+                .name(libraryCode.getName())
+                .url(libraryCode.getUrl())
+                .createTime(libraryCode.getCreateTime())
+                .updateTime(libraryCode.getUpdateTime())
+                .codeType(libraryCode.getCodeType())
+                .build();
     }
 }
