@@ -7,6 +7,15 @@ import androidx.room.PrimaryKey;
 
 import java.net.URI;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity(tableName = "content")
 public class ContentEntity {
 
@@ -19,32 +28,4 @@ public class ContentEntity {
 
     @ColumnInfo(name = "resource_uri")
     private URI resourceURI;
-
-
-    public ContentEntity() {}
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public URI getResourceURI() {
-        return resourceURI;
-    }
-
-    public void setResourceURI(URI resourceURI) {
-        this.resourceURI = resourceURI;
-    }
 }
