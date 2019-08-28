@@ -15,4 +15,17 @@ public final class Migrations {
                     "SELECT `id`, `identifier`, `owner`, `name` FROM code");
         }
     };
+
+    public static final Migration MIGRATION_2_3 = new Migration(2,3) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE IF NOT EXISTS `content`(" +
+                    "`id` INTEGER, `identifier` TEXT, `owner` TEXT, `name` TEXT)");
+
+            database.execSQL("CREATE VIRTUAL TABLE IF NOT EXISTS `contentFts` USING FTS4(" +
+                    "`description` TEXT, `resource_uri` TEXT, content=`content`)");
+            database.execSQL("INSERT INTO contentFts (`rowid`, `description`, `resource_uri`)" +
+                    "SELECT `id`, `description`, `resource_uri` FROM content");
+        }
+    };
 }
