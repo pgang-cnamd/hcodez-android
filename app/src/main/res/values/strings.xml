@@ -1,3 +1,21 @@
 <resources>
-    <string name="app_name">HCodez</string>
+    <string name="app_name">HCode</string>
+    <string name="codename">CodeName</string>
+    <string name="hint">hint</string>
+    <string name="URL">URL</string>
+    <string name="content_choice">content choice</string>
+    <string name="public_code">Public code?</string>
+    <string name="yes_no">Yes/no</string>
+    <string name="save">Save</string>
+    <string name="scan_code">scan code</string>
+    <string name="button" />
+    <string name="button1" />
+    <string name="button2" />
+    <string name="hint1" />
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign up?</string>
+    <string name="name">Name</string>
+    <string name="this_is_your_code">This is your code</string>
+    <string name="open">Open</string>
 </resources>

@@ -14,16 +14,16 @@ import java.util.List;
 
 class DataGenerator {
 
-    private static class CodePrepoulateValues {
-        static final CodeType CODE_TYPE = CodeType.PRIVATE;
-        static final Instant CREATE_TIME = Instant.now();
-        static final int ID = 0;
-        static final String IDENTIFIER = "aB12";
-        static final String NAME = "default";
-        static final String OWNER = "owner";
-        static final String PASSCODE = "DefaultPasscode123";
-        static final Instant UPDATE_TIME = Instant.now();
-        static final URL mURL;
+    private static class CodePrepopulateValues {
+        public static CodeType CODE_TYPE = CodeType.PRIVATE;
+        public static Instant CREATE_TIME = Instant.now();
+        public static int ID = 0;
+        public static String IDENTIFIER = "aB12";
+        public static String NAME = "default";
+        public static String OWNER = "owner";
+        public static String PASSCODE = "DefaultPasscode123";
+        public static Instant UPDATE_TIME = Instant.now();
+        public static URL mURL;
         static {
             URL mURL1;
             try {
