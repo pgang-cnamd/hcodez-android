@@ -7,17 +7,22 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.hcodez.android.HcodezApp;
 import com.hcodez.android.R;
+import com.hcodez.android.db.entity.CodeEntity;
 import com.hcodez.android.ui.adapter.CodeAdapter;
+import com.hcodez.android.viewmodel.CodeListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainMenuActivity extends Activity implements CodeAdapter.OnNoteListener {
+public class MainMenuActivity extends AppCompatActivity implements CodeAdapter.OnNoteListener {
 
     private FloatingActionButton mAddCodeFloatingActionButton;
     private FloatingActionButton mFindCodeFloatingActionButton;
@@ -25,6 +30,7 @@ public class MainMenuActivity extends Activity implements CodeAdapter.OnNoteList
     private RecyclerView         mCodeListRecyclerView;
     private CodeAdapter          mCodeAdapter;
     private ArrayList<String>    mCodeItems;
+    private HcodezApp            app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,7 @@ public class MainMenuActivity extends Activity implements CodeAdapter.OnNoteList
         mFindCodeFloatingActionButton = findViewById(R.id.buttonFind);
         mCodeSearchView               = findViewById(R.id.codeSearch);
         mCodeListRecyclerView         = findViewById(R.id.codeList);
+        app                           = new HcodezApp();
 
         createAdapter();
 
@@ -60,25 +67,29 @@ public class MainMenuActivity extends Activity implements CodeAdapter.OnNoteList
         mCodeAdapter = new CodeAdapter();
         mCodeListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mCodeListRecyclerView.setAdapter(mCodeAdapter);
-
-        /**
-         * List made as an simple demonstration
-         */
         List<String> listExample = new ArrayList<>();
-        listExample.add("code1");
-        listExample.add("code2");
-        listExample.add("code3");
-        listExample.add("code4");
-
         mCodeItems = new ArrayList<>();
-        mCodeItems.addAll(listExample);
-        mCodeItems.addAll(listExample);
-        mCodeItems.addAll(listExample);
-        mCodeItems.addAll(listExample);
-        mCodeItems.addAll(listExample);
-        mCodeItems.addAll(listExample);
-        mCodeItems.addAll(listExample);
-        mCodeItems.addAll(listExample);
+
+        final CodeListViewModel model = ViewModelProviders.of(this).get(CodeListViewModel.class);
+        //final CodeEntity cod = new CodeEntity();
+
+        model.getCodes().observe(this, codeEntities -> {
+            if (codeEntities != null) {
+                if (codeEntities.size() != 0) {
+                    mCodeItems.add(
+                            /**
+                             * idea? works like this?
+                             */
+                           // cod.getOwner()
+                            codeEntities.get(0).toLibraryCode().toString()
+                    );
+                } else {
+                    mCodeItems.add("Empty list");
+                }
+            } else {
+                mCodeItems.add("null code list");
+            }
+        });
 
         mCodeAdapter.setItems(mCodeItems, this);
     }

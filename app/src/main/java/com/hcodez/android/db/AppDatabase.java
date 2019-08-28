@@ -5,10 +5,14 @@ import android.content.Context;
 import com.hcodez.android.AppExecutors;
 import com.hcodez.android.db.converter.CodeTypeConverter;
 import com.hcodez.android.db.converter.InstantConverter;
+import com.hcodez.android.db.converter.URIConverter;
 import com.hcodez.android.db.converter.URLConverter;
 import com.hcodez.android.db.dao.CodeDao;
+import com.hcodez.android.db.dao.ContentDao;
 import com.hcodez.android.db.entity.CodeEntity;
 import com.hcodez.android.db.entity.CodeFtsEntity;
+import com.hcodez.android.db.entity.ContentEntity;
+import com.hcodez.android.db.entity.ContentFtsEntity;
 
 import java.util.List;
 
@@ -21,8 +25,16 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {CodeEntity.class, CodeFtsEntity.class}, version = 2)
-@TypeConverters({InstantConverter.class, URLConverter.class, CodeTypeConverter.class})
+@Database(entities = {
+            CodeEntity.class,
+            CodeFtsEntity.class,
+            ContentEntity.class,
+            ContentFtsEntity.class},
+        version = 2)
+@TypeConverters({InstantConverter.class,
+        URLConverter.class,
+        CodeTypeConverter.class,
+        URIConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     /**
@@ -39,6 +51,7 @@ public abstract class AppDatabase extends RoomDatabase {
      * Dao methods
      */
     public abstract CodeDao codeDao();
+    public abstract ContentDao contentDao();
 
 
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
@@ -69,19 +82,22 @@ public abstract class AppDatabase extends RoomDatabase {
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
                         super.onCreate(db);
                         executors.diskIO().execute(() -> {
-                            // Add a delay to simulate a long-running operation
+                            /*Add a delay to simulate a long-running operation*/
                             addDelay();
-                            // Generate the data for pre-population
-                            AppDatabase database = AppDatabase.getInstance(appContext, executors);
-                            List<CodeEntity> codes = DataGenerator.generateCodes();
 
-                            insertData(database, codes);
-                            // notify that the database was created and it's ready to be used
+                            AppDatabase database = AppDatabase.getInstance(appContext, executors);
+
+                            /*Generate the data for pre-population*/
+                            final List<CodeEntity> codes = DataGenerator.generateCodes();
+                            final List<ContentEntity> content = DataGenerator.generateContent();
+                            insertData(database, codes, content);
+
+                            /*notify that the database was created and it's ready to be used*/
                             database.setDatabaseCreated();
                         });
                     }
                 })
-                .addMigrations(Migrations.MIGRATION_1_2)
+                .addMigrations(Migrations.MIGRATION_1_2, Migrations.MIGRATION_2_3)
                 .build();
     }
 
@@ -98,9 +114,12 @@ public abstract class AppDatabase extends RoomDatabase {
         mIsDatabaseCreated.postValue(true);
     }
 
-    private static void insertData(final AppDatabase database, final List<CodeEntity> codes) {
+    private static void insertData(final AppDatabase database,
+                                   final List<CodeEntity> codes,
+                                   final List<ContentEntity> content) {
         database.runInTransaction(() -> {
             database.codeDao().insertAll(codes);
+            database.contentDao().insertAll(content);
         });
     }
 

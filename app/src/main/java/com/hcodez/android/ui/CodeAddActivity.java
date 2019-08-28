@@ -18,6 +18,6 @@ public class CodeAddActivity extends MainMenuActivity{
         int width  = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width * .8), (int) (height * .5));
+        getWindow().setLayout((int) (width * .8), (int) (height * .6));
     }
 }
