@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "e48736f29c0eb130fd85b7f4176e457d",
+    "identityHash": "2866678823c7e1b274d313f11c7b1a7a",
     "entities": [
       {
         "tableName": "code",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `identifier` TEXT, `owner` TEXT, `passcode` TEXT, `name` TEXT, `url` TEXT, `create_time` INTEGER, `update_time` INTEGER, `code_type` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `identifier` TEXT, `owner` TEXT, `passcode` TEXT, `name` TEXT, `url` TEXT, `create_time` INTEGER, `update_time` INTEGER, `code_type` TEXT, `content_id` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`content_id`) REFERENCES `content`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -61,6 +61,12 @@
             "columnName": "code_type",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "contentId",
+            "columnName": "content_id",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -69,8 +75,29 @@
           ],
           "autoGenerate": false
         },
-        "indices": [],
-        "foreignKeys": []
+        "indices": [
+          {
+            "name": "index_code_content_id",
+            "unique": false,
+            "columnNames": [
+              "content_id"
+            ],
+            "createSql": "CREATE  INDEX `index_code_content_id` ON `${TABLE_NAME}` (`content_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "content",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "content_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       },
       {
         "ftsVersion": "FTS4",
@@ -126,12 +153,87 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "content",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `description` TEXT, `resource_uri` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "resourceURI",
+            "columnName": "resource_uri",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "ftsVersion": "FTS4",
+        "ftsOptions": {
+          "tokenizer": "simple",
+          "tokenizerArgs": [],
+          "contentTable": "content",
+          "languageIdColumnName": "",
+          "matchInfo": "FTS4",
+          "notIndexedColumns": [],
+          "prefixSizes": [],
+          "preferredOrder": "ASC"
+        },
+        "contentSyncTriggers": [
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_contentFts_BEFORE_UPDATE BEFORE UPDATE ON `content` BEGIN DELETE FROM `contentFts` WHERE `docid`=OLD.`rowid`; END",
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_contentFts_BEFORE_DELETE BEFORE DELETE ON `content` BEGIN DELETE FROM `contentFts` WHERE `docid`=OLD.`rowid`; END",
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_contentFts_AFTER_UPDATE AFTER UPDATE ON `content` BEGIN INSERT INTO `contentFts`(`docid`, `description`) VALUES (NEW.`rowid`, NEW.`description`); END",
+          "CREATE TRIGGER IF NOT EXISTS room_fts_content_sync_contentFts_AFTER_INSERT AFTER INSERT ON `content` BEGIN INSERT INTO `contentFts`(`docid`, `description`) VALUES (NEW.`rowid`, NEW.`description`); END"
+        ],
+        "tableName": "contentFts",
+        "createSql": "CREATE VIRTUAL TABLE IF NOT EXISTS `${TABLE_NAME}` USING FTS4(`description` TEXT, content=`content`)",
+        "fields": [
+          {
+            "fieldPath": "rowId",
+            "columnName": "rowid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "rowid"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e48736f29c0eb130fd85b7f4176e457d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2866678823c7e1b274d313f11c7b1a7a')"
     ]
   }
 }

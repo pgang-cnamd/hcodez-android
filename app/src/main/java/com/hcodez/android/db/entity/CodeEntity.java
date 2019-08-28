@@ -10,6 +10,7 @@ import java.net.URL;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import lombok.AllArgsConstructor;
@@ -17,11 +18,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(tableName = "code")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Entity(tableName = "code",
+        foreignKeys = @ForeignKey(
+                entity = ContentEntity.class,
+                parentColumns = "id",
+                childColumns = "content_id"
+        ))
 public class CodeEntity {
 
     @PrimaryKey
@@ -50,6 +56,13 @@ public class CodeEntity {
 
     @ColumnInfo(name = "code_type")
     private CodeType codeType;
+
+    @ColumnInfo(name = "content_id", index = true)
+    private int contentId;
+
+
+    public CodeEntity() {}
+
 
     public int getId() {
         return id;
@@ -121,6 +134,14 @@ public class CodeEntity {
 
     public void setCodeType(CodeType codeType) {
         this.codeType = codeType;
+    }
+
+    public int getContentId() {
+        return contentId;
+    }
+
+    public void setContentId(int contentId) {
+        this.contentId = contentId;
     }
 
     /**
