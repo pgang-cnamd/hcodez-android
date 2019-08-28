@@ -30,7 +30,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
             CodeFtsEntity.class,
             ContentEntity.class,
             ContentFtsEntity.class},
-        version = 2)
+        version = 3)
 @TypeConverters({InstantConverter.class,
         URLConverter.class,
         CodeTypeConverter.class,
