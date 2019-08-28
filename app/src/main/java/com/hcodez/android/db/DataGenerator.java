@@ -23,17 +23,6 @@ class DataGenerator {
         public static String OWNER = "owner";
         public static String PASSCODE = "DefaultPasscode123";
         public static Instant UPDATE_TIME = Instant.now();
-        public static URL mURL;
-        static {
-            URL mURL1;
-            try {
-                mURL1 = new URL("https://www.example.com");
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                mURL1 = null;
-            }
-            mURL = mURL1;
-        }
         static final int CONTENT_ID = 0;
     }
 
@@ -48,16 +37,15 @@ class DataGenerator {
 
         final CodeEntity code = new CodeEntity();
 
-        code.setCodeType(CodePrepoulateValues.CODE_TYPE);
-        code.setCreateTime(CodePrepoulateValues.CREATE_TIME);
-        code.setId(CodePrepoulateValues.ID);
-        code.setIdentifier(CodePrepoulateValues.IDENTIFIER);
-        code.setName(CodePrepoulateValues.NAME);
-        code.setOwner(CodePrepoulateValues.OWNER);
-        code.setPasscode(CodePrepoulateValues.PASSCODE);
-        code.setUpdateTime(CodePrepoulateValues.UPDATE_TIME);
-        code.setUrl(CodePrepoulateValues.mURL);
-        code.setContentId(CodePrepoulateValues.CONTENT_ID);
+        code.setCodeType(CodePrepopulateValues.CODE_TYPE);
+        code.setCreateTime(CodePrepopulateValues.CREATE_TIME);
+        code.setId(CodePrepopulateValues.ID);
+        code.setIdentifier(CodePrepopulateValues.IDENTIFIER);
+        code.setName(CodePrepopulateValues.NAME);
+        code.setOwner(CodePrepopulateValues.OWNER);
+        code.setPasscode(CodePrepopulateValues.PASSCODE);
+        code.setUpdateTime(CodePrepopulateValues.UPDATE_TIME);
+        code.setContentId(CodePrepopulateValues.CONTENT_ID);
 
         codes.add(code);
 

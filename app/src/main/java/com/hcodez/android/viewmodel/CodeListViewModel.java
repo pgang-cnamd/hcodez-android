@@ -44,4 +44,13 @@ public class CodeListViewModel extends AndroidViewModel {
     public LiveData<List<CodeEntity>> getCodes() {
         return this.mObservableCodes;
     }
+
+    /**
+     * Search for codes
+     * @param query query to search by
+     * @return live data list of codes
+     */
+    public LiveData<List<CodeEntity>> searchCodes(String query) {
+        return mRepository.searchCodes(query);
+    }
 }

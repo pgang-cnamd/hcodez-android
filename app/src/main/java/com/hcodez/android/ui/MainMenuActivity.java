@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -15,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hcodez.android.HcodezApp;
 import com.hcodez.android.R;
-import com.hcodez.android.db.entity.CodeEntity;
 import com.hcodez.android.ui.adapter.CodeAdapter;
 import com.hcodez.android.viewmodel.CodeListViewModel;
 
@@ -31,6 +32,7 @@ public class MainMenuActivity extends AppCompatActivity implements CodeAdapter.O
     private CodeAdapter          mCodeAdapter;
     private ArrayList<String>    mCodeItems;
     private HcodezApp            app;
+    private TextView             mTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,16 +73,11 @@ public class MainMenuActivity extends AppCompatActivity implements CodeAdapter.O
         mCodeItems = new ArrayList<>();
 
         final CodeListViewModel model = ViewModelProviders.of(this).get(CodeListViewModel.class);
-        //final CodeEntity cod = new CodeEntity();
 
         model.getCodes().observe(this, codeEntities -> {
             if (codeEntities != null) {
                 if (codeEntities.size() != 0) {
                     mCodeItems.add(
-                            /**
-                             * idea? works like this?
-                             */
-                           // cod.getOwner()
                             codeEntities.get(0).toLibraryCode().toString()
                     );
                 } else {
@@ -97,7 +94,14 @@ public class MainMenuActivity extends AppCompatActivity implements CodeAdapter.O
     @Override
     public void onNoteClick(int position) {
         mCodeItems.get(position);
+        String codeItem = mCodeItems.get(position);
+
         Intent intent = new Intent(this, ContentRetrievalActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("codeItem", codeItem);
+        intent.putExtras(bundle);
+
         startActivity(intent);
     }
 }

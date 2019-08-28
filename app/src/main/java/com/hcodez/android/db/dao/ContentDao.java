@@ -20,10 +20,10 @@ public interface ContentDao {
     List<ContentEntity> loadAllContentSync();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(ContentEntity content);
+    long insert(ContentEntity content);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(List<ContentEntity> content);
+    List<Long> insertAll(List<ContentEntity> content);
 
     @Query("SELECT * FROM content WHERE id = :contentId")
     LiveData<ContentEntity> loadContent(int contentId);

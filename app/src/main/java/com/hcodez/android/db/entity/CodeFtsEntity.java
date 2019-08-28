@@ -5,6 +5,11 @@ import androidx.room.Entity;
 import androidx.room.Fts4;
 import androidx.room.PrimaryKey;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+
+@Data
 @Entity(tableName = "codeFts")
 @Fts4(contentEntity = CodeEntity.class)
 public class CodeFtsEntity {
@@ -27,21 +32,5 @@ public class CodeFtsEntity {
         this.identifier = identifier;
         this.owner = owner;
         this.name = name;
-    }
-
-    public int getRowId() {
-        return rowId;
-    }
-
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public String getName() {
-        return name;
     }
 }

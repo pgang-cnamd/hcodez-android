@@ -13,11 +13,21 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Entity(tableName = "code",
         foreignKeys = @ForeignKey(
                 entity = ContentEntity.class,
                 parentColumns = "id",
-                childColumns = "content_id"
+                childColumns = "content_id",
+                onDelete = ForeignKey.CASCADE
         ))
 public class CodeEntity {
 
@@ -52,89 +62,6 @@ public class CodeEntity {
     private int contentId;
 
 
-    public CodeEntity() {}
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-
-    public String getOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
-    public String getPasscode() {
-        return passcode;
-    }
-
-    public void setPasscode(String passcode) {
-        this.passcode = passcode;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public URL getUrl() {
-        return url;
-    }
-
-    public void setUrl(URL url) {
-        this.url = url;
-    }
-
-    public Instant getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Instant createTime) {
-        this.createTime = createTime;
-    }
-
-    public Instant getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Instant updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public CodeType getCodeType() {
-        return codeType;
-    }
-
-    public void setCodeType(CodeType codeType) {
-        this.codeType = codeType;
-    }
-
-    public int getContentId() {
-        return contentId;
-    }
-
-    public void setContentId(int contentId) {
-        this.contentId = contentId;
-    }
-
     /**
      * Create a library Code model from a CodeEntity
      * @return the Code model built
@@ -158,17 +85,15 @@ public class CodeEntity {
      * @return the CodeEntity built
      */
     public static CodeEntity fromLibraryCode(final Code libraryCode) {
-        final CodeEntity codeEntity = new CodeEntity();
-
-        codeEntity.setIdentifier(libraryCode.getIdentifier());
-        codeEntity.setOwner(libraryCode.getOwner());
-        codeEntity.setPasscode(libraryCode.getPasscode());
-        codeEntity.setName(libraryCode.getName());
-        codeEntity.setUrl(libraryCode.getUrl());
-        codeEntity.setCreateTime(libraryCode.getCreateTime());
-        codeEntity.setUpdateTime(libraryCode.getUpdateTime());
-        codeEntity.setCodeType(libraryCode.getCodeType());
-
-        return codeEntity;
+        return CodeEntity.builder()
+                .identifier(libraryCode.getIdentifier())
+                .owner(libraryCode.getOwner())
+                .passcode(libraryCode.getPasscode())
+                .name(libraryCode.getName())
+                .url(libraryCode.getUrl())
+                .createTime(libraryCode.getCreateTime())
+                .updateTime(libraryCode.getUpdateTime())
+                .codeType(libraryCode.getCodeType())
+                .build();
     }
 }
