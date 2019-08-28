@@ -45,7 +45,7 @@ public class CodeScanner {
     /**
      * The feature type used for retrieving the text from images
      */
-    private static final String FEATURE_TYPE = "DOCUMENT_TEXT_DETECTION";
+    private static final String FEATURE_TYPE = "TEXT_DETECTION";
 
 
     /**
@@ -143,7 +143,11 @@ public class CodeScanner {
         List<AnnotateImageResponse> responseList = batchResponse.getResponses();
         for (AnnotateImageResponse response : responseList) {
             Log.d(TAG, "getTextFromImageSync: iterating over response " + response);
-            stringBuilder.append(response.getFullTextAnnotation().getText());
+            stringBuilder.append(response != null ?
+                    response.getFullTextAnnotation() != null ?
+                            response.getFullTextAnnotation().getText()
+                            : ""
+                    : "");
         }
 
         Log.d(TAG, "getTextFromImageSync() returned: " + stringBuilder.toString());
