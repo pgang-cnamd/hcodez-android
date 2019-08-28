@@ -25,6 +25,7 @@ public class DataRepository {
     public DataRepository(final AppDatabase database) {
         this.mDatabase = database;
         this.mObservableCodes = new MediatorLiveData<>();
+        this.mObservableContent = new MediatorLiveData<>();
 
         this.mObservableCodes.addSource(this.mDatabase.codeDao().loadAllCodes(), codeEntities -> {
             if (this.mDatabase.getDatabaseCreated().getValue() != null) {
