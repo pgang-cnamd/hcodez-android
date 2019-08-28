@@ -26,7 +26,8 @@ import lombok.NoArgsConstructor;
         foreignKeys = @ForeignKey(
                 entity = ContentEntity.class,
                 parentColumns = "id",
-                childColumns = "content_id"
+                childColumns = "content_id",
+                onDelete = ForeignKey.CASCADE
         ))
 public class CodeEntity {
 
