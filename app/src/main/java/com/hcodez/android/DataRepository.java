@@ -62,16 +62,16 @@ public class DataRepository {
         return this.mDatabase.codeDao().loadCode(codeId);
     }
 
-    public void insertCode(final CodeEntity codeEntity) {
-        this.mDatabase.codeDao().insert(codeEntity);
+    public long insertCode(final CodeEntity codeEntity) {
+        return this.mDatabase.codeDao().insert(codeEntity);
     }
 
-    public void insertCodes(final List<CodeEntity> codeEntities) {
-        this.mDatabase.codeDao().insertAll(codeEntities);
+    public List<Long> insertCodes(final List<CodeEntity> codeEntities) {
+        return this.mDatabase.codeDao().insertAll(codeEntities);
     }
 
-    public void insertCodes(final CodeEntity... codeEntities) {
-        this.mDatabase.codeDao().insertAll(Arrays.asList(codeEntities));
+    public List<Long> insertCodes(final CodeEntity... codeEntities) {
+        return this.mDatabase.codeDao().insertAll(Arrays.asList(codeEntities));
     }
 
     public void deleteCode(final CodeEntity codeEntity) {
@@ -93,16 +93,16 @@ public class DataRepository {
         return this.mDatabase.contentDao().loadContent(contentId);
     }
 
-    public void insertContent(final ContentEntity contentEntity) {
-        this.mDatabase.contentDao().insert(contentEntity);
+    public long insertContent(final ContentEntity contentEntity) {
+        return this.mDatabase.contentDao().insert(contentEntity);
     }
 
-    public void insertContent(final List<ContentEntity> contentEntities) {
-        this.mDatabase.contentDao().insertAll(contentEntities);
+    public List<Long> insertContent(final List<ContentEntity> contentEntities) {
+        return this.mDatabase.contentDao().insertAll(contentEntities);
     }
 
-    public void insertContent(final ContentEntity... contentEntities) {
-        this.mDatabase.contentDao().insertAll(Arrays.asList(contentEntities));
+    public List<Long> insertContent(final ContentEntity... contentEntities) {
+        return this.mDatabase.contentDao().insertAll(Arrays.asList(contentEntities));
     }
 
     public void deleteContent(final ContentEntity contentEntity) {

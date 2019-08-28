@@ -20,10 +20,10 @@ public interface CodeDao {
     List<CodeEntity> loadAllCodesSync();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(CodeEntity code);
+    long insert(CodeEntity code);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(List<CodeEntity> code);
+    List<Long> insertAll(List<CodeEntity> code);
 
     @Query("SELECT * FROM code WHERE id = :codeId")
     LiveData<CodeEntity> loadCode(int codeId);
