@@ -3,7 +3,7 @@ package com.hcodez.android.viewmodel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.ObservableField;
+//import androidx.databinding.ObservableField;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
@@ -17,7 +17,7 @@ public class CodeViewModel extends AndroidViewModel {
 
     private final LiveData<CodeEntity> mObservableCodeEntity;
 
-    public ObservableField<CodeEntity> code = new ObservableField<>();
+//    public ObservableField<CodeEntity> code = new ObservableField<>();
 
     private final int mCodeId;
 
@@ -34,7 +34,7 @@ public class CodeViewModel extends AndroidViewModel {
     }
 
     public void setCode(CodeEntity code) {
-        this.code.set(code);
+//        this.code.set(code);
     }
 
     /**
