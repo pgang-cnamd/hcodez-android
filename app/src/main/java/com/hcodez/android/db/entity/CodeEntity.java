@@ -1,8 +1,8 @@
 package com.hcodez.android.db.entity;
 
-import com.hcodez.codeengine.builder.CodeBuilder;
 import com.hcodez.codeengine.model.Code;
 import com.hcodez.codeengine.model.CodeType;
+import com.hcodez.codeengine.model.MutableCode;
 
 import org.joda.time.Instant;
 
@@ -66,34 +66,26 @@ public class CodeEntity {
      * Create a library Code model from a CodeEntity
      * @return the Code model built
      */
-    public Code toLibraryCode() {
-        return CodeBuilder.createBuilder()
-                .withIdentifier(this.getIdentifier())
-                .withOwner(this.getOwner())
-                .withPasscode(this.getPasscode())
-                .withName(this.getName())
-                .withUrl(this.getUrl())
-                .withCreateTime(this.getCreateTime())
-                .withUpdateTime(this.getUpdateTime())
-                .withCodeType(this.getCodeType())
+    public Code toCodeInterface() {
+        return MutableCode.builder()
+                .identifier(this.getIdentifier())
+                .owner(this.getOwner())
+                .passcode(this.getPasscode())
+                .codeType(this.getCodeType())
                 .build();
     }
 
     /**
      * Create a CodeEntity from a library Code model
-     * @param libraryCode the library Code model used
+     * @param codeInterface the library Code model used
      * @return the CodeEntity built
      */
-    public static CodeEntity fromLibraryCode(final Code libraryCode) {
+    public static CodeEntity fromCodeInterface(final Code codeInterface) {
         return CodeEntity.builder()
-                .identifier(libraryCode.getIdentifier())
-                .owner(libraryCode.getOwner())
-                .passcode(libraryCode.getPasscode())
-                .name(libraryCode.getName())
-                .url(libraryCode.getUrl())
-                .createTime(libraryCode.getCreateTime())
-                .updateTime(libraryCode.getUpdateTime())
-                .codeType(libraryCode.getCodeType())
+                .identifier(codeInterface.getIdentifier())
+                .owner(codeInterface.getOwner())
+                .passcode(codeInterface.getPasscode())
+                .codeType(codeInterface.getCodeType())
                 .build();
     }
 }

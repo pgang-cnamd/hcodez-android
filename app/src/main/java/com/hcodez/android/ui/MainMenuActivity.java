@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -78,7 +77,7 @@ public class MainMenuActivity extends AppCompatActivity implements CodeAdapter.O
             if (codeEntities != null) {
                 if (codeEntities.size() != 0) {
                     mCodeItems.add(
-                            codeEntities.get(0).toLibraryCode().toString()
+                            codeEntities.get(0).toCodeInterface().toString()
                     );
                 } else {
                     mCodeItems.add("Empty list");
