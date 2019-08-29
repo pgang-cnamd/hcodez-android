@@ -1,18 +1,12 @@
 package com.hcodez.android.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
-
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 
 import com.hcodez.android.DataRepository;
 import com.hcodez.android.HcodezApp;
@@ -24,8 +18,6 @@ import com.hcodez.codeengine.model.CodeType;
 import org.joda.time.Instant;
 
 import java.net.URI;
-import java.util.List;
-import java.util.Objects;
 
 public class CodeAddActivity extends MainMenuActivity {
 
