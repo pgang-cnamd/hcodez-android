@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
                 childColumns = "content_id",
                 onDelete = ForeignKey.CASCADE
         ))
-public class CodeEntity {
+public class CodeEntity implements Code {
 
     @PrimaryKey
     private int id;
@@ -87,5 +87,10 @@ public class CodeEntity {
                 .passcode(codeInterface.getPasscode())
                 .codeType(codeInterface.getCodeType())
                 .build();
+    }
+
+    @Override
+    public String toString() {
+        return Code.string(this);
     }
 }

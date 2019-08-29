@@ -68,7 +68,6 @@ public class MainMenuActivity extends AppCompatActivity implements CodeAdapter.O
         mCodeAdapter = new CodeAdapter();
         mCodeListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mCodeListRecyclerView.setAdapter(mCodeAdapter);
-        List<String> listExample = new ArrayList<>();
         mCodeItems = new ArrayList<>();
 
         final CodeListViewModel model = ViewModelProviders.of(this).get(CodeListViewModel.class);
@@ -77,7 +76,7 @@ public class MainMenuActivity extends AppCompatActivity implements CodeAdapter.O
             if (codeEntities != null) {
                 if (codeEntities.size() != 0) {
                     mCodeItems.add(
-                            codeEntities.get(0).toCodeInterface().toString()
+                            codeEntities.get(0).toString()
                     );
                 } else {
                     mCodeItems.add("Empty list");
@@ -92,7 +91,6 @@ public class MainMenuActivity extends AppCompatActivity implements CodeAdapter.O
 
     @Override
     public void onNoteClick(int position) {
-        mCodeItems.get(position);
         String codeItem = mCodeItems.get(position);
 
         Intent intent = new Intent(this, ContentRetrievalActivity.class);
