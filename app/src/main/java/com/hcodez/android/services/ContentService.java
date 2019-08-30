@@ -3,7 +3,6 @@ package com.hcodez.android.services;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.hcodez.android.HcodezApp;
@@ -11,9 +10,9 @@ import com.hcodez.android.db.AppDatabase;
 import com.hcodez.android.db.entity.ContentEntity;
 
 /**
- * Service that handles content operations
+ * DatabaseService that handles content operations
  */
-public class ContentService {
+public class ContentService implements DatabaseService<ContentEntity> {
 
     private static final String TAG = "ContentService";
 
@@ -45,32 +44,28 @@ public class ContentService {
         return sInstance;
     }
 
+    @Override
+    public LiveData<ContentEntity> addNew(ContentEntity entity) {
+        Log.d(TAG, "addNew() called with: entity = [" + entity + "]");
 
-    /**
-     * Add a new content entity to the database
-     * @param contentEntity the new content entity to be added
-     * @return the newly added content entity(with the id assigned)
-     */
-    public LiveData<ContentEntity> addNewContent(final ContentEntity contentEntity) {
-        Log.d(TAG, "addNewContent() called with: contentEntity = [" + contentEntity + "]");
-
-        final MediatorLiveData<ContentEntity> liveData = new MediatorLiveData<>();
+        final MutableLiveData<ContentEntity> liveData = new MutableLiveData<>();
 
         new Thread(() -> {
-            Log.d(TAG, "addNewContent: started thread");
-
-            long id = database.contentDao().insert(contentEntity);
-            final ContentEntity newContentEntity = database.contentDao().loadContentSync((int) id);
-            Log.d(TAG, "addNewContent: content entity successfully saved in the database with id " + id);
-
-            final MutableLiveData<ContentEntity> data = new MutableLiveData<>();
-            liveData.addSource(data, liveData::postValue);
-            Log.d(TAG, "addNewContent: added live data source");
-
-            data.postValue(newContentEntity);
-            Log.d(TAG, "addNewContent: posted data to livedata");
+            Log.d(TAG, "addNew: started thread");
+            liveData.postValue(addNewSync(entity));
         }).start();
 
         return liveData;
+    }
+
+    @Override
+    public ContentEntity addNewSync(ContentEntity entity) {
+        Log.d(TAG, "addNewSync() called with: entity = [" + entity + "]");
+
+        long id = database.contentDao().insert(entity);
+        final ContentEntity contentEntity = database.contentDao().loadContentSync((int) id);
+        Log.d(TAG, "addNewSync: content entity successfully saved in the database with id " + id);
+
+        return contentEntity;
     }
 }
