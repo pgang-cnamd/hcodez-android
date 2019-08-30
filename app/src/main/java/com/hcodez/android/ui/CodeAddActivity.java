@@ -2,6 +2,7 @@ package com.hcodez.android.ui;
 
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +16,6 @@ import com.hcodez.android.R;
 import com.hcodez.android.db.entity.CodeEntity;
 import com.hcodez.android.db.entity.ContentEntity;
 import com.hcodez.android.services.CodeService;
-import com.hcodez.codeengine.model.Code;
 import com.hcodez.codeengine.model.CodeType;
 
 import org.joda.time.Instant;
@@ -36,6 +36,7 @@ public class CodeAddActivity extends MainMenuActivity {
         private static final String TAG = "SaveButtonOnClick";
         @Override
         public void onClick(View v) {
+            Log.d(TAG, "onClick() called with: v = [" + v + "]");
             /*
               Temporary variables for building the code
              */
@@ -56,6 +57,7 @@ public class CodeAddActivity extends MainMenuActivity {
                 Toast.makeText(getApplicationContext(), "Password longer than 25 characters", Toast.LENGTH_SHORT).show();
                 return;
             }
+            Log.d(TAG, "onClick: filtered out bas usage");
 
             /*
               Hardcoded variables
@@ -89,13 +91,18 @@ public class CodeAddActivity extends MainMenuActivity {
                     .owner(hardcodedOwner)
                     .build();
 
-            LiveData<CodeEntity> codeEntityLiveData = codeService.addNewCode(codeEntity, contentEntity);
-            codeEntityLiveData.observe(CodeAddActivity.this,
-                    codeEntity1 -> runOnUiThread(() ->
-                            Toast.makeText(getApplicationContext(),
-                                    "Added code " + Code.string(codeEntity1),
-                                    Toast.LENGTH_LONG)
-                                    .show()));
+            Log.d(TAG, "onClick: built entities");
+
+            LiveData<CodeEntity> codeEntityLiveData = codeService.addNew(codeEntity, contentEntity);
+            codeEntityLiveData.observe(CodeAddActivity.this, observedCodeEntity -> {
+                Log.d(TAG, "onClick: code entity change observed");
+                if (observedCodeEntity.getId() == null) {
+                    Log.d(TAG, "onClick: encountered an error when saving the code");
+                } else {
+                    Log.d(TAG, "onClick: code saved successfully");
+                }
+            });
+
             finish();
         }
     };
