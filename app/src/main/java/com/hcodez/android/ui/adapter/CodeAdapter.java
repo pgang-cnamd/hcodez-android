@@ -9,16 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hcodez.android.R;
+import com.hcodez.android.db.entity.CodeEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder> {
 
-    private List<String> mCodeItems = new ArrayList<>();
+    private List<CodeEntity> mCodeItems = new ArrayList<>();
     private OnNoteListener mOnNoteListener;
 
-    public void setItems(List<String> items, OnNoteListener onNoteListener) {
+    public void setItems(List<CodeEntity> items, OnNoteListener onNoteListener) {
         mCodeItems = items;
         notifyDataSetChanged();
         this.mOnNoteListener = onNoteListener;
@@ -40,7 +41,7 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
 
     @Override
     public int getItemCount() {
-        return mCodeItems.size();
+        return mCodeItems != null ? mCodeItems.size() : 0;
     }
 
     @Override
@@ -62,8 +63,8 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
             itemView.setOnClickListener(this);
         }
 
-        public void bind(String text) {
-            mTextView.setText(text);
+        public void bind(CodeEntity codeEntity) {
+            mTextView.setText(codeEntity.toString());
         }
 
         @Override
