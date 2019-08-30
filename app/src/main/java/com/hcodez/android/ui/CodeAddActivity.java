@@ -1,31 +1,26 @@
 package com.hcodez.android.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 
-import com.hcodez.android.DataRepository;
 import com.hcodez.android.HcodezApp;
 import com.hcodez.android.R;
 import com.hcodez.android.db.entity.CodeEntity;
 import com.hcodez.android.db.entity.ContentEntity;
+import com.hcodez.android.services.CodeService;
+import com.hcodez.codeengine.model.Code;
 import com.hcodez.codeengine.model.CodeType;
 
 import org.joda.time.Instant;
 
 import java.net.URI;
-import java.util.List;
-import java.util.Objects;
 
 public class CodeAddActivity extends MainMenuActivity {
 
@@ -33,6 +28,8 @@ public class CodeAddActivity extends MainMenuActivity {
     private Switch          mSwitch;
     private EditText        mPasscodeEditText;
     private Button          mSaveButton;
+
+    private CodeService     codeService;
 
     private View.OnClickListener saveButtonOnClickListener = new View.OnClickListener() {
 
@@ -64,57 +61,41 @@ public class CodeAddActivity extends MainMenuActivity {
               Hardcoded variables
              */
             String hardcodedOwner = "Mirel";
-            String hardcodedIdentifier = "1234";
 
             /*
-              Start the database handling thread
+              Build the content
              */
-            new Thread(() -> { // FIXME: 2019-08-28 missing content support, always adding a placeholder one
-                /*
-                  Get the data repository object
-                */
-                final DataRepository dataRepository = new HcodezApp().getRepository();
+            final ContentEntity contentEntity = ContentEntity.builder()
+                    .description("placeholder")
+                    .resourceURI(URI.create("https://example.com"))
+                    .build();
 
-                /*
-                  Build the content
-                 */
-                final ContentEntity contentEntity = ContentEntity.builder()
-                        .description("placeholder")
-                        .resourceURI(URI.create("https://example.com"))
-                        .build();
+            /*
+              Build the code
+             */
+            final CodeEntity codeEntity = CodeEntity.builder()
+                    .passcode(
+                            buildingPublicCode ? mPasscodeEditText.getText().toString() : null
+                    )
+                    .codeType(
+                            buildingPublicCode ?
+                                    mPasscodeEditText.getText().toString().length() != 0 ?
+                                            CodeType.PUBLIC_WITH_PASSCODE : CodeType.PUBLIC_NO_PASSCODE
+                                    : CodeType.PRIVATE
+                    )
+                    .createTime(Instant.now())
+                    .updateTime(Instant.now())
+                    .name(mCodeNameEditText.getText().toString())
+                    .owner(hardcodedOwner)
+                    .build();
 
-                /*
-                  Insert the content
-                 */
-                Long contentId = dataRepository.insertContent(contentEntity);
-
-                /*
-                  Build the code
-                */
-                final CodeEntity code = CodeEntity.builder()
-                        .passcode(
-                                buildingPublicCode ? mPasscodeEditText.getText().toString() : null
-                        )
-                        .codeType(
-                                buildingPublicCode ?
-                                        mPasscodeEditText.getText().toString().length() != 0 ?
-                                                CodeType.PUBLIC_WITH_PASSCODE : CodeType.PUBLIC_NO_PASSCODE
-                                        : CodeType.PRIVATE
-                        )
-                        .createTime(Instant.now())
-                        .identifier(hardcodedIdentifier)
-                        .updateTime(Instant.now())
-                        .name(mCodeNameEditText.getText().toString())
-                        .owner(hardcodedOwner)
-                        .contentId(contentId.intValue())
-                        .build();
-
-                /*
-                  Insert the code into the database
-                 */
-                dataRepository.insertCode(code);
-
-            }).start();
+            LiveData<CodeEntity> codeEntityLiveData = codeService.addNewCode(codeEntity, contentEntity);
+            codeEntityLiveData.observe(CodeAddActivity.this,
+                    codeEntity1 -> runOnUiThread(() ->
+                            Toast.makeText(getApplicationContext(),
+                                    "Added code " + Code.string(codeEntity1),
+                                    Toast.LENGTH_LONG)
+                                    .show()));
             finish();
         }
     };
@@ -138,5 +119,7 @@ public class CodeAddActivity extends MainMenuActivity {
         mSaveButton = findViewById(R.id.codeSave);
 
         mSaveButton.setOnClickListener(saveButtonOnClickListener);
+
+        codeService = CodeService.getInstance(new HcodezApp());
     }
 }
