@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hcodez.android.HcodezApp;
 import com.hcodez.android.R;
+import com.hcodez.android.db.entity.CodeEntity;
 import com.hcodez.android.ui.adapter.CodeAdapter;
 import com.hcodez.android.viewmodel.CodeListViewModel;
 
@@ -29,9 +30,8 @@ public class MainMenuActivity extends AppCompatActivity implements CodeAdapter.O
     private SearchView           mCodeSearchView;
     private RecyclerView         mCodeListRecyclerView;
     private CodeAdapter          mCodeAdapter;
-    private ArrayList<String>    mCodeItems;
+    private ArrayList<CodeEntity>    mCodeItems;
     private HcodezApp            app;
-    private TextView             mTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,30 +75,35 @@ public class MainMenuActivity extends AppCompatActivity implements CodeAdapter.O
         model.getCodes().observe(this, codeEntities -> {
             if (codeEntities != null) {
                 if (codeEntities.size() != 0) {
-                    mCodeItems.add(
-                            codeEntities.get(0).toString()
-                    );
-                } else {
-                    mCodeItems.add("Empty list");
+                    mCodeItems.addAll(codeEntities);
                 }
-            } else {
-                mCodeItems.add("null code list");
             }
         });
-
         mCodeAdapter.setItems(mCodeItems, this);
     }
 
     @Override
     public void onNoteClick(int position) {
-        String codeItem = mCodeItems.get(position);
+        CodeEntity codeEntity = mCodeItems.get(position);
 
         Intent intent = new Intent(this, ContentRetrievalActivity.class);
 
         Bundle bundle = new Bundle();
-        bundle.putString("codeItem", codeItem);
+        bundle.putString("codeItem", codeEntity.toString());
         intent.putExtras(bundle);
 
         startActivity(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        ViewModelProviders.of(this)
+                .get(CodeListViewModel.class)
+                .getCodes()
+                .observe(this, codeEntities -> {
+                    mCodeAdapter.setItems(codeEntities, this);
+                });
     }
 }
