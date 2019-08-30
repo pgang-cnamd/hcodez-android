@@ -2,17 +2,17 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "a010641a7fda21998008c6ef0e4913f5",
+    "identityHash": "6eceb0bedc635c78b65087c90e517833",
     "entities": [
       {
         "tableName": "code",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `identifier` TEXT, `owner` TEXT, `passcode` TEXT, `name` TEXT, `url` TEXT, `create_time` INTEGER, `update_time` INTEGER, `code_type` TEXT, `content_id` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`content_id`) REFERENCES `content`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `identifier` TEXT, `owner` TEXT, `passcode` TEXT, `name` TEXT, `url` TEXT, `create_time` INTEGER, `update_time` INTEGER, `code_type` TEXT, `content_id` INTEGER, PRIMARY KEY(`id`), FOREIGN KEY(`content_id`) REFERENCES `content`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "identifier",
@@ -66,7 +66,7 @@
             "fieldPath": "contentId",
             "columnName": "content_id",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -156,13 +156,13 @@
       },
       {
         "tableName": "content",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `description` TEXT, `resource_uri` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `description` TEXT, `resource_uri` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "description",
@@ -233,7 +233,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a010641a7fda21998008c6ef0e4913f5')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6eceb0bedc635c78b65087c90e517833')"
     ]
   }
 }

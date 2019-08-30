@@ -21,7 +21,7 @@ public class ContentEntity {
 
     @PrimaryKey
     @ColumnInfo(name = "id")
-    private int id;
+    private Integer id;
 
     @ColumnInfo(name = "description")
     private String description;

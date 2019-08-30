@@ -20,7 +20,7 @@ public final class Migrations {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE `code`" +
-                    "ADD `content_id` REFERENCES cntent(id)");
+                    "ADD `content_id` INTEGER NOT NULL DEFAULT -1 REFERENCES content(id)");
 
             database.execSQL("CREATE TABLE IF NOT EXISTS `content`(" +
                     "`id` INTEGER, `description` TEXT, `resource_uri` TEXT)");

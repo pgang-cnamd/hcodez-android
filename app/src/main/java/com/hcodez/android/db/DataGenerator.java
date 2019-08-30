@@ -17,17 +17,17 @@ class DataGenerator {
     private static class CodePrepopulateValues {
         public static CodeType CODE_TYPE = CodeType.PRIVATE;
         public static Instant CREATE_TIME = Instant.now();
-        public static int ID = 0;
+        public static Integer ID = 0;
         public static String IDENTIFIER = "aB12";
         public static String NAME = "default";
         public static String OWNER = "owner";
         public static String PASSCODE = "DefaultPasscode123";
         public static Instant UPDATE_TIME = Instant.now();
-        static final int CONTENT_ID = 0;
+        static final Integer CONTENT_ID = ContentPrepopulateValues.ID;
     }
 
     private static class ContentPrepopulateValues {
-        static final int ID = 0;
+        static final Integer ID = 0;
         static final String DESCRIPTION = "A dummy content";
         static final URI RESOURCE_URI = URI.create("https://example.com");
     }

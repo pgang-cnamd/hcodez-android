@@ -90,7 +90,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             /*Generate the data for pre-population*/
                             final List<CodeEntity> codes = DataGenerator.generateCodes();
                             final List<ContentEntity> content = DataGenerator.generateContent();
-                            insertData(database, codes, content);
+//                            insertData(database, codes, content);
 
                             /*notify that the database was created and it's ready to be used*/
                             database.setDatabaseCreated();

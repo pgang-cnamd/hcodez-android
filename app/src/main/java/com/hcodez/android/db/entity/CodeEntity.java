@@ -32,7 +32,7 @@ import lombok.NoArgsConstructor;
 public class CodeEntity implements Code {
 
     @PrimaryKey
-    private int id;
+    private Integer id;
 
     @ColumnInfo(name = "identifier")
     private String identifier;
@@ -59,7 +59,7 @@ public class CodeEntity implements Code {
     private CodeType codeType;
 
     @ColumnInfo(name = "content_id", index = true)
-    private int contentId;
+    private Integer contentId;
 
 
     /**
