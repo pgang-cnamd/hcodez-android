@@ -122,8 +122,6 @@ public class CodeService implements DatabaseService<CodeEntity> {
         }).start();
 
         return liveData;
-
-
     }
 
     public CodeEntity addNewSync(final CodeEntity entity,
