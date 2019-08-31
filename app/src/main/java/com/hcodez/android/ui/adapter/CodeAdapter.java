@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -132,8 +133,10 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
         private static final String TAG = "CodeViewHolder";
 
         private TextView          itemName;
-        private TextView          itemPublicStatus;
-        private TextView          itemPasscodeProtected;
+        private ImageView         itemPublicStatus;
+        private ImageView         itemPrivateStatus;
+        private ImageView         itemPasscodeProtected;
+        private ImageView         itemPasscodeFree;
         private CodeClickCallback callback;
         private CodeEntity        entity;
 
@@ -142,8 +145,10 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
             Log.d(TAG, "CodeViewHolder() called with: itemView = [" + itemView + "], callback = [" + callback + "]");
 
             itemName = itemView.findViewById(R.id.code_list_item_name);
-            itemPublicStatus = itemView.findViewById(R.id.code_list_item_public_status);
-            itemPasscodeProtected = itemView.findViewById(R.id.code_list_item_passcode_protected);
+            itemPublicStatus = itemView.findViewById(R.id.public_code);
+            itemPrivateStatus = itemView.findViewById(R.id.private_code);
+            itemPasscodeProtected = itemView.findViewById(R.id.public_with_passcode);
+            itemPasscodeFree = itemView.findViewById(R.id.public_without_passcode);
 
             this.callback = callback;
         }
@@ -151,15 +156,33 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
         public void bind(CodeEntity codeEntity) {
             Log.d(TAG, "bind() called with: codeEntity = [" + codeEntity + "]");
             entity = codeEntity;
-            itemName.setText(entity.getName().toString());
-            itemPublicStatus.setText(entity.getCodeType() != null ?
-                    entity.getCodeType() != CodeType.PRIVATE ?
-                            "Public" : "Private"
-                    : "?");
-            itemPasscodeProtected.setText(entity.getPasscode() != null ?
-                    entity.getPasscode().length() > 0 ?
-                            "Has passcode" : "No passcode"
-                    : "No passcode");
+            itemName.setText(entity.getName());
+
+            if(entity.getPasscode() != null){
+                if(entity.getPasscode().length() > 0) {
+                    itemPasscodeProtected.setVisibility(View.VISIBLE);
+                    itemPasscodeFree.setVisibility(View.GONE);
+                }else{
+                    itemPasscodeProtected.setVisibility(View.GONE);
+                    itemPasscodeFree.setVisibility(View.VISIBLE);
+                }
+            }else{
+                itemPasscodeProtected.setVisibility(View.GONE);
+                itemPasscodeFree.setVisibility(View.VISIBLE);
+            }
+
+            if(entity.getCodeType() != null){
+                if(entity.getCodeType() != CodeType.PRIVATE) {
+                    itemPublicStatus.setVisibility(View.VISIBLE);
+                    itemPrivateStatus.setVisibility(View.GONE);
+                }else{
+                    itemPublicStatus.setVisibility(View.GONE);
+                    itemPrivateStatus.setVisibility(View.VISIBLE);
+                }
+            }else{
+                itemPublicStatus.setVisibility(View.GONE);
+                itemPrivateStatus.setVisibility(View.GONE);
+            }
         }
 
         @Override
