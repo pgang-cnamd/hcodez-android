@@ -1,7 +1,6 @@
 package com.hcodez.android.ui;
 
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -113,14 +112,6 @@ public class AddCodeActivity extends MainMenuActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate() called with: savedInstanceState = [" + savedInstanceState + "]");
         setContentView(R.layout.activity_add_code);
-
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-
-        int width = dm.widthPixels;
-        int height = dm.heightPixels;
-
-        getWindow().setLayout((int) (width * .8), (int) (height * .6));
 
         mCodeNameEditText = findViewById(R.id.add_code_name_edit_text);
         mSwitch = findViewById(R.id.add_code_public_flag_switch);
