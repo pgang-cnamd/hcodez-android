@@ -19,4 +19,7 @@
     <string name="this_is_your_code">This is your code</string>
     <string name="open">Open</string>
     <string name="delete">Delete</string>
+    <string name="with_passcode">with passcode</string>
+    <string name="no_passcode">No passcode</string>
+    <string name="public_no_passcode">public no passcode</string>
 </resources>
