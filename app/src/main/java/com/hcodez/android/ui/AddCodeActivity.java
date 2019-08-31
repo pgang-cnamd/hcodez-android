@@ -1,5 +1,6 @@
 package com.hcodez.android.ui;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -68,7 +69,7 @@ public class AddCodeActivity extends MainMenuActivity {
              */
             final ContentEntity contentEntity = ContentEntity.builder()
                     .description("placeholder")
-                    .resourceURI(URI.create("https://example.com"))
+                    .resourceURI(Uri.parse("https://example.com"))
                     .build();
 
             /*

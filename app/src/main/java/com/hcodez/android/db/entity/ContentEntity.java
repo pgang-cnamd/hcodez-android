@@ -1,11 +1,10 @@
 package com.hcodez.android.db.entity;
 
+import android.net.Uri;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
-
-import java.net.URI;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,5 +26,5 @@ public class ContentEntity {
     private String description;
 
     @ColumnInfo(name = "resource_uri")
-    private URI resourceURI;
+    private Uri resourceURI;
 }

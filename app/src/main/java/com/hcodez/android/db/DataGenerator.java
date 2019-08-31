@@ -1,5 +1,6 @@
 package com.hcodez.android.db;
 
+import android.net.Uri;
 import android.util.Log;
 
 import com.hcodez.android.db.entity.CodeEntity;
@@ -8,9 +9,6 @@ import com.hcodez.codeengine.model.CodeType;
 
 import org.joda.time.Instant;
 
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +31,7 @@ class DataGenerator {
     private static class ContentPrepopulateValues {
         static final Integer ID = 0;
         static final String DESCRIPTION = "A dummy content";
-        static final URI RESOURCE_URI = URI.create("https://example.com");
+        static final Uri RESOURCE_URI = Uri.parse("https://example.com");
     }
 
     static List<CodeEntity> generateCodes() {
