@@ -1,12 +1,16 @@
 package com.hcodez.android.ui;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -18,6 +22,7 @@ import com.hcodez.android.HcodezApp;
 import com.hcodez.android.R;
 import com.hcodez.android.ui.adapter.CodeAdapter;
 import com.hcodez.android.ui.callback.CodeClickCallback;
+import com.hcodez.android.ui.callback.CodeLongClickCallback;
 import com.hcodez.android.viewmodel.CodeListViewModel;
 
 public class MainMenuActivity extends AppCompatActivity {
@@ -49,6 +54,18 @@ public class MainMenuActivity extends AppCompatActivity {
         startActivity(intent);
     };
 
+    private CodeLongClickCallback codeLongClickCallback = codeEntity -> {
+        Log.d(TAG, "codeLongClickCallback.onLongClick() called with: codeEntity = [" + codeEntity + "]");
+
+        ClipboardManager clipboard = (ClipboardManager)
+                getSystemService(Context.CLIPBOARD_SERVICE);
+
+        ClipData clip = ClipData.newPlainText("code", codeEntity.toString());
+
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText(getApplicationContext(), "Code copied to clipboard", Toast.LENGTH_SHORT).show();
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +90,7 @@ public class MainMenuActivity extends AppCompatActivity {
         mCodeSearchView.setOnClickListener(
                 view -> mCodeSearchView.setIconified(false));
 
-        mCodeAdapter = new CodeAdapter(codeClickCallback);
+        mCodeAdapter = new CodeAdapter(codeClickCallback, codeLongClickCallback);
         mCodeListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mCodeListRecyclerView.setAdapter(mCodeAdapter);
 

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hcodez.android.R;
 import com.hcodez.android.db.entity.CodeEntity;
 import com.hcodez.android.ui.callback.CodeClickCallback;
+import com.hcodez.android.ui.callback.CodeLongClickCallback;
 import com.hcodez.codeengine.model.CodeType;
 
 import java.util.ArrayList;
@@ -35,11 +36,18 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
      */
     private CodeClickCallback mCodeClickCallback;
 
+    /**
+     * Callback used when a code item is long clicked
+     */
+    private CodeLongClickCallback mCodeLongClickCallback;
 
-    public CodeAdapter(@Nullable CodeClickCallback codeClickCallback) {
+
+    public CodeAdapter(@Nullable CodeClickCallback codeClickCallback,
+                       @Nullable CodeLongClickCallback codeLongClickCallback) {
         Log.d(TAG, "CodeAdapter() called with: codeClickCallback = [" + codeClickCallback + "]");
         setHasStableIds(true);
         mCodeClickCallback = codeClickCallback;
+        mCodeLongClickCallback = codeLongClickCallback;
     }
 
     /**
@@ -104,7 +112,7 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
     public CodeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder() called with: parent = [" + parent + "], viewType = [" + viewType + "]");
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_code_list, parent, false);
-        return new CodeViewHolder(view, mCodeClickCallback);
+        return new CodeViewHolder(view, mCodeClickCallback, mCodeLongClickCallback);
     }
 
     @Override
@@ -128,25 +136,30 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
     /**
      * ViewHolder for a CodeEntity
      */
-    static class CodeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    static class CodeViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, View.OnLongClickListener{
 
         private static final String TAG = "CodeViewHolder";
 
-        private TextView          itemName;
-        private ImageView         itemPublicStatus;
-        private ImageView         itemPasscodeProtected;
-        private CodeClickCallback callback;
-        private CodeEntity        entity;
+        private TextView              itemName;
+        private ImageView             itemPublicStatus;
+        private ImageView             itemPasscodeProtected;
+        private CodeClickCallback     clickCallback;
+        private CodeLongClickCallback longClickCallback;
+        private CodeEntity            entity;
 
-        public CodeViewHolder(@NonNull View itemView, CodeClickCallback callback) {
+        public CodeViewHolder(@NonNull View itemView,
+                              CodeClickCallback clickCallback,
+                              CodeLongClickCallback longClickCallback) {
             super(itemView);
-            Log.d(TAG, "CodeViewHolder() called with: itemView = [" + itemView + "], callback = [" + callback + "]");
+            Log.d(TAG, "CodeViewHolder() called with: itemView = [" + itemView + "], clickCallback = [" + clickCallback + "]");
 
             itemName = itemView.findViewById(R.id.code_list_item_name);
             itemPublicStatus = itemView.findViewById(R.id.code_list_item_public_status);
             itemPasscodeProtected = itemView.findViewById(R.id.code_list_item_passcode_protected);
 
-            this.callback = callback;
+            this.clickCallback = clickCallback;
+            this.longClickCallback = longClickCallback;
             itemView.setOnClickListener(this);
         }
 
@@ -172,7 +185,13 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
         @Override
         public void onClick(View view) {
             Log.d(TAG, "onClick() called with: view = [" + view + "]");
-            callback.onClick(entity);
+            clickCallback.onClick(entity);
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            longClickCallback.onLongClick(entity);
+            return true;
         }
     }
 }
