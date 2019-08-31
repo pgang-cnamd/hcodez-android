@@ -24,6 +24,8 @@ import java.net.URI;
 
 public class AddCodeActivity extends MainMenuActivity {
 
+    private static final String TAG = "AddCodeActivity";
+
     private EditText        mCodeNameEditText;
     private Switch          mSwitch;
     private EditText        mPasscodeEditText;
@@ -46,15 +48,18 @@ public class AddCodeActivity extends MainMenuActivity {
               Filter out bad usage
              */
             if (mCodeNameEditText.getText().toString().length() == 0) {
+                Log.d(TAG, "onClick: empty code name");
                 Toast.makeText(getApplicationContext(), "Insert a code name", Toast.LENGTH_SHORT).show();
                 return;
             }
             if (mCodeNameEditText.getText().toString().length() > 16) {
+                Log.d(TAG, "onClick: code name is too long");
                 Toast.makeText(getApplicationContext(), "Code name longer than 16 characters", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (mPasscodeEditText.getText().toString().length() > 25 && buildingPublicCode) {
-                Toast.makeText(getApplicationContext(), "Password longer than 25 characters", Toast.LENGTH_SHORT).show();
+            if (mPasscodeEditText.getText().toString().length() > 16 && buildingPublicCode) {
+                Log.d(TAG, "onClick: pasword is too long");
+                Toast.makeText(getApplicationContext(), "Password longer than 16 characters", Toast.LENGTH_SHORT).show();
                 return;
             }
             Log.d(TAG, "onClick: filtered out bas usage");
@@ -97,7 +102,7 @@ public class AddCodeActivity extends MainMenuActivity {
             codeEntityLiveData.observe(AddCodeActivity.this, observedCodeEntity -> {
                 Log.d(TAG, "onClick: code entity change observed");
                 if (observedCodeEntity.getId() == null) {
-                    Log.d(TAG, "onClick: encountered an error when saving the code");
+                    Log.e(TAG, "onClick: encountered an error when saving the code");
                 } else {
                     Log.d(TAG, "onClick: code saved successfully");
                 }
@@ -110,6 +115,7 @@ public class AddCodeActivity extends MainMenuActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate() called with: savedInstanceState = [" + savedInstanceState + "]");
         setContentView(R.layout.activity_add_code);
 
         DisplayMetrics dm = new DisplayMetrics();
