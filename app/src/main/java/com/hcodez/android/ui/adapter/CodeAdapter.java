@@ -42,45 +42,50 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
      * @param newCodeList the new newCodeList to use
      */
     public void updateList(List<CodeEntity> newCodeList) {
+        if (newCodeList == null)
+            return;
+
         if (codeList == null) {
             codeList = newCodeList;
             notifyItemRangeInserted(0, codeList.size());
-        } else {
-            DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
-                @Override
-                public int getOldListSize() {
-                    return codeList != null ? codeList.size() : 0;
-                }
-
-                @Override
-                public int getNewListSize() {
-                    return newCodeList != null ? newCodeList.size() : 0;
-                }
-
-                @Override
-                public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                    return codeList.get(oldItemPosition).getId()
-                            .equals(newCodeList.get(newItemPosition).getId());
-                }
-
-                @Override
-                public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-                    CodeEntity newCodeEntity = newCodeList.get(newItemPosition);
-                    CodeEntity oldCodeEntity = codeList.get(oldItemPosition);
-
-                    return newCodeEntity.getId().equals(oldCodeEntity.getId()) &&
-                            Objects.equals(newCodeEntity.getCodeType(), oldCodeEntity.getCodeType()) &&
-                            Objects.equals(newCodeEntity.getIdentifier(), oldCodeEntity.getIdentifier()) &&
-                            Objects.equals(newCodeEntity.getOwner(), oldCodeEntity.getOwner()) &&
-                            Objects.equals(newCodeEntity.getName(), oldCodeEntity.getName()) &&
-                            Objects.equals(newCodeEntity.getPasscode(), oldCodeEntity.getPasscode()) &&
-                            newCodeEntity.getCreateTime().getMillis() == oldCodeEntity.getCreateTime().getMillis() &&
-                            newCodeEntity.getUpdateTime().getMillis() == oldCodeEntity.getUpdateTime().getMillis();
-                }
-            });
-            codeList = newCodeList;
-            result.dispatchUpdatesTo(this);
+            return;
         }
+
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
+            @Override
+            public int getOldListSize() {
+                return codeList.size();
+            }
+
+            @Override
+            public int getNewListSize() {
+                return newCodeList.size();
+            }
+
+            @Override
+            public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+                return codeList.get(oldItemPosition).getId()
+                        .equals(newCodeList.get(newItemPosition).getId());
+            }
+
+            @Override
+            public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+                CodeEntity newCodeEntity = newCodeList.get(newItemPosition);
+                CodeEntity oldCodeEntity = codeList.get(oldItemPosition);
+
+                return newCodeEntity.getId().equals(oldCodeEntity.getId()) &&
+                        Objects.equals(newCodeEntity.getCodeType(), oldCodeEntity.getCodeType()) &&
+                        Objects.equals(newCodeEntity.getIdentifier(), oldCodeEntity.getIdentifier()) &&
+                        Objects.equals(newCodeEntity.getOwner(), oldCodeEntity.getOwner()) &&
+                        Objects.equals(newCodeEntity.getName(), oldCodeEntity.getName()) &&
+                        Objects.equals(newCodeEntity.getPasscode(), oldCodeEntity.getPasscode()) &&
+                        newCodeEntity.getCreateTime().getMillis() == oldCodeEntity.getCreateTime().getMillis() &&
+                        newCodeEntity.getUpdateTime().getMillis() == oldCodeEntity.getUpdateTime().getMillis();
+            }
+        });
+        codeList = newCodeList;
+        result.dispatchUpdatesTo(this);
+
 //        notifyDataSetChanged();
     }
 
