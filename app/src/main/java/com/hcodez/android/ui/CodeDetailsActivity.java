@@ -11,6 +11,7 @@ import androidx.lifecycle.LiveData;
 import com.hcodez.android.HcodezApp;
 import com.hcodez.android.R;
 import com.hcodez.android.services.CodeService;
+import com.hcodez.android.services.contentopener.ContentOpener;
 import com.hcodez.android.viewmodel.CodeViewModel;
 
 public class CodeDetailsActivity extends MainMenuActivity{
@@ -20,6 +21,7 @@ public class CodeDetailsActivity extends MainMenuActivity{
     private TextView mCodeStringValue;
     private TextView mCodeNameTextView;
     private Button   mDeleteCodeButton;
+    private Button   mOpenContentButton;
 
     private CodeService codeService;
 
@@ -63,8 +65,7 @@ public class CodeDetailsActivity extends MainMenuActivity{
         mDeleteCodeButton = findViewById(R.id.delete_code_button);
         mCodeStringValue = findViewById(R.id.show_code_identifier_text_view);
         mCodeNameTextView = findViewById(R.id.show_code_name_text_view);
-
-        mDeleteCodeButton.setOnClickListener(deleteButtonOnClickListener);
+        mOpenContentButton = findViewById(R.id.open_content_button);
 
         codeService = CodeService.getInstance(new HcodezApp());
 
@@ -96,5 +97,19 @@ public class CodeDetailsActivity extends MainMenuActivity{
             mCodeNameTextView.setText(codeEntity.getName());
             mCodeStringValue.setText(codeEntity.toString());
         });
+
+        mDeleteCodeButton.setOnClickListener(deleteButtonOnClickListener);
+        mOpenContentButton.setOnClickListener(v ->
+                codeViewModel.getObservableContent().observe(CodeDetailsActivity.this, contentEntity -> {
+                    if (contentEntity == null) {
+                        Log.d(TAG, "openContentOnClick: null content entity");
+                        return;
+                    }
+                    if (contentEntity.getResourceURI() == null) {
+                        Log.d(TAG, "openContentOnClick: null resource uri");
+                        return;
+                    }
+                    startActivity(ContentOpener.get(contentEntity.getResourceURI()).getIntent());
+        }));
     }
 }
