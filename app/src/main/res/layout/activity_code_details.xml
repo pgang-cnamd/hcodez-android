@@ -1,32 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_corners"
     android:padding="16dp">
 
-    <TextView
-        android:autoSizeTextType="uniform"
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:text="@string/this_is_your_code"
-        android:textAlignment="center"
-        android:textSize="36sp" />
-
     <Button
-        android:id="@+id/button"
+        android:id="@+id/open_content_button"
         android:layout_width="match_parent"
         android:layout_height="135dp"
-        android:layout_below="@id/textView"
+        android:layout_below="@id/show_code_identifier_text_view"
         android:layout_marginBottom="16dp"
         android:background="@drawable/button_design"
         android:text="@string/open" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/delete_code_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/button"
+        android:layout_below="@id/open_content_button"
         android:background="@drawable/button_design_delete"
         android:text="@string/delete" />
+
+    <TextView
+        android:layout_below="@id/show_code_name_text_view"
+        android:id="@+id/show_code_identifier_text_view"
+        android:layout_width="250dp"
+        android:layout_height="75dp"
+        android:autoSizeTextType="uniform"
+        android:text="CodeIdentifier"
+        android:textAlignment="textStart"
+        android:textSize="36sp" />
+
+    <TextView
+        android:autoSizeTextType="uniform"
+        android:textAlignment="textStart"
+        android:id="@+id/show_code_name_text_view"
+        android:layout_width="250dp"
+        android:layout_height="75dp"
+        android:text="TextView" />
 </RelativeLayout>
