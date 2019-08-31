@@ -135,7 +135,7 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
 
         public void bind(CodeEntity codeEntity) {
             entity = codeEntity;
-            itemName.setText(entity.toString());
+            itemName.setText(entity.getName().toString());
             itemPublicStatus.setText(entity.getCodeType() != null ?
                     entity.getCodeType() != CodeType.PRIVATE ?
                             "Public" : "Private"
