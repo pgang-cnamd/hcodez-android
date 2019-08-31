@@ -3,7 +3,6 @@ package com.hcodez.android.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -17,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hcodez.android.HcodezApp;
 import com.hcodez.android.R;
-import com.hcodez.android.db.entity.CodeEntity;
 import com.hcodez.android.ui.adapter.CodeAdapter;
 import com.hcodez.android.ui.callback.CodeClickCallback;
 import com.hcodez.android.viewmodel.CodeListViewModel;
@@ -43,11 +41,10 @@ public class MainMenuActivity extends AppCompatActivity implements Serializable{
     private CodeClickCallback codeClickCallback = codeEntity -> {
         Log.d(TAG, "codeClickCallback.onClick() called with: codeEntity = [" + codeEntity + "]");
         Intent intent = new Intent(getApplicationContext(), CodeDetailsActivity.class);
-        Object object = codeEntity;
 
         Bundle bundle = new Bundle();
-        bundle.putString("codeItem", codeEntity.toString());
-        bundle.putSerializable("entity", (Serializable) object);
+        bundle.putInt("code_id", codeEntity.getId());
+        bundle.putInt("content_id", codeEntity.getContentId());
 
         intent.putExtras(bundle);
 
