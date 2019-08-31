@@ -20,8 +20,6 @@ import com.hcodez.codeengine.model.CodeType;
 
 import org.joda.time.Instant;
 
-import java.net.URI;
-
 public class AddCodeActivity extends MainMenuActivity {
 
     private static final String TAG = "AddCodeActivity";
