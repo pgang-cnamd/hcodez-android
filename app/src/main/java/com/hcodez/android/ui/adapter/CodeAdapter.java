@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hcodez.android.R;
 import com.hcodez.android.db.entity.CodeEntity;
 import com.hcodez.android.ui.callback.CodeClickCallback;
+import com.hcodez.codeengine.model.CodeType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +88,7 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
     @NonNull
     @Override
     public CodeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_codes, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_code_list, parent, false);
         return new CodeViewHolder(view, mCodeClickCallback);
     }
 
@@ -111,21 +112,33 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
      */
     static class CodeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView          mTextView;
+        private TextView          itemName;
+        private TextView          itemPublicStatus;
+        private TextView          itemPasscodeProtected;
         private CodeClickCallback callback;
         private CodeEntity        entity;
 
         public CodeViewHolder(@NonNull View itemView, CodeClickCallback callback) {
             super(itemView);
 
-            mTextView = itemView.findViewById(R.id.list_item);
+            itemName = itemView.findViewById(R.id.code_list_item_name);
+            itemPublicStatus = itemView.findViewById(R.id.code_list_item_public_status);
+            itemPasscodeProtected = itemView.findViewById(R.id.code_list_item_passcode_protected);
 
             this.callback = callback;
         }
 
         public void bind(CodeEntity codeEntity) {
             entity = codeEntity;
-            mTextView.setText(entity.toString());
+            itemName.setText(entity.toString());
+            itemPublicStatus.setText(entity.getCodeType() != null ?
+                    entity.getCodeType() != CodeType.PRIVATE ?
+                            "Public" : "Private"
+                    : "?");
+            itemPasscodeProtected.setText(entity.getPasscode() != null ?
+                    entity.getPasscode().length() > 0 ?
+                            "Has passcode" : "No passcode"
+                    : "No passcode");
         }
 
         @Override

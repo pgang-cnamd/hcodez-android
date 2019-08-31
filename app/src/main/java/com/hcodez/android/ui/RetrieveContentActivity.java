@@ -14,7 +14,7 @@ public class RetrieveContentActivity extends MainMenuActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_content_retrieval_pop_up);
+        setContentView(R.layout.activity_retrieve_content);
 
         Bundle bundle = getIntent().getExtras();
         mCodeItem     = bundle != null ? bundle.getString("codeItem") : null;

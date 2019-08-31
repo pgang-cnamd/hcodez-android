@@ -11,7 +11,7 @@
         android:layout_below="@id/loginName"
         android:layout_marginBottom="128dp"
         android:ems="10"
-        android:hint="@string/password"
+        android:hint="@string/add_code_password_hint"
         android:inputType="textPassword"
         android:scrollbarThumbHorizontal="@android:color/darker_gray"
         android:scrollbarThumbVertical="@android:color/darker_gray"

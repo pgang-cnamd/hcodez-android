@@ -110,7 +110,7 @@ public class AddCodeActivity extends MainMenuActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_code_add_pop_up);
+        setContentView(R.layout.activity_add_code);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -120,10 +120,10 @@ public class AddCodeActivity extends MainMenuActivity {
 
         getWindow().setLayout((int) (width * .8), (int) (height * .6));
 
-        mCodeNameEditText = findViewById(R.id.codeName);
-        mSwitch = findViewById(R.id.codeSwitch);
-        mPasscodeEditText = findViewById(R.id.codePassword);
-        mSaveButton = findViewById(R.id.codeSave);
+        mCodeNameEditText = findViewById(R.id.add_code_name_edit_text);
+        mSwitch = findViewById(R.id.add_code_public_flag_switch);
+        mPasscodeEditText = findViewById(R.id.add_code_password_edit_text);
+        mSaveButton = findViewById(R.id.add_code_save_button);
 
         mSaveButton.setOnClickListener(saveButtonOnClickListener);
 
