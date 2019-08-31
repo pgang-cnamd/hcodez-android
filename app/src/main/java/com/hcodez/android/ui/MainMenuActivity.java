@@ -22,7 +22,7 @@ import com.hcodez.android.viewmodel.CodeListViewModel;
 
 import java.io.Serializable;
 
-public class MainMenuActivity extends AppCompatActivity implements Serializable{
+public class MainMenuActivity extends AppCompatActivity {
 
     private static final String TAG = "MainMenuActivity";
 
