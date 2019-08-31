@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.hcodez.android.R;
 
-public class RetrieveContentActivity extends MainMenuActivity{
+public class CodeDetailsActivity extends MainMenuActivity{
 
     private TextView  mTextView;
     private String    mCodeItem;
@@ -14,7 +14,7 @@ public class RetrieveContentActivity extends MainMenuActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_retrieve_content);
+        setContentView(R.layout.activity_code_details);
 
         Bundle bundle = getIntent().getExtras();
         mCodeItem     = bundle != null ? bundle.getString("codeItem") : null;

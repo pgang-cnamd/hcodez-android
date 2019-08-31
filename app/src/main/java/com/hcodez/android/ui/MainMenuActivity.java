@@ -38,7 +38,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private CodeClickCallback codeClickCallback = codeEntity -> {
         Log.d(TAG, "codeClickCallback.onClick() called with: codeEntity = [" + codeEntity + "]");
-        Intent intent = new Intent(getApplicationContext(), RetrieveContentActivity.class);
+        Intent intent = new Intent(getApplicationContext(), CodeDetailsActivity.class);
 
         Bundle bundle = new Bundle();
         bundle.putString("codeItem", codeEntity.toString());
