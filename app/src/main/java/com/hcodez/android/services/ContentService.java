@@ -28,16 +28,18 @@ public class ContentService implements DatabaseService<ContentEntity> {
 
 
     private ContentService(HcodezApp application) {
+        Log.d(TAG, "ContentService() called with: application = [" + application + "]");
         database = application.getDatabase();
     }
 
 
     public static ContentService getInstance(HcodezApp application) {
+        Log.d(TAG, "getInstance() called with: application = [" + application + "]");
         if (sInstance == null) {
             synchronized (ContentService.class) {
                 if (sInstance == null) {
                     sInstance = new ContentService(application);
-                    Log.d(TAG, "getInstance: created ContentEntity instance");
+                    Log.i(TAG, "getInstance: created ContentEntity instance");
                 }
             }
         }
@@ -64,7 +66,7 @@ public class ContentService implements DatabaseService<ContentEntity> {
 
         long id = database.contentDao().insert(entity);
         final ContentEntity contentEntity = database.contentDao().loadContentSync((int) id);
-        Log.d(TAG, "addNewSync: content entity successfully saved in the database with id " + id);
+        Log.i(TAG, "addNewSync: content entity successfully saved in the database with id " + id);
 
         return contentEntity;
     }

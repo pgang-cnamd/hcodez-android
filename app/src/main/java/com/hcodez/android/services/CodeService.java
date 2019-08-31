@@ -35,17 +35,19 @@ public class CodeService implements DatabaseService<CodeEntity> {
 
 
     private CodeService(HcodezApp application) {
+        Log.d(TAG, "CodeService() called with: application = [" + application + "]");
         contentService = ContentService.getInstance(application);
         database = application.getDatabase();
     }
 
 
     public static CodeService getInstance(HcodezApp application) {
+        Log.d(TAG, "getInstance() called with: application = [" + application + "]");
         if (sInstance == null) {
             synchronized (CodeService.class) {
                 if (sInstance == null) {
                     sInstance = new CodeService(application);
-                    Log.d(TAG, "getInstance: created CodeService instance");
+                    Log.i(TAG, "getInstance: created CodeService instance");
                 }
             }
         }
@@ -105,7 +107,7 @@ public class CodeService implements DatabaseService<CodeEntity> {
 
         long id = database.codeDao().insert(entity);
         final CodeEntity codeEntity = database.codeDao().loadCodeSync((int) id);
-        Log.d(TAG, "addNewSync: code entity successfully saved in the database with id " + id);
+        Log.i(TAG, "addNewSync: code entity successfully saved in the database with id " + id);
 
         return codeEntity;
     }
