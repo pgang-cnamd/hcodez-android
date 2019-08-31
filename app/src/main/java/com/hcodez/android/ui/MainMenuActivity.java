@@ -20,8 +20,6 @@ import com.hcodez.android.ui.adapter.CodeAdapter;
 import com.hcodez.android.ui.callback.CodeClickCallback;
 import com.hcodez.android.viewmodel.CodeListViewModel;
 
-import java.io.Serializable;
-
 public class MainMenuActivity extends AppCompatActivity {
 
     private static final String TAG = "MainMenuActivity";
