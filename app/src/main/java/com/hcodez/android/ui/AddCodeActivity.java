@@ -65,11 +65,6 @@ public class AddCodeActivity extends MainMenuActivity {
             Log.d(TAG, "onClick: filtered out bas usage");
 
             /*
-              Hardcoded variables
-             */
-            String hardcodedOwner = "Mirel";
-
-            /*
               Build the content
              */
             final ContentEntity contentEntity = ContentEntity.builder()
@@ -93,7 +88,8 @@ public class AddCodeActivity extends MainMenuActivity {
                     .createTime(Instant.now())
                     .updateTime(Instant.now())
                     .name(mCodeNameEditText.getText().toString())
-                    .owner(hardcodedOwner)
+                    .owner(getSharedPreferences("login_prefs", MODE_PRIVATE)
+                            .getString("owner", null))
                     .build();
 
             Log.d(TAG, "onClick: built entities");
