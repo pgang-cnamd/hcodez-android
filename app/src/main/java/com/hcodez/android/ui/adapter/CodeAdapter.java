@@ -1,5 +1,6 @@
 package com.hcodez.android.ui.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,8 @@ import java.util.Objects;
 
 public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder> {
 
+    private static final String TAG = "CodeAdapter";
+
     /**
      * The adapter's item list
      */
@@ -33,6 +36,7 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
 
 
     public CodeAdapter(@Nullable CodeClickCallback codeClickCallback) {
+        Log.d(TAG, "CodeAdapter() called with: codeClickCallback = [" + codeClickCallback + "]");
         setHasStableIds(true);
         mCodeClickCallback = codeClickCallback;
     }
@@ -42,15 +46,20 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
      * @param newCodeList the new newCodeList to use
      */
     public void updateList(List<CodeEntity> newCodeList) {
-        if (newCodeList == null)
+        Log.d(TAG, "updateList() called with: newCodeList = [" + newCodeList + "]");
+        if (newCodeList == null) {
+            Log.d(TAG, "updateList: null new code list");
             return;
+        }
 
         if (codeList == null) {
+            Log.d(TAG, "updateList: null old code list");
             codeList = newCodeList;
             notifyItemRangeInserted(0, codeList.size());
             return;
         }
 
+        Log.d(TAG, "updateList: calculating differences between new code list and old code list");
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
             @Override
             public int getOldListSize() {
@@ -85,37 +94,42 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
         });
         codeList = newCodeList;
         result.dispatchUpdatesTo(this);
-
-//        notifyDataSetChanged();
+        Log.d(TAG, "updateList: dispatches updates to adapter");
     }
 
 
     @NonNull
     @Override
     public CodeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d(TAG, "onCreateViewHolder() called with: parent = [" + parent + "], viewType = [" + viewType + "]");
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_code_list, parent, false);
         return new CodeViewHolder(view, mCodeClickCallback);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CodeViewHolder holder, int position) {
+        Log.d(TAG, "onBindViewHolder() called with: holder = [" + holder + "], position = [" + position + "]");
         holder.bind(codeList.get(position));
     }
 
     @Override
     public int getItemCount() {
+        Log.d(TAG, "getItemCount() called");
         return codeList != null ? codeList.size() : 0;
     }
 
     @Override
     public long getItemId(int position) {
-        return codeList.get(0).getId();
+        Log.d(TAG, "getItemId() called with: position = [" + position + "]");
+        return codeList.get(position).getId();
     }
 
     /**
      * ViewHolder for a CodeEntity
      */
     static class CodeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        private static final String TAG = "CodeViewHolder";
 
         private TextView          itemName;
         private TextView          itemPublicStatus;
@@ -125,6 +139,7 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
 
         public CodeViewHolder(@NonNull View itemView, CodeClickCallback callback) {
             super(itemView);
+            Log.d(TAG, "CodeViewHolder() called with: itemView = [" + itemView + "], callback = [" + callback + "]");
 
             itemName = itemView.findViewById(R.id.code_list_item_name);
             itemPublicStatus = itemView.findViewById(R.id.code_list_item_public_status);
@@ -134,6 +149,7 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
         }
 
         public void bind(CodeEntity codeEntity) {
+            Log.d(TAG, "bind() called with: codeEntity = [" + codeEntity + "]");
             entity = codeEntity;
             itemName.setText(entity.toString());
             itemPublicStatus.setText(entity.getCodeType() != null ?
@@ -148,6 +164,7 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
 
         @Override
         public void onClick(View view) {
+            Log.d(TAG, "onClick() called with: view = [" + view + "]");
             callback.onClick(entity);
         }
     }
