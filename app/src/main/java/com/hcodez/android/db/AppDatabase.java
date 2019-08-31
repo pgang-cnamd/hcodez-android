@@ -1,6 +1,7 @@
 package com.hcodez.android.db;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.hcodez.android.AppExecutors;
 import com.hcodez.android.db.converter.CodeTypeConverter;
@@ -37,6 +38,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
         URIConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
+    private static final String TAG = "AppDatabase";
+
     /**
      * Static database instance.
      */
@@ -58,11 +61,13 @@ public abstract class AppDatabase extends RoomDatabase {
 
 
     public static AppDatabase getInstance(final Context context, final AppExecutors executors) {
+        Log.d(TAG, "getInstance() called with: context = [" + context + "], executors = [" + executors + "]");
         if (appDatabaseInstance == null) {
             synchronized (AppDatabase.class) {
                 if (appDatabaseInstance == null) {
                     appDatabaseInstance = buildDatabase(context.getApplicationContext(), executors);
                     appDatabaseInstance.updateDatabaseCreated(context.getApplicationContext());
+                    Log.i(TAG, "getInstance: created AppDatabase instance");
                 }
             }
         }
@@ -76,6 +81,7 @@ public abstract class AppDatabase extends RoomDatabase {
      */
     private static AppDatabase buildDatabase(final Context appContext,
                                              final AppExecutors executors) {
+        Log.d(TAG, "buildDatabase() called with: appContext = [" + appContext + "], executors = [" + executors + "]");
         return Room.databaseBuilder(appContext, AppDatabase.class, DATABASE_NAME)
                 .addCallback(new Callback() {
                     @Override
@@ -105,18 +111,21 @@ public abstract class AppDatabase extends RoomDatabase {
      * Check whether the database already exists and expose it via {@link #getDatabaseCreated()}
      */
     private void updateDatabaseCreated(final Context context) {
+        Log.d(TAG, "updateDatabaseCreated() called with: context = [" + context + "]");
         if (context.getDatabasePath(DATABASE_NAME).exists()) {
             setDatabaseCreated();
         }
     }
 
-    private void setDatabaseCreated(){
+    private void setDatabaseCreated() {
+        Log.d(TAG, "setDatabaseCreated() called");
         mIsDatabaseCreated.postValue(true);
     }
 
     private static void insertData(final AppDatabase database,
                                    final List<CodeEntity> codes,
                                    final List<ContentEntity> content) {
+        Log.d(TAG, "insertData() called with: database = [" + database + "], codes = [" + codes + "], content = [" + content + "]");
         database.runInTransaction(() -> {
             database.codeDao().insertAll(codes);
             database.contentDao().insertAll(content);
@@ -124,6 +133,7 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     private static void addDelay() {
+        Log.d(TAG, "addDelay() called");
         try {
             Thread.sleep(4000);
         } catch (InterruptedException ignored) {
@@ -131,6 +141,7 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public LiveData<Boolean> getDatabaseCreated() {
+        Log.d(TAG, "getDatabaseCreated() called");
         return mIsDatabaseCreated;
     }
 }
