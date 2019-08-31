@@ -1,5 +1,7 @@
 package com.hcodez.android.db.entity;
 
+import android.util.Log;
+
 import com.hcodez.codeengine.model.Code;
 import com.hcodez.codeengine.model.CodeType;
 import com.hcodez.codeengine.model.MutableCode;
@@ -30,6 +32,8 @@ import lombok.NoArgsConstructor;
                 onDelete = ForeignKey.CASCADE
         ))
 public class CodeEntity implements Code {
+
+    private static final String TAG = "CodeEntity";
 
     @PrimaryKey
     private Integer id;
@@ -67,6 +71,7 @@ public class CodeEntity implements Code {
      * @return the Code model built
      */
     public Code toCodeInterface() {
+        Log.d(TAG, "toCodeInterface() called");
         return MutableCode.builder()
                 .identifier(this.getIdentifier())
                 .owner(this.getOwner())
@@ -81,6 +86,7 @@ public class CodeEntity implements Code {
      * @return the CodeEntity built
      */
     public static CodeEntity fromCodeInterface(final Code codeInterface) {
+        Log.d(TAG, "fromCodeInterface() called with: codeInterface = [" + codeInterface + "]");
         return CodeEntity.builder()
                 .identifier(codeInterface.getIdentifier())
                 .owner(codeInterface.getOwner())
@@ -91,6 +97,7 @@ public class CodeEntity implements Code {
 
     @Override
     public String toString() {
+        Log.d(TAG, "toString() called");
         return Code.string(this);
     }
 }
