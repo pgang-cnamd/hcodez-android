@@ -12,25 +12,44 @@ import androidx.lifecycle.ViewModelProvider;
 import com.hcodez.android.DataRepository;
 import com.hcodez.android.HcodezApp;
 import com.hcodez.android.db.entity.CodeEntity;
+import com.hcodez.android.db.entity.ContentEntity;
 
 public class CodeViewModel extends AndroidViewModel {
 
+    /**
+     * Code entity stuff
+     */
     private final LiveData<CodeEntity> mObservableCodeEntity;
-
-    public ObservableField<CodeEntity> code = new ObservableField<>();
-
     private final int mCodeId;
 
-    public CodeViewModel(@NonNull Application application, DataRepository repository,
-                         final int productId) {
+    /**
+     * Content entity stuff
+     */
+    private final LiveData<ContentEntity> mObservableContentEntity;
+    private final int mContentId;
+
+    // what does this do?
+    public ObservableField<CodeEntity> code = new ObservableField<>();
+
+
+    public CodeViewModel(@NonNull Application application,
+                         DataRepository repository,
+                         final int codeId,
+                         final int contentId) {
         super(application);
-        mCodeId = productId;
+        mCodeId = codeId;
+        mContentId = contentId;
 
         mObservableCodeEntity = repository.loadCode(mCodeId);
+        mObservableContentEntity = repository.loadContent(mContentId);
     }
 
     public LiveData<CodeEntity> getObservableCode() {
         return mObservableCodeEntity;
+    }
+
+    public LiveData<ContentEntity> getObservableContent() {
+        return mObservableContentEntity;
     }
 
     public void setCode(CodeEntity code) {
@@ -50,11 +69,14 @@ public class CodeViewModel extends AndroidViewModel {
 
         private final int mCodeId;
 
+        private final int mContentId;
+
         private final DataRepository mRepository;
 
-        public Factory(@NonNull Application application, int productId) {
+        public Factory(@NonNull Application application, int codeId, int contentId) {
             mApplication = application;
-            mCodeId = productId;
+            mCodeId = codeId;
+            mContentId = contentId;
             mRepository = ((HcodezApp) application).getRepository();
         }
 
@@ -62,7 +84,7 @@ public class CodeViewModel extends AndroidViewModel {
         @Override
         public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new CodeViewModel(mApplication, mRepository, mCodeId);
+            return (T) new CodeViewModel(mApplication, mRepository, mCodeId, mContentId);
         }
     }
 }
