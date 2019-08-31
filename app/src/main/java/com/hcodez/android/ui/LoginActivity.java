@@ -88,7 +88,7 @@ public class LoginActivity extends MainMenuActivity {
      * Checks whether it should skip over the login activity(if the user is already logged in
      */
     private void skip() {
-        if (getPreferences(MODE_PRIVATE).getBoolean("logged_in", false)) {
+        if (getSharedPreferences("login_prefs", MODE_PRIVATE).getBoolean("logged_in", false)) {
             startMainMenuActivity();
         }
     }
