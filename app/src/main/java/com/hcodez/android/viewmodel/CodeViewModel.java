@@ -1,6 +1,7 @@
 package com.hcodez.android.viewmodel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
@@ -15,6 +16,8 @@ import com.hcodez.android.db.entity.CodeEntity;
 import com.hcodez.android.db.entity.ContentEntity;
 
 public class CodeViewModel extends AndroidViewModel {
+
+    private static final String TAG = "CodeViewModel";
 
     /**
      * Code entity stuff
@@ -37,6 +40,7 @@ public class CodeViewModel extends AndroidViewModel {
                          final int codeId,
                          final int contentId) {
         super(application);
+        Log.d(TAG, "CodeViewModel() called with: application = [" + application + "], repository = [" + repository + "], codeId = [" + codeId + "], contentId = [" + contentId + "]");
         mCodeId = codeId;
         mContentId = contentId;
 
@@ -45,14 +49,17 @@ public class CodeViewModel extends AndroidViewModel {
     }
 
     public LiveData<CodeEntity> getObservableCode() {
+        Log.d(TAG, "getObservableCode() called");
         return mObservableCodeEntity;
     }
 
     public LiveData<ContentEntity> getObservableContent() {
+        Log.d(TAG, "getObservableContent() called");
         return mObservableContentEntity;
     }
 
     public void setCode(CodeEntity code) {
+        Log.d(TAG, "setCode() called with: code = [" + code + "]");
         this.code.set(code);
     }
 
@@ -64,6 +71,8 @@ public class CodeViewModel extends AndroidViewModel {
      */
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
 
+        private static final String TAG = "CodeViewModelFactory";
+
         @NonNull
         private final Application mApplication;
 
@@ -74,6 +83,7 @@ public class CodeViewModel extends AndroidViewModel {
         private final DataRepository mRepository;
 
         public Factory(@NonNull Application application, int codeId, int contentId) {
+            Log.d(TAG, "Factory() called with: application = [" + application + "], codeId = [" + codeId + "], contentId = [" + contentId + "]");
             mApplication = application;
             mCodeId = codeId;
             mContentId = contentId;
@@ -83,6 +93,7 @@ public class CodeViewModel extends AndroidViewModel {
         @NonNull
         @Override
         public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+            Log.d(TAG, "create() called with: modelClass = [" + modelClass + "]");
             //noinspection unchecked
             return (T) new CodeViewModel(mApplication, mRepository, mCodeId, mContentId);
         }

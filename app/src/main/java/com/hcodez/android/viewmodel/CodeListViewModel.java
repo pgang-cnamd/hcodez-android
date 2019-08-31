@@ -1,6 +1,7 @@
 package com.hcodez.android.viewmodel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -15,6 +16,8 @@ import java.util.List;
 
 public class CodeListViewModel extends AndroidViewModel {
 
+    private static final String TAG = "CodeListViewModel";
+
     private final DataRepository mRepository;
 
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
@@ -22,6 +25,7 @@ public class CodeListViewModel extends AndroidViewModel {
 
     public CodeListViewModel(@NonNull Application application) {
         super(application);
+        Log.d(TAG, "CodeListViewModel() called with: application = [" + application + "]");
 
         this.mObservableCodes = new MediatorLiveData<>();
         // set by default null, until we get data from the database.
@@ -38,6 +42,7 @@ public class CodeListViewModel extends AndroidViewModel {
      * Expose the LiveData Products query so the UI can observe it.
      */
     public LiveData<List<CodeEntity>> getCodes() {
+        Log.d(TAG, "getCodes() called");
         return this.mObservableCodes;
     }
 
@@ -47,6 +52,7 @@ public class CodeListViewModel extends AndroidViewModel {
      * @return live data list of codes
      */
     public LiveData<List<CodeEntity>> searchCodes(String query) {
+        Log.d(TAG, "searchCodes() called with: query = [" + query + "]");
         return mRepository.searchCodes(query);
     }
 }
