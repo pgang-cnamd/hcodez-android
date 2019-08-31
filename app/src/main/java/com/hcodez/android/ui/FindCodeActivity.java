@@ -6,7 +6,7 @@ import android.util.DisplayMetrics;
 
 import com.hcodez.android.R;
 
-public class CodeFindActivity extends Activity {
+public class FindCodeActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

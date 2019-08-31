@@ -19,12 +19,12 @@
 
         <activity android:name=".ui.LoginActivity" />
 
-        <activity android:name=".ui.CodeAddActivity"
+        <activity android:name=".ui.AddCodeActivity"
             android:theme="@style/AppTheme.CustomTheme"
             >
         </activity>
 
-        <activity android:name=".ui.CodeFindActivity"
+        <activity android:name=".ui.FindCodeActivity"
             android:theme="@style/AppTheme.CustomTheme"
             >
         </activity>
@@ -32,7 +32,7 @@
         <activity android:name=".ui.MainMenuActivity">
         </activity>
 
-        <activity android:name=".ui.ContentRetrievalActivity"
+        <activity android:name=".ui.RetrieveContentActivity"
             android:theme="@style/AppTheme.CustomTheme"/>
 
     </application>

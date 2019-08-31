@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -21,7 +20,6 @@ import com.hcodez.android.ui.adapter.CodeAdapter;
 import com.hcodez.android.viewmodel.CodeListViewModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainMenuActivity extends AppCompatActivity implements CodeAdapter.OnNoteListener {
 
@@ -46,9 +44,9 @@ public class MainMenuActivity extends AppCompatActivity implements CodeAdapter.O
 
         createAdapter();
 
-        mAddCodeFloatingActionButton.setOnClickListener(view -> startActivity(new Intent(MainMenuActivity.this, CodeAddActivity.class)));
+        mAddCodeFloatingActionButton.setOnClickListener(view -> startActivity(new Intent(MainMenuActivity.this, AddCodeActivity.class)));
 
-        mFindCodeFloatingActionButton.setOnClickListener(view -> startActivity(new Intent(MainMenuActivity.this, CodeFindActivity.class)));
+        mFindCodeFloatingActionButton.setOnClickListener(view -> startActivity(new Intent(MainMenuActivity.this, FindCodeActivity.class)));
 
         mCodeSearchView.setOnClickListener(view -> mCodeSearchView.setIconified(false));
     }
@@ -86,7 +84,7 @@ public class MainMenuActivity extends AppCompatActivity implements CodeAdapter.O
     public void onNoteClick(int position) {
         CodeEntity codeEntity = mCodeItems.get(position);
 
-        Intent intent = new Intent(this, ContentRetrievalActivity.class);
+        Intent intent = new Intent(this, RetrieveContentActivity.class);
 
         Bundle bundle = new Bundle();
         bundle.putString("codeItem", codeEntity.toString());

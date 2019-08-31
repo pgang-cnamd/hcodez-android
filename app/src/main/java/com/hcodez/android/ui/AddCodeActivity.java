@@ -22,7 +22,7 @@ import org.joda.time.Instant;
 
 import java.net.URI;
 
-public class CodeAddActivity extends MainMenuActivity {
+public class AddCodeActivity extends MainMenuActivity {
 
     private EditText        mCodeNameEditText;
     private Switch          mSwitch;
@@ -94,7 +94,7 @@ public class CodeAddActivity extends MainMenuActivity {
             Log.d(TAG, "onClick: built entities");
 
             LiveData<CodeEntity> codeEntityLiveData = codeService.addNew(codeEntity, contentEntity);
-            codeEntityLiveData.observe(CodeAddActivity.this, observedCodeEntity -> {
+            codeEntityLiveData.observe(AddCodeActivity.this, observedCodeEntity -> {
                 Log.d(TAG, "onClick: code entity change observed");
                 if (observedCodeEntity.getId() == null) {
                     Log.d(TAG, "onClick: encountered an error when saving the code");

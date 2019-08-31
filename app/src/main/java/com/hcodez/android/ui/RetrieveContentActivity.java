@@ -4,16 +4,9 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProviders;
-
 import com.hcodez.android.R;
-import com.hcodez.android.ui.adapter.CodeAdapter;
-import com.hcodez.android.viewmodel.CodeListViewModel;
 
-import java.util.ArrayList;
-
-public class ContentRetrievalActivity extends MainMenuActivity{
+public class RetrieveContentActivity extends MainMenuActivity{
 
     private TextView  mTextView;
     private String    mCodeItem;
@@ -24,7 +17,7 @@ public class ContentRetrievalActivity extends MainMenuActivity{
         setContentView(R.layout.activity_content_retrieval_pop_up);
 
         Bundle bundle = getIntent().getExtras();
-        mCodeItem     = bundle.getString("codeItem");
+        mCodeItem     = bundle != null ? bundle.getString("codeItem") : null;
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -33,7 +26,7 @@ public class ContentRetrievalActivity extends MainMenuActivity{
         int height = dm.heightPixels;
 
         mTextView = findViewById(R.id.textView);
-        mTextView.setText(mCodeItem);
+        mTextView.setText(mCodeItem != null ? mCodeItem : "empty");
 
         getWindow().setLayout((int) (width * .8), (int) (height * .4));
     }
