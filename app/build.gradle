@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.hcodez.android"
-        minSdkVersion 22
+        minSdkVersion 24
         targetSdkVersion 28
         versionCode 2
         versionName "1.0.0"
