@@ -1,5 +1,6 @@
 package com.hcodez.android.services;
 
+import android.content.Intent;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -8,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.hcodez.android.HcodezApp;
 import com.hcodez.android.db.AppDatabase;
 import com.hcodez.android.db.entity.ContentEntity;
+import com.hcodez.android.services.contentopener.ContentOpener;
 
 /**
  * DatabaseService that handles content operations
@@ -79,5 +81,18 @@ public class ContentService implements DatabaseService<ContentEntity> {
     @Override
     public Boolean deleteSync(ContentEntity entity) {
         return null;
+    }
+
+    public Intent open(ContentEntity entity) {
+        Log.d(TAG, "open() called with: entity = [" + entity + "]");
+        if (entity == null) {
+            Log.d(TAG, "open: null content entity");
+            return null;
+        }
+        if (entity.getResourceURI() == null) {
+            Log.d(TAG, "open: null resource URI");
+            return null;
+        }
+        return ContentOpener.get(entity.getResourceURI()).getIntent();
     }
 }

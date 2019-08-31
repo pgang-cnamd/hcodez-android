@@ -1,29 +1,22 @@
 package com.hcodez.android.db.converter;
 
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.room.TypeConverter;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+public class UriConverter {
 
-public class URIConverter {
-
-    private static final String TAG = "URIConverter";
+    private static final String TAG = "UriConverter";
 
     @TypeConverter
-    public static URI toURI(String uri) {
+    public static Uri toURI(String uri) {
         Log.d(TAG, "toURI() called with: uri = [" + uri + "]");
-        try {
-            return uri == null ? null : new URI(uri);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return uri == null ? null : Uri.parse(uri);
     }
 
     @TypeConverter
-    public static String toString(URI uri) {
+    public static String toString(Uri uri) {
         Log.d(TAG, "toString() called with: uri = [" + uri + "]");
         return uri == null ? null : uri.toString();
     }
