@@ -5,12 +5,13 @@
     android:padding="16dp">
 
     <TextView
-        android:textAlignment="center"
+        android:autoSizeTextType="uniform"
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:text="@string/this_is_your_code"
-        android:textSize="50sp" />
+        android:textAlignment="center"
+        android:textSize="36sp" />
 
     <Button
         android:id="@+id/button"
