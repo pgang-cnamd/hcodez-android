@@ -151,6 +151,7 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
             itemPasscodeFree = itemView.findViewById(R.id.public_without_passcode);
 
             this.callback = callback;
+            itemView.setOnClickListener(this);
         }
 
         public void bind(CodeEntity codeEntity) {
