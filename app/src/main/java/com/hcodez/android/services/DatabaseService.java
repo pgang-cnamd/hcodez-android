@@ -21,4 +21,16 @@ public interface DatabaseService<T> {
      * @return the entity after it received the id
      */
     T addNewSync(final T entity);
+
+    /**
+     * Delete an entity
+     * @param entity the entity
+     */
+    LiveData<Boolean> delete(final T entity);
+
+    /**
+     * Delete an entity(synchronously)
+     * @param entity the entity
+     */
+    Boolean deleteSync(final T entity);
 }

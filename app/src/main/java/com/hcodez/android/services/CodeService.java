@@ -135,4 +135,32 @@ public class CodeService implements DatabaseService<CodeEntity> {
 
         return addNewSync(entity);
     }
+
+    @Override
+    public LiveData<Boolean> delete(final CodeEntity entity) {
+        Log.d(TAG, "delete() called with: entity = [" + entity + "]");
+
+        final MutableLiveData<Boolean> liveData = new MutableLiveData<>();
+
+        new Thread(() -> liveData.postValue(deleteSync(entity))).start();
+
+        return liveData;
+    }
+
+    @Override
+    public Boolean deleteSync(final CodeEntity entity) {
+        Log.d(TAG, "deleteSync() called with: entity = [" + entity + "]");
+
+        Integer id = entity.getId();
+
+        database.codeDao().delete(entity);
+        Log.d(TAG, "deleteSync: completed database delete request, checking it's status..");
+        CodeEntity codeEntity = database.codeDao().loadCodeSync(id);
+        if (codeEntity != null) {
+            Log.d(TAG, "deleteSync: delete operation failed");
+            return false;
+        }
+        Log.d(TAG, "deleteSync: delete operation was successful");
+        return true;
+    }
 }

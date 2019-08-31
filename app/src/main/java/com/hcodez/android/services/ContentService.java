@@ -70,4 +70,14 @@ public class ContentService implements DatabaseService<ContentEntity> {
 
         return contentEntity;
     }
+
+    @Override
+    public LiveData<Boolean> delete(ContentEntity entity) {
+        return null;
+    }
+
+    @Override
+    public Boolean deleteSync(ContentEntity entity) {
+        return null;
+    }
 }
