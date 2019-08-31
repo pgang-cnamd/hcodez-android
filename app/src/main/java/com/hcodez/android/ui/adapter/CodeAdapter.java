@@ -151,7 +151,7 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
         public void bind(CodeEntity codeEntity) {
             Log.d(TAG, "bind() called with: codeEntity = [" + codeEntity + "]");
             entity = codeEntity;
-            itemName.setText(entity.toString());
+            itemName.setText(entity.getName().toString());
             itemPublicStatus.setText(entity.getCodeType() != null ?
                     entity.getCodeType() != CodeType.PRIVATE ?
                             "Public" : "Private"
