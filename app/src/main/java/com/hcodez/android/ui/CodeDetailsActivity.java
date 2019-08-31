@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 
 import com.hcodez.android.HcodezApp;
@@ -14,7 +13,7 @@ import com.hcodez.android.R;
 import com.hcodez.android.services.CodeService;
 import com.hcodez.android.viewmodel.CodeViewModel;
 
-public class CodeDetailsActivity extends MainMenuActivity implements LifecycleOwner {
+public class CodeDetailsActivity extends MainMenuActivity{
 
     private static final String TAG = "CodeDetailsActivity";
 
