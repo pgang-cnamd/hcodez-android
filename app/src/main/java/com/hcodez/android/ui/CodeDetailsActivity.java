@@ -17,8 +17,9 @@ public class CodeDetailsActivity extends MainMenuActivity{
 
     private static final String TAG = "CodeDetailsActivity";
 
-    private TextView  mTextView;
-    private Button    mDeleteCodeButton;
+    private TextView mCodeStringValue;
+    private TextView mCodeNameTextView;
+    private Button   mDeleteCodeButton;
 
     private CodeService codeService;
 
@@ -60,7 +61,8 @@ public class CodeDetailsActivity extends MainMenuActivity{
         setContentView(R.layout.activity_code_details);
 
         mDeleteCodeButton = findViewById(R.id.delete_code_button);
-        mTextView = findViewById(R.id.show_code_identifier_text_view);
+        mCodeStringValue = findViewById(R.id.show_code_identifier_text_view);
+        mCodeNameTextView = findViewById(R.id.show_code_name_text_view);
 
         mDeleteCodeButton.setOnClickListener(deleteButtonOnClickListener);
 
@@ -91,7 +93,8 @@ public class CodeDetailsActivity extends MainMenuActivity{
                 Log.d(TAG, "onCreate: null code entity");
                 return;
             }
-            mTextView.setText(codeEntity.toString());
+            mCodeNameTextView.setText(codeEntity.getName());
+            mCodeStringValue.setText(codeEntity.toString());
         });
     }
 }
