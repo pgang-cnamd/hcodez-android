@@ -134,9 +134,7 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
 
         private TextView          itemName;
         private ImageView         itemPublicStatus;
-        private ImageView         itemPrivateStatus;
         private ImageView         itemPasscodeProtected;
-        private ImageView         itemPasscodeFree;
         private CodeClickCallback callback;
         private CodeEntity        entity;
 
@@ -145,10 +143,8 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
             Log.d(TAG, "CodeViewHolder() called with: itemView = [" + itemView + "], callback = [" + callback + "]");
 
             itemName = itemView.findViewById(R.id.code_list_item_name);
-            itemPublicStatus = itemView.findViewById(R.id.public_code);
-            itemPrivateStatus = itemView.findViewById(R.id.private_code);
-            itemPasscodeProtected = itemView.findViewById(R.id.public_with_passcode);
-            itemPasscodeFree = itemView.findViewById(R.id.public_without_passcode);
+            itemPublicStatus = itemView.findViewById(R.id.code_list_item_public_status);
+            itemPasscodeProtected = itemView.findViewById(R.id.code_list_item_passcode_protected);
 
             this.callback = callback;
             itemView.setOnClickListener(this);
@@ -159,31 +155,18 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
             entity = codeEntity;
             itemName.setText(entity.getName());
 
-            if(entity.getPasscode() != null){
-                if(entity.getPasscode().length() > 0) {
-                    itemPasscodeProtected.setVisibility(View.VISIBLE);
-                    itemPasscodeFree.setVisibility(View.GONE);
-                }else{
-                    itemPasscodeProtected.setVisibility(View.GONE);
-                    itemPasscodeFree.setVisibility(View.VISIBLE);
-                }
-            }else{
-                itemPasscodeProtected.setVisibility(View.GONE);
-                itemPasscodeFree.setVisibility(View.VISIBLE);
-            }
-
-            if(entity.getCodeType() != null){
-                if(entity.getCodeType() != CodeType.PRIVATE) {
-                    itemPublicStatus.setVisibility(View.VISIBLE);
-                    itemPrivateStatus.setVisibility(View.GONE);
-                }else{
-                    itemPublicStatus.setVisibility(View.GONE);
-                    itemPrivateStatus.setVisibility(View.VISIBLE);
-                }
-            }else{
-                itemPublicStatus.setVisibility(View.GONE);
-                itemPrivateStatus.setVisibility(View.GONE);
-            }
+            itemPublicStatus.setImageResource(
+                    codeEntity.getCodeType() != CodeType.PRIVATE ?
+                            R.drawable.public_code
+                            : R.drawable.private_code);
+            itemPasscodeProtected.setImageResource(
+                    codeEntity.getCodeType() != CodeType.PRIVATE ?
+                            codeEntity.getPasscode() != null ?
+                                    codeEntity.getPasscode().length() > 0 ?
+                                            R.drawable.passcode_protected_code
+                                            : R.drawable.no_passcode_protected_code
+                                    : R.drawable.no_passcode_protected_code
+                            : R.drawable.passcode_protected_code);
         }
 
         @Override
