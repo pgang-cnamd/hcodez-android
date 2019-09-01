@@ -86,7 +86,7 @@ public class CodeDetailsActivity extends MainMenuActivity{
         mCodeStringValue = findViewById(R.id.code_details_code_string_text_view);
         mCodeNameTextView = findViewById(R.id.code_details_code_name_text_view);
         mOpenContentButton = findViewById(R.id.code_details_open_content_button);
-        mCopyCodeImageView = findViewById(R.id.copy_code_view);
+        mCopyCodeImageView = findViewById(R.id.code_details_copy_code_button);
 
         codeService = CodeService.getInstance(new HcodezApp());
 

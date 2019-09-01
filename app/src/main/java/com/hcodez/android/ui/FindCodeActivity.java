@@ -75,9 +75,6 @@ public class FindCodeActivity extends AppCompatActivity {
 
             if (code == null) {
                 Log.d(TAG, "handleIncomingText: no code was parsed");
-                runOnUiThread(() -> Toast
-                        .makeText(getApplicationContext(), "No code was found", Toast.LENGTH_LONG)
-                        .show());
                 return;
             }
 
