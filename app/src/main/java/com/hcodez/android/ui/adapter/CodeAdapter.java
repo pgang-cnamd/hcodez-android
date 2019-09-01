@@ -161,6 +161,7 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
             this.clickCallback = clickCallback;
             this.longClickCallback = longClickCallback;
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         public void bind(CodeEntity codeEntity) {
@@ -190,6 +191,7 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
 
         @Override
         public boolean onLongClick(View v) {
+            Log.d(TAG, "onLongClick: ");
             longClickCallback.onLongClick(entity);
             return true;
         }
