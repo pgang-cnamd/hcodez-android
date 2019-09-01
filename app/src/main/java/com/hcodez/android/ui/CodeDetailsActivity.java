@@ -13,7 +13,7 @@ import androidx.lifecycle.LiveData;
 import com.hcodez.android.HcodezApp;
 import com.hcodez.android.R;
 import com.hcodez.android.services.CodeService;
-import com.hcodez.android.services.contentopener.ContentOpener;
+import com.hcodez.android.services.ContentHandler;
 import com.hcodez.android.viewmodel.CodeViewModel;
 
 public class CodeDetailsActivity extends MainMenuActivity{
@@ -111,7 +111,7 @@ public class CodeDetailsActivity extends MainMenuActivity{
                         Log.d(TAG, "openContentOnClick: null resource uri");
                         return;
                     }
-                    startActivity(ContentOpener.get(contentEntity.getResourceURI()).getIntent());
+                    startActivity(ContentHandler.get(contentEntity.getResourceURI()).getIntent());
         }));
     }
 

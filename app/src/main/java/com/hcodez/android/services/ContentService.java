@@ -9,7 +9,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.hcodez.android.HcodezApp;
 import com.hcodez.android.db.AppDatabase;
 import com.hcodez.android.db.entity.ContentEntity;
-import com.hcodez.android.services.contentopener.ContentOpener;
 
 /**
  * DatabaseService that handles content operations
@@ -93,6 +92,6 @@ public class ContentService implements DatabaseService<ContentEntity> {
             Log.d(TAG, "open: null resource URI");
             return null;
         }
-        return ContentOpener.get(entity.getResourceURI()).getIntent();
+        return ContentHandler.get(entity.getResourceURI()).getIntent();
     }
 }
