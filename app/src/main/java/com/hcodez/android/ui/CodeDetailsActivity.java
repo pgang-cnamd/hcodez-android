@@ -3,7 +3,6 @@ package com.hcodez.android.ui;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,8 +17,6 @@ import androidx.lifecycle.LiveData;
 import com.hcodez.android.HcodezApp;
 import com.hcodez.android.R;
 import com.hcodez.android.services.CodeService;
-import com.hcodez.android.services.contentopener.ContentOpener;
-import com.hcodez.android.ui.callback.CodeLongClickCallback;
 import com.hcodez.android.services.ContentHandler;
 import com.hcodez.android.viewmodel.CodeViewModel;
 
