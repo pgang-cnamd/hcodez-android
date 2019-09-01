@@ -1,10 +1,15 @@
 package com.hcodez.android.ui;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 
@@ -12,16 +17,18 @@ import com.hcodez.android.HcodezApp;
 import com.hcodez.android.R;
 import com.hcodez.android.services.CodeService;
 import com.hcodez.android.services.contentopener.ContentOpener;
+import com.hcodez.android.ui.callback.CodeLongClickCallback;
 import com.hcodez.android.viewmodel.CodeViewModel;
 
 public class CodeDetailsActivity extends MainMenuActivity{
 
     private static final String TAG = "CodeDetailsActivity";
 
-    private TextView mCodeStringValue;
-    private TextView mCodeNameTextView;
-    private Button   mDeleteCodeButton;
-    private Button   mOpenContentButton;
+    private TextView  mCodeStringValue;
+    private TextView  mCodeNameTextView;
+    private Button    mDeleteCodeButton;
+    private Button    mOpenContentButton;
+    private ImageView mCopyCodeImageView;
 
     private CodeService codeService;
 
@@ -56,6 +63,19 @@ public class CodeDetailsActivity extends MainMenuActivity{
         }
     };
 
+    private View.OnClickListener codeLongClickCallback = codeEntity -> {
+        Log.d(TAG, "codeLongClickCallback.onLongClick() called with: codeEntity = [" + codeEntity + "]");
+
+        ClipboardManager clipboard = (ClipboardManager)
+                getSystemService(Context.CLIPBOARD_SERVICE);
+
+        ClipData clip = ClipData.newPlainText("code", codeEntity.toString());
+
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText(getApplicationContext(), "Code copied to clipboard", Toast.LENGTH_SHORT).show();
+    };
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +86,7 @@ public class CodeDetailsActivity extends MainMenuActivity{
         mCodeStringValue = findViewById(R.id.show_code_identifier_text_view);
         mCodeNameTextView = findViewById(R.id.show_code_name_text_view);
         mOpenContentButton = findViewById(R.id.open_content_button);
+        mCopyCodeImageView = findViewById(R.id.copy_code_view);
 
         codeService = CodeService.getInstance(new HcodezApp());
 
@@ -96,6 +117,21 @@ public class CodeDetailsActivity extends MainMenuActivity{
             }
             mCodeNameTextView.setText(codeEntity.getName());
             mCodeStringValue.setText(codeEntity.toString());
+
+            mCopyCodeImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "codeLongClickCallback.onLongClick() called with: codeEntity = [" + codeEntity + "]");
+
+                    ClipboardManager clipboard = (ClipboardManager)
+                            getSystemService(Context.CLIPBOARD_SERVICE);
+
+                    ClipData clip = ClipData.newPlainText("code", codeEntity.toString());
+
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(getApplicationContext(), "Code copied to clipboard", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
         mDeleteCodeButton.setOnClickListener(deleteButtonOnClickListener);

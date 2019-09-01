@@ -1,42 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:background="@drawable/rounded_corners"
-    android:padding="16dp">
+    android:padding="40dp">
 
     <Button
+        android:layout_alignParentRight="true"
         android:id="@+id/open_content_button"
-        android:layout_width="match_parent"
-        android:layout_height="135dp"
-        android:layout_below="@id/show_code_identifier_text_view"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_below="@id/content_text_view"
         android:layout_marginBottom="16dp"
         android:background="@drawable/button_design"
         android:text="@string/open" />
 
     <Button
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="100dp"
         android:id="@+id/delete_code_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_below="@id/open_content_button"
         android:background="@drawable/button_design_delete"
         android:text="@string/delete" />
 
-    <TextView
+    <ImageView
+        android:id="@+id/code_list_item_public_status2"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/show_code_identifier_text_view"
+        android:layout_marginTop="40dp"
+        android:background="@mipmap/ic_launcher"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/code_list_item_passcode_protected2"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_below="@id/show_code_identifier_text_view"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="40dp"
+        android:layout_alignParentRight="true"
+        android:background="@mipmap/ic_launcher"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:clickable="true"
+        android:id="@+id/copy_code_view"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_below="@id/show_code_name_text_view"
-        android:id="@+id/show_code_identifier_text_view"
-        android:layout_width="250dp"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="15dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/copy_code"
+        android:contentDescription="copy button" />
+
+    <TextView
+        android:id="@+id/show_code_name_text_view"
+        android:layout_width="match_parent"
         android:layout_height="75dp"
+        android:autoSizeTextType="uniform"
+        android:text="TextView"
+        android:textAlignment="textStart" />
+
+    <TextView
+        android:id="@+id/show_code_identifier_text_view"
+        android:layout_width="150dp"
+        android:layout_height="75dp"
+        android:layout_below="@id/show_code_name_text_view"
         android:autoSizeTextType="uniform"
         android:text="CodeIdentifier"
         android:textAlignment="textStart"
         android:textSize="36sp" />
 
     <TextView
-        android:autoSizeTextType="uniform"
-        android:textAlignment="textStart"
-        android:id="@+id/show_code_name_text_view"
-        android:layout_width="250dp"
-        android:layout_height="75dp"
-        android:text="TextView" />
+        android:layout_marginBottom="20dp"
+        android:textSize="28sp"
+        android:layout_below="@id/code_list_item_passcode_protected2"
+        android:id="@+id/content_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Content" />
+
+    <ImageView
+        android:layout_marginBottom="16dp"
+        android:id="@+id/code_type_image_view"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_below="@id/content_text_view"
+        android:background="@drawable/button_design" />
+
+    <Button
+        android:id="@+id/edit_code_button"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_below="@+id/code_type_image_view"
+        android:background="@drawable/button_design"
+        android:text="Edit" />
+
 </RelativeLayout>
