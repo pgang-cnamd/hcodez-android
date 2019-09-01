@@ -82,10 +82,10 @@ public class CodeDetailsActivity extends MainMenuActivity{
         Log.d(TAG, "onCreate() called with: savedInstanceState = [" + savedInstanceState + "]");
         setContentView(R.layout.activity_code_details);
 
-        mDeleteCodeButton = findViewById(R.id.delete_code_button);
-        mCodeStringValue = findViewById(R.id.show_code_identifier_text_view);
-        mCodeNameTextView = findViewById(R.id.show_code_name_text_view);
-        mOpenContentButton = findViewById(R.id.open_content_button);
+        mDeleteCodeButton = findViewById(R.id.code_details_delete_button);
+        mCodeStringValue = findViewById(R.id.code_details_code_string_text_view);
+        mCodeNameTextView = findViewById(R.id.code_details_code_name_text_view);
+        mOpenContentButton = findViewById(R.id.code_details_open_content_button);
         mCopyCodeImageView = findViewById(R.id.copy_code_view);
 
         codeService = CodeService.getInstance(new HcodezApp());
