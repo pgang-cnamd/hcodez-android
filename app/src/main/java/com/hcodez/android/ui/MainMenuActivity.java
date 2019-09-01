@@ -43,15 +43,9 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private CodeClickCallback codeClickCallback = codeEntity -> {
         Log.d(TAG, "codeClickCallback.onClick() called with: codeEntity = [" + codeEntity + "]");
-        Intent intent = new Intent(getApplicationContext(), CodeDetailsActivity.class);
 
-        Bundle bundle = new Bundle();
-        bundle.putInt("code_id", codeEntity.getId());
-        bundle.putInt("content_id", codeEntity.getContentId());
-
-        intent.putExtras(bundle);
-
-        startActivity(intent);
+        startActivity(CodeDetailsActivity
+                .craftIntent(getApplicationContext(), codeEntity.getId(), codeEntity.getContentId()));
     };
 
     private CodeLongClickCallback codeLongClickCallback = codeEntity -> {

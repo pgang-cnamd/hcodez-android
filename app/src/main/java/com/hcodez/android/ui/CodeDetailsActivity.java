@@ -1,5 +1,7 @@
 package com.hcodez.android.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -111,5 +113,19 @@ public class CodeDetailsActivity extends MainMenuActivity{
                     }
                     startActivity(ContentOpener.get(contentEntity.getResourceURI()).getIntent());
         }));
+    }
+
+    public static Intent craftIntent(Context context, Integer codeId, Integer contentId) {
+        Log.d(TAG, "craftIntent() called with: context = [" + context + "], codeId = [" + codeId + "], contentId = [" + contentId + "]");
+
+        Intent intent = new Intent(context, CodeDetailsActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("code_id", codeId);
+        bundle.putInt("content_id", contentId);
+
+        intent.putExtras(bundle);
+
+        return intent;
     }
 }

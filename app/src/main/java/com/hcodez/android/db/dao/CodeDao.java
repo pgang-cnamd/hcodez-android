@@ -42,6 +42,9 @@ public interface CodeDao {
             + "WHERE codeFts MATCH :query")
     List<CodeEntity> searchAllCodesSync(String query);
 
+    @Query("SELECT * FROM code WHERE identifier = :identifier")
+    CodeEntity loadCodeByIdentifierSync(String identifier);
+
     @Delete
     void delete(CodeEntity code);
 }
