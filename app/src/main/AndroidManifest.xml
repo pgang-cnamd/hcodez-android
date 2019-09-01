@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.hcodez.android">
 
     <application
@@ -9,7 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".HcodezApp">
+        android:name=".HcodezApp"
+        tools:ignore="GoogleAppIndexingWarning">
+
         <activity android:name=".ui.SplashActivity" android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,13 +23,26 @@
         <activity android:name=".ui.LoginActivity" />
 
         <activity android:name=".ui.AddCodeActivity"
-            android:theme="@style/AppTheme.CustomTheme"
-            >
+            android:theme="@style/AppTheme.CustomTheme">
         </activity>
 
         <activity android:name=".ui.FindCodeActivity"
-            android:theme="@style/AppTheme.CustomTheme"
-            >
+            android:theme="@style/AppTheme.CustomTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".ui.MainMenuActivity"
@@ -34,11 +50,10 @@
         </activity>
 
         <activity android:name=".ui.CodeDetailsActivity"
-            android:theme="@style/AppTheme.CustomTheme"/>
+            android:theme="@style/AppTheme.CustomTheme" />
 
         <activity android:name=".ui.SettingsMenuActivity"
             android:theme="@style/AppTheme"/>
 
     </application>
-
 </manifest>

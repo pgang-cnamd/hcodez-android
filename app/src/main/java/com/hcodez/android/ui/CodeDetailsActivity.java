@@ -3,6 +3,8 @@ package com.hcodez.android.ui;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +20,7 @@ import com.hcodez.android.R;
 import com.hcodez.android.services.CodeService;
 import com.hcodez.android.services.contentopener.ContentOpener;
 import com.hcodez.android.ui.callback.CodeLongClickCallback;
+import com.hcodez.android.services.ContentHandler;
 import com.hcodez.android.viewmodel.CodeViewModel;
 
 public class CodeDetailsActivity extends MainMenuActivity{
@@ -145,7 +148,21 @@ public class CodeDetailsActivity extends MainMenuActivity{
                         Log.d(TAG, "openContentOnClick: null resource uri");
                         return;
                     }
-                    startActivity(ContentOpener.get(contentEntity.getResourceURI()).getIntent());
+                    startActivity(ContentHandler.get(contentEntity.getResourceURI()).getIntent());
         }));
+    }
+
+    public static Intent craftIntent(Context context, Integer codeId, Integer contentId) {
+        Log.d(TAG, "craftIntent() called with: context = [" + context + "], codeId = [" + codeId + "], contentId = [" + contentId + "]");
+
+        Intent intent = new Intent(context, CodeDetailsActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("code_id", codeId);
+        bundle.putInt("content_id", contentId);
+
+        intent.putExtras(bundle);
+
+        return intent;
     }
 }

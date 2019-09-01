@@ -8,7 +8,7 @@
     android:paddingVertical="32dp">
 
     <Button
-        android:id="@+id/buttonCode"
+        android:id="@+id/find_code_enter_text_button"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_centerVertical="true"
@@ -18,7 +18,7 @@
         tools:targetApi="m" />
 
     <Button
-        android:id="@+id/buttonGallery"
+        android:id="@+id/find_code_parse_image_button"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_centerInParent="true"
@@ -26,7 +26,7 @@
         android:foreground="@android:drawable/ic_menu_gallery" />
 
     <Button
-        android:id="@+id/buttonScan"
+        android:id="@+id/find_code_scan_code_button"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_alignParentEnd="true"
