@@ -29,11 +29,15 @@
             >
         </activity>
 
-        <activity android:name=".ui.MainMenuActivity">
+        <activity android:name=".ui.MainMenuActivity"
+            android:theme="@style/MainMenu.CustomTheme">
         </activity>
 
         <activity android:name=".ui.CodeDetailsActivity"
             android:theme="@style/AppTheme.CustomTheme"/>
+
+        <activity android:name=".ui.SettingsMenuActivity"
+            android:theme="@style/AppTheme"/>
 
     </application>
 
