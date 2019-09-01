@@ -50,8 +50,8 @@ public class FindCodeActivity extends AppCompatActivity {
             Log.d(TAG, "onCreate: no action received, displaying UI");
             setContentView(R.layout.activity_find_code);
 
-            textCodeButton = findViewById(R.id.buttonCode);
-            imageCodeButton = findViewById(R.id.buttonGallery);
+            textCodeButton = findViewById(R.id.find_code_enter_text_button);
+            imageCodeButton = findViewById(R.id.find_code_parse_image_button);
         }
     }
 
