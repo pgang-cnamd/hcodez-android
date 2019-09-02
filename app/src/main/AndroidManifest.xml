@@ -16,7 +16,8 @@
 
         <activity android:name=".ui.EnterTextContentActivity" />
 
-        <activity android:name=".ui.AddContentActivity" />
+        <activity android:name=".ui.AddContentActivity"
+            android:theme="@style/AppTheme.CustomTheme"/>
 
         <activity
             android:name=".ui.SplashActivity"

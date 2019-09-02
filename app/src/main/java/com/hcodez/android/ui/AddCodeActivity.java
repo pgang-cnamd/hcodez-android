@@ -1,5 +1,6 @@
 package com.hcodez.android.ui;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
 import com.hcodez.android.HcodezApp;
@@ -28,6 +30,7 @@ public class AddCodeActivity extends MainMenuActivity {
     private Switch          mSwitch;
     private EditText        mPasscodeEditText;
     private Button          mSaveButton;
+    private Button          mAddContentButton;
 
     private CodeService     codeService;
 
@@ -113,12 +116,21 @@ public class AddCodeActivity extends MainMenuActivity {
         setContentView(R.layout.activity_add_code);
 
         mCodeNameEditText = findViewById(R.id.add_code_name_edit_text);
-        mSwitch = findViewById(R.id.add_code_public_flag_switch);
+        mSwitch           = findViewById(R.id.add_code_public_flag_switch);
         mPasscodeEditText = findViewById(R.id.add_code_password_edit_text);
-        mSaveButton = findViewById(R.id.add_code_save_button);
+        mSaveButton       = findViewById(R.id.add_code_save_button);
+        mAddContentButton = findViewById(R.id.add_content_button);
 
         mSaveButton.setOnClickListener(saveButtonOnClickListener);
+        mAddContentButton.setOnClickListener(addContentClick);
 
         codeService = CodeService.getInstance(new HcodezApp());
     }
+
+    private View.OnClickListener addContentClick = v -> {
+        Intent intent = new Intent(AddCodeActivity.this, AddContentActivity.class);
+//            int contentId = 0;
+//            intent.putExtra("content_id", contentId);
+        startActivity(intent);
+    };
 }

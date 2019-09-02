@@ -7,21 +7,21 @@
     android:onClick="hideKeyboard">
 
     <Button
-        android:background="@drawable/button_design"
-        android:id="@+id/add_code_gallery_button"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:id="@+id/add_content_button"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
         android:layout_below="@id/add_code_name_edit_text"
         android:layout_centerHorizontal="true"
+        android:background="@drawable/button_design"
         android:contentDescription="@string/add_code_gallery_button_description"
-        android:foreground="@android:drawable/ic_menu_gallery"
-        tools:targetApi="m"/>
+        android:text="Content"
+        tools:targetApi="m" />
 
     <TextView
         android:id="@+id/add_code_public_flag_text_view"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/add_code_gallery_button"
+        android:layout_below="@id/add_content_button"
         android:text="@string/add_code_public_status_text" />
 
     <Switch
@@ -30,14 +30,14 @@
         android:id="@+id/add_code_public_flag_switch"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/add_code_gallery_button"
+        android:layout_below="@id/add_content_button"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true" />
 
     <Button
         android:id="@+id/add_code_save_button"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
         android:layout_below="@id/add_code_password_edit_text"
         android:layout_centerHorizontal="true"
         android:background="@drawable/button_design"
