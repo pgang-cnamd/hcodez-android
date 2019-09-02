@@ -26,9 +26,15 @@ import com.hcodez.codeengine.parser.CodeParser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.annotation.Nonnull;
 
 public class FindCodeActivity extends AppCompatActivity {
 
@@ -46,7 +52,7 @@ public class FindCodeActivity extends AppCompatActivity {
     /**
      * Current path of the captured photo(in order to delete it after processing)
      */
-    private String currentPhotoPath;
+    private Uri currentPhotoUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +70,8 @@ public class FindCodeActivity extends AppCompatActivity {
                 handleIncomingText(intent
                         .getStringExtra(Intent.EXTRA_TEXT));
             } else if (type.startsWith("image/")) {
-                Log.d(TAG, "onCreate: received text from intent");
-                handleIncomingImage(intent);
-            }
-        } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
-            Log.d(TAG, "onCreate: received ACTION_SEND_MULTIPLE");
-            if (type.startsWith("image/")) {
-                Log.w(TAG, "onCreate: multiple images are not supported");
+                Log.d(TAG, "onCreate: received image from intent");
+                handleIncomingImage(intent.getParcelableExtra(Intent.EXTRA_STREAM));
             }
         } else {
             Log.d(TAG, "onCreate: no action received, displaying UI");
@@ -147,10 +148,18 @@ public class FindCodeActivity extends AppCompatActivity {
         });
     }
 
-    private void handleIncomingImage(Intent intent) {
-        Log.d(TAG, "handleIncomingImage() called with: intent = [" + intent + "]");
-        Log.e(TAG, "handleIncomingImage: not implemented yet");
-        throw new UnsupportedOperationException("scan shared images is not implemented yet");
+    private void handleIncomingImage(Uri imageUri) {
+        Log.d(TAG, "handleIncomingImage() called with: imageUri = [" + imageUri + "]");
+        if (imageUri == null) {
+            Log.d(TAG, "handleIncomingImage: received nothing");
+            return;
+        }
+        if (imageUri.getPath() == null) {
+            Log.d(TAG, "handleIncomingImage: can't retrieve path from uri");
+            return;
+        }
+        processImage(imageUri);
+
     }
 
     @Override
@@ -159,7 +168,7 @@ public class FindCodeActivity extends AppCompatActivity {
         Log.d(TAG, "onActivityResult() called with: requestCode = [" + requestCode + "], resultCode = [" + resultCode + "], data = [" + data + "]");
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Log.d(TAG, "onActivityResult: received result from REQUEST_IMAGE_CAPTURE");
-            processImage();
+            processImage(currentPhotoUri);
         }
     }
 
@@ -191,14 +200,21 @@ public class FindCodeActivity extends AppCompatActivity {
         Log.d(TAG, "dispatchTakePictureIntent() returned");
     }
 
-    private void processImage() {
+    private void processImage(Uri imageUri) {
         final MutableLiveData<String> textLiveData = new MutableLiveData<>();
 
         new Thread(() -> {
             Log.d(TAG, "processImage: start thread");
 
             Log.d(TAG, "processImage: open image and rescale before processing");
-            Bitmap img = BitmapFactory.decodeFile(currentPhotoPath);
+            Bitmap img = null;
+            try {
+                img = BitmapFactory.decodeStream(getInputStreamFromUri(imageUri));
+            } catch (FileNotFoundException e) {
+                Log.e(TAG, "processImage: failed to open image file", e);
+                e.printStackTrace();
+                return;
+            }
             if (img == null) {
                 Log.e(TAG, "processImage: could not open image file");
                 return;
@@ -227,8 +243,12 @@ public class FindCodeActivity extends AppCompatActivity {
                 runOnUiThread(() -> Toast
                         .makeText(getApplicationContext(), "No code found in image", Toast.LENGTH_LONG).show());
             }
+            if (!imageUri.equals(currentPhotoUri)) {
+                Log.d(TAG, "processImage: input image not created by hcodez, not deleting");
+                return;
+            }
             try {
-                File file = new File(currentPhotoPath);
+                File file = new File(imageUri.getPath());
                 if (file.delete()) {
                     Log.d(TAG, "processImage: successfully deleted scanned photo");
                 } else {
@@ -266,7 +286,25 @@ public class FindCodeActivity extends AppCompatActivity {
         );
 
         // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.getAbsolutePath();
+        currentPhotoUri = Uri.fromFile(image);
         return image;
+    }
+
+    private InputStream getInputStreamFromUri(@Nonnull Uri uri) throws FileNotFoundException {
+        Log.d(TAG, "getInputStreamFromUri() called with: uri = [" + uri + "]");
+
+        if (uri.getScheme() == null) {
+            Log.d(TAG, "getInputStreamFromUri: null uri received");
+            throw new FileNotFoundException("missing uri scheme");
+        }
+        if (uri.getScheme().equals("file")) {
+            Log.d(TAG, "getInputStreamFromUri: file scheme");
+            return new FileInputStream(new File(URI.create(uri.toString())));
+        }
+        if (uri.getScheme().equals("content")) {
+            Log.d(TAG, "getInputStreamFromUri: content scheme");
+            return getContentResolver().openInputStream(uri);
+        }
+        throw new FileNotFoundException("bad uri scheme");
     }
 }
