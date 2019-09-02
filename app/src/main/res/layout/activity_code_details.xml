@@ -7,6 +7,7 @@
     android:padding="40dp">
 
     <Button
+        android:outlineAmbientShadowColor="@color/cardview_shadow_end_color"
         android:layout_alignParentRight="true"
         android:id="@+id/code_details_open_content_button"
         android:layout_width="70dp"
@@ -28,11 +29,10 @@
 
     <ImageView
         android:id="@+id/code_details_public_status"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_below="@+id/code_details_code_string_text_view"
         android:layout_marginTop="40dp"
-        android:background="@mipmap/ic_launcher"
         android:scaleType="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,33 +42,19 @@
 
     <ImageView
         android:id="@+id/code_details_passcode_protected"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_below="@id/code_details_code_string_text_view"
+        android:layout_alignParentRight="true"
         android:layout_marginLeft="100dp"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="40dp"
-        android:layout_alignParentRight="true"
-        android:background="@mipmap/ic_launcher"
         android:scaleType="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:clickable="true"
-        android:id="@+id/code_details_copy_code_button"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_below="@id/code_details_code_name_text_view"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="45dp"
-        android:layout_marginTop="15dp"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/copy_code"
-        android:contentDescription="copy button" />
 
     <TextView
         android:id="@+id/code_details_code_name_text_view"
@@ -112,5 +98,20 @@
         android:layout_below="@+id/code_details_content_type_image_view"
         android:background="@drawable/button_design"
         android:text="Edit" />
+
+    <Button
+        android:id="@+id/code_details_copy_code_button"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/code_details_code_name_text_view"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="#FFFFFF"
+        android:clickable="true"
+        android:contentDescription="copy button"
+        android:foreground="@drawable/copy_code"
+        android:outlineAmbientShadowColor="@color/cardview_shadow_end_color" />
 
 </RelativeLayout>

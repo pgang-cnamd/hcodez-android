@@ -19,6 +19,7 @@ import com.hcodez.android.R;
 import com.hcodez.android.services.CodeService;
 import com.hcodez.android.services.ContentHandler;
 import com.hcodez.android.viewmodel.CodeViewModel;
+import com.hcodez.codeengine.model.CodeType;
 
 public class CodeDetailsActivity extends MainMenuActivity{
 
@@ -28,7 +29,9 @@ public class CodeDetailsActivity extends MainMenuActivity{
     private TextView  mCodeNameTextView;
     private Button    mDeleteCodeButton;
     private Button    mOpenContentButton;
-    private ImageView mCopyCodeImageView;
+    private Button    mCopyCodeButton;
+    private ImageView mItemPublicStatus;
+    private ImageView mItemPasscodeProtected;
 
     private CodeService codeService;
 
@@ -82,11 +85,13 @@ public class CodeDetailsActivity extends MainMenuActivity{
         Log.d(TAG, "onCreate() called with: savedInstanceState = [" + savedInstanceState + "]");
         setContentView(R.layout.activity_code_details);
 
-        mDeleteCodeButton = findViewById(R.id.code_details_delete_button);
-        mCodeStringValue = findViewById(R.id.code_details_code_string_text_view);
-        mCodeNameTextView = findViewById(R.id.code_details_code_name_text_view);
-        mOpenContentButton = findViewById(R.id.code_details_open_content_button);
-        mCopyCodeImageView = findViewById(R.id.code_details_copy_code_button);
+        mDeleteCodeButton      = findViewById(R.id.code_details_delete_button);
+        mCodeStringValue       = findViewById(R.id.code_details_code_string_text_view);
+        mCodeNameTextView      = findViewById(R.id.code_details_code_name_text_view);
+        mOpenContentButton     = findViewById(R.id.code_details_open_content_button);
+        mCopyCodeButton = findViewById(R.id.code_details_copy_code_button);
+        mItemPublicStatus      = findViewById(R.id.code_details_public_status);
+        mItemPasscodeProtected = findViewById(R.id.code_details_passcode_protected);
 
         codeService = CodeService.getInstance(new HcodezApp());
 
@@ -118,7 +123,20 @@ public class CodeDetailsActivity extends MainMenuActivity{
             mCodeNameTextView.setText(codeEntity.getName());
             mCodeStringValue.setText(codeEntity.toString());
 
-            mCopyCodeImageView.setOnClickListener(new View.OnClickListener() {
+            mItemPublicStatus.setImageResource(
+                    codeEntity.getCodeType() != CodeType.PRIVATE ?
+                            R.drawable.public_code
+                            : R.drawable.private_code);
+            mItemPasscodeProtected.setImageResource(
+                    codeEntity.getCodeType() != CodeType.PRIVATE ?
+                            codeEntity.getPasscode() != null ?
+                                    codeEntity.getPasscode().length() > 0 ?
+                                            R.drawable.passcode_protected_code
+                                            : R.drawable.no_passcode_protected_code
+                                    : R.drawable.no_passcode_protected_code
+                            : R.drawable.passcode_protected_code);
+
+            mCopyCodeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "codeLongClickCallback.onLongClick() called with: codeEntity = [" + codeEntity + "]");
