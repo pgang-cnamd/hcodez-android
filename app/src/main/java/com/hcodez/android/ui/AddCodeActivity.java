@@ -122,7 +122,7 @@ public class AddCodeActivity extends MainMenuActivity {
         mAddContentButton = findViewById(R.id.add_content_button);
 
         mSaveButton.setOnClickListener(saveButtonOnClickListener);
-        mAddContentButton.setOnClickListener(addContentClick);
+//        mAddContentButton.setOnClickListener(addContentClick);
 
         codeService = CodeService.getInstance(new HcodezApp());
     }
