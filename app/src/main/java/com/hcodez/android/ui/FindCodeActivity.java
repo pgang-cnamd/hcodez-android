@@ -154,8 +154,8 @@ public class FindCodeActivity extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Log.d(TAG, "onActivityResult: received result from REQUEST_IMAGE_CAPTURE");
             processImage();
+            finish();
         }
-        finish();
     }
 
     private void dispatchTakePictureIntent() {
