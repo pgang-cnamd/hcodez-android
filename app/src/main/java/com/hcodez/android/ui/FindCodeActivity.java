@@ -38,8 +38,14 @@ public class FindCodeActivity extends AppCompatActivity {
     private Button imageCodeButton;
     private Button scanButton;
 
+    /**
+     * Request code for requesting a photo to be captured in order to be scanned
+     */
     private static final int REQUEST_IMAGE_CAPTURE = 1;
 
+    /**
+     * Current path of the captured photo(in order to delete it after processing)
+     */
     private String currentPhotoPath;
 
     @Override
@@ -55,7 +61,8 @@ public class FindCodeActivity extends AppCompatActivity {
             Log.d(TAG, "onCreate: received ACTION_SEND");
             if ("text/plain".equals(type)) {
                 Log.d(TAG, "onCreate: received text from intent");
-                handleIncomingText(intent);
+                handleIncomingText(intent
+                        .getStringExtra(Intent.EXTRA_TEXT));
             } else if (type.startsWith("image/")) {
                 Log.d(TAG, "onCreate: received text from intent");
                 handleIncomingImage(intent);
@@ -76,10 +83,9 @@ public class FindCodeActivity extends AppCompatActivity {
         }
     }
 
-    private void handleIncomingText(Intent intent) {
-        Log.d(TAG, "handleIncomingText() called with: intent = [" + intent + "]");
+    private void handleIncomingText(final String sharedText) {
+        Log.d(TAG, "handleIncomingText() called with: sharedText = [" + sharedText + "]");
 
-        final String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
         if (sharedText == null) {
             Log.d(TAG, "handleIncomingText: received nothing");
             return;
@@ -154,7 +160,6 @@ public class FindCodeActivity extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Log.d(TAG, "onActivityResult: received result from REQUEST_IMAGE_CAPTURE");
             processImage();
-            finish();
         }
     }
 
@@ -187,6 +192,8 @@ public class FindCodeActivity extends AppCompatActivity {
     }
 
     private void processImage() {
+        final MutableLiveData<String> textLiveData = new MutableLiveData<>();
+
         new Thread(() -> {
             Log.d(TAG, "processImage: start thread");
 
@@ -213,14 +220,36 @@ public class FindCodeActivity extends AppCompatActivity {
                 processedText1 = null;
             }
             processedText = processedText1;
-            runOnUiThread(() -> {
-                Toast.makeText(getApplicationContext(),
-                        processedText != null ?
-                                "Processed text: " + processedText
-                                : "Could not get processed image",
-                        Toast.LENGTH_LONG).show();
-            });
+            if (processedText != null) {
+                textLiveData.postValue(processedText);
+            } else {
+                textLiveData.removeObservers(this);
+                runOnUiThread(() -> Toast
+                        .makeText(getApplicationContext(), "No code found in image", Toast.LENGTH_LONG).show());
+            }
+            try {
+                File file = new File(currentPhotoPath);
+                if (file.delete()) {
+                    Log.d(TAG, "processImage: successfully deleted scanned photo");
+                } else {
+                    Log.w(TAG, "processImage: could not delete scanned photo");
+                }
+            } catch (Exception e){
+                Log.w(TAG, "processImage: could not delete scanned photo", e);
+            }
         }).start();
+
+        textLiveData.observe(this, text -> {
+            if (text == null) {
+                Log.d(TAG, "processImage: null text received");
+                return;
+            }
+            if (text.equals("")) {
+                Log.d(TAG, "processImage: empty text received");
+                return;
+            }
+            handleIncomingText(text);
+        });
     }
 
     private File createImageFile() throws IOException {
