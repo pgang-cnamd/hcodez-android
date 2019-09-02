@@ -12,8 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.EnterTextContentActivity"></activity>
+
+
+        <activity android:name=".ui.EnterTextContentActivity" />
+
         <activity android:name=".ui.AddContentActivity" />
+
         <activity
             android:name=".ui.SplashActivity"
             android:theme="@style/SplashTheme">
@@ -23,7 +27,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".ui.LoginActivity" />
+
         <activity
             android:name=".ui.AddCodeActivity"
             android:label="Add new code"
@@ -50,6 +56,7 @@
                 <data android:mimeType="video/*" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.FindCodeActivity"
             android:label="Find a code"
@@ -76,15 +83,37 @@
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.MainMenuActivity"
             android:theme="@style/MainMenu.CustomTheme" />
+
         <activity
             android:name=".ui.CodeDetailsActivity"
             android:theme="@style/AppTheme.CustomTheme" />
+
         <activity
             android:name=".ui.SettingsMenuActivity"
             android:theme="@style/AppTheme" />
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.hcodez.android.scanner"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
+
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 
 </manifest>

@@ -81,4 +81,8 @@ lint/outputs/
 lint/tmp/
 # lint/reports/
 
+
 .idea
+
+app/src/main/res/values/secrets.xml
+
