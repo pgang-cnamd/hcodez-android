@@ -1,5 +1,7 @@
 package com.hcodez.android.ui;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -122,15 +124,27 @@ public class AddCodeActivity extends MainMenuActivity {
         mAddContentButton = findViewById(R.id.add_content_button);
 
         mSaveButton.setOnClickListener(saveButtonOnClickListener);
-//        mAddContentButton.setOnClickListener(addContentClick);
+        mAddContentButton.setOnClickListener(addContentClick);
 
         codeService = CodeService.getInstance(new HcodezApp());
     }
 
     private View.OnClickListener addContentClick = v -> {
         Intent intent = new Intent(AddCodeActivity.this, AddContentActivity.class);
-//            int contentId = 0;
-//            intent.putExtra("content_id", contentId);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("result");
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                String result = null;
+            }
+        }
+    }
 }
