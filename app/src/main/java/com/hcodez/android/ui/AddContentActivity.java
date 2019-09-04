@@ -1,7 +1,6 @@
 package com.hcodez.android.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -28,15 +27,38 @@ public class AddContentActivity extends MainMenuActivity {
 
         mContentList.add("content");
 
-        ArrayAdapter contentListAdapter = new ArrayAdapter(this, R.layout.item_code_list, mContentList);
+        ArrayAdapter contentListAdapter = new ArrayAdapter(this, R.layout.activity_content_list_text_view, R.id.content_list_text_view, mContentList);
 
         mContentListView.setAdapter(contentListAdapter);
 
-        mContentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(AddContentActivity.this, EnterTextContentActivity.class));
+        mContentListView.setOnItemClickListener(itemClickListener);
+    }
+
+    private AdapterView.OnItemClickListener itemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Intent intent = new Intent(AddContentActivity.this, EnterTextContentActivity.class);
+            startActivityForResult(intent, 1);
+            /**
+             * Data returned to the first activity
+             */
+            Intent returnIntent = new Intent();
+            setResult(Activity.RESULT_CANCELED, returnIntent);
+            finish();
+        }
+    };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                String result = data.getStringExtra("result");
             }
-        });
+            if (resultCode == Activity.RESULT_CANCELED) {
+                String result = null;
+            }
+        }
     }
 }

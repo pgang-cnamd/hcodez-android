@@ -3,34 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.EnterTextContentActivity"
-    android:background="@drawable/rounded_corners">
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_corners"
+    android:padding="16dp"
+    tools:context=".ui.EnterTextContentActivity">
 
     <EditText
         android:id="@+id/enter_text_content_edit_text"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_below="@+id/enter_text_content_text_view"
+        android:layout_centerHorizontal="true"
         android:ems="10"
         android:hint="Enter some content.."
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:inputType="text" />
 
     <TextView
+        android:layout_marginBottom="20dp"
         android:id="@+id/enter_text_content_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/enter_text_content_edit_text"
         android:layout_centerHorizontal="true"
-        android:text="Enter some content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.437" />
+        android:text="Enter some content" />
 </RelativeLayout>
