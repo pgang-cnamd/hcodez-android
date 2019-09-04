@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.hcodez.android.services.ContentHandler;
 
-import java.util.Set;
+import java.util.Collection;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -23,9 +23,57 @@ public class IntentContentHandler extends ContentHandler {
 
     private final Bundle intentExtra;
 
-    private final Set<String> intentCategories;
+    private final Collection<String> intentCategories;
 
-    private final Set<Integer> intentFlags;
+    private final Collection<Integer> intentFlags;
+
+    /**
+     * Create a new ContentHandler instance
+     *
+     * @param uri the resource uri
+     */
+    protected IntentContentHandler(@Nonnull Uri uri) {
+        super(uri);
+        this.intentAction = Intent.ACTION_VIEW;
+        this.intentExtra = null;
+        this.intentCategories = null;
+        this.intentFlags = null;
+    }
+
+
+    /**
+     * Create a new ContentHandler instance
+     *
+     * @param uri the resource uri
+     * @param intentAction action for the intent
+     */
+    protected IntentContentHandler(@Nonnull Uri uri,
+                                   @Nonnull String intentAction) {
+        super(uri);
+        this.intentAction = intentAction;
+        this.intentExtra = null;
+        this.intentCategories = null;
+        this.intentFlags = null;
+    }
+
+
+    /**
+     * Create a new ContentHandler instance
+     *
+     * @param uri the resource uri
+     * @param intentAction action for the intent
+     * @param intentExtra extra for the intent
+     */
+    protected IntentContentHandler(@Nonnull Uri uri,
+                                   @Nonnull String intentAction,
+                                   @Nullable Bundle intentExtra) {
+        super(uri);
+        this.intentAction = intentAction;
+        this.intentExtra = intentExtra;
+        this.intentCategories = null;
+        this.intentFlags = null;
+    }
+
 
     /**
      * Create a new ContentHandler instance
@@ -39,14 +87,15 @@ public class IntentContentHandler extends ContentHandler {
     protected IntentContentHandler(@Nonnull Uri uri,
                                    @Nonnull String intentAction,
                                    @Nullable Bundle intentExtra,
-                                   @Nullable Set<String> intentCategories,
-                                   @Nullable Set<Integer> intentFlags) {
+                                   @Nullable Collection<String> intentCategories,
+                                   @Nullable Collection<Integer> intentFlags) {
         super(uri);
         this.intentAction = intentAction;
         this.intentExtra = intentExtra;
         this.intentCategories = intentCategories;
         this.intentFlags = intentFlags;
     }
+
 
     @Override
     public Intent getIntent() {

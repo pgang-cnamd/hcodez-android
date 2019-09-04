@@ -65,7 +65,7 @@ public abstract class ContentHandler {
                         schemes = new HashMap<>();
                         schemes.put(ContentType.URL, new HashSet<>(Arrays.asList("http", "https")));
                         schemes.put(ContentType.CONTACT, new HashSet<>(Collections.singletonList("contact")));
-                        schemes.put(ContentType.IMAGE, new HashSet<>(Collections.singletonList("img:file")));
+                        schemes.put(ContentType.IMAGE, new HashSet<>(Collections.singletonList("file")));
                         Log.i(TAG, "getSchemes: created schemes");
                     }
                 }

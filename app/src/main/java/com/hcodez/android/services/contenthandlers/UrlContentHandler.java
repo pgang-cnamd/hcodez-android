@@ -23,6 +23,6 @@ public class UrlContentHandler extends ContentHandler {
     public Intent getIntent() {
         Log.d(TAG, "open() called");
 
-        return new IntentContentHandler(uri, Intent.ACTION_VIEW, null, null, null).getIntent();
+        return new IntentContentHandler(uri).getIntent();
     }
 }
