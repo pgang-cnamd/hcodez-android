@@ -1,11 +1,12 @@
-package com.hcodez.android.services.contenthandlers;
+package com.hcodez.android.services.contenthandler;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.hcodez.android.services.ContentHandler;
+import com.hcodez.android.ui.EnterTextContentActivity;
 
 import java.util.Collection;
 
@@ -34,6 +35,7 @@ public class IntentContentHandler extends ContentHandler {
      */
     protected IntentContentHandler(@Nonnull Uri uri) {
         super(uri);
+        Log.d(TAG, "IntentContentHandler() called with: uri = [" + uri + "]");
         this.intentAction = Intent.ACTION_VIEW;
         this.intentExtra = null;
         this.intentCategories = null;
@@ -50,6 +52,7 @@ public class IntentContentHandler extends ContentHandler {
     protected IntentContentHandler(@Nonnull Uri uri,
                                    @Nonnull String intentAction) {
         super(uri);
+        Log.d(TAG, "IntentContentHandler() called with: uri = [" + uri + "], intentAction = [" + intentAction + "]");
         this.intentAction = intentAction;
         this.intentExtra = null;
         this.intentCategories = null;
@@ -68,6 +71,7 @@ public class IntentContentHandler extends ContentHandler {
                                    @Nonnull String intentAction,
                                    @Nullable Bundle intentExtra) {
         super(uri);
+        Log.d(TAG, "IntentContentHandler() called with: uri = [" + uri + "], intentAction = [" + intentAction + "], intentExtra = [" + intentExtra + "]");
         this.intentAction = intentAction;
         this.intentExtra = intentExtra;
         this.intentCategories = null;
@@ -90,6 +94,7 @@ public class IntentContentHandler extends ContentHandler {
                                    @Nullable Collection<String> intentCategories,
                                    @Nullable Collection<Integer> intentFlags) {
         super(uri);
+        Log.d(TAG, "IntentContentHandler() called with: uri = [" + uri + "], intentAction = [" + intentAction + "], intentExtra = [" + intentExtra + "], intentCategories = [" + intentCategories + "], intentFlags = [" + intentFlags + "]");
         this.intentAction = intentAction;
         this.intentExtra = intentExtra;
         this.intentCategories = intentCategories;
@@ -98,19 +103,19 @@ public class IntentContentHandler extends ContentHandler {
 
 
     @Override
-    public Intent getIntent() {
-        Log.d(TAG, "getIntent() called");
+    public Intent getOpenerIntent() {
+        Log.d(TAG, "getOpenerIntent() called");
 
         final Intent intent = new Intent(intentAction, uri);
 
         if (intentExtra != null) {
-            Log.d(TAG, "getIntent: adding extras");
+            Log.d(TAG, "getOpenerIntent: adding extras");
             intent.putExtras(intentExtra);
         }
 
         if (intentCategories != null) {
             if (!intentCategories.isEmpty()) {
-                Log.d(TAG, "getIntent: adding intent categories");
+                Log.d(TAG, "getOpenerIntent: adding intent categories");
                 for (String intentCategory : intentCategories) {
                     intent.addCategory(intentCategory);
                 }
@@ -119,10 +124,10 @@ public class IntentContentHandler extends ContentHandler {
 
         if (intentFlags != null) {
             if (!intentFlags.isEmpty()) {
-                Log.d(TAG, "getIntent: adding intent flags");
+                Log.d(TAG, "getOpenerIntent: adding intent flags");
                 for (Integer intentCategory : intentFlags) {
                     if (intentCategory == null) {
-                        Log.d(TAG, "getIntent: null flag, skipping");
+                        Log.d(TAG, "getOpenerIntent: null flag, skipping");
                         continue;
                     }
                     intent.addFlags(intentCategory);
@@ -131,5 +136,11 @@ public class IntentContentHandler extends ContentHandler {
         }
 
         return intent;
+    }
+
+    @Override
+    public Intent getCreatorIntent(Context context) {
+        Log.d(TAG, "getCreatorIntent() called with: context = [" + context + "]");
+        return new Intent(context, EnterTextContentActivity.class);
     }
 }

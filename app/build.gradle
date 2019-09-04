@@ -66,4 +66,6 @@ dependencies {
     }
 
     implementation 'commons-io:commons-io:2.5'
+
+    implementation 'com.google.code.gson:gson:2.8.5'
 }
