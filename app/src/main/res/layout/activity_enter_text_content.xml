@@ -19,19 +19,21 @@
         android:inputType="text" />
 
     <TextView
-        android:layout_marginBottom="20dp"
         android:id="@+id/enter_text_content_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Enter some content" />
+        android:layout_marginBottom="20dp"
+        android:text="Enter some content"
+        android:textColor="#FF424242" />
 
     <Button
-        android:background="@drawable/button_design"
-        android:layout_below="@id/enter_text_content_edit_text"
-        android:layout_centerHorizontal="true"
         android:id="@+id/enter_text_result_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OK" />
+        android:layout_below="@id/enter_text_content_edit_text"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_design"
+        android:text="OK"
+        android:textColor="#FF424242" />
 </RelativeLayout>

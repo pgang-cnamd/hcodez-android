@@ -20,13 +20,14 @@
         android:textColorHint="@android:color/darker_gray" />
 
     <Button
-        android:background="@drawable/button_design"
         android:id="@+id/loginButton"
         android:layout_width="100dp"
         android:layout_height="75dp"
         android:layout_below="@id/loginPass"
         android:layout_centerHorizontal="true"
-        android:text="@string/login" />
+        android:background="@drawable/button_design"
+        android:text="@string/login"
+        android:textColor="#FF424242" />
 
     <TextView
         android:layout_alignParentBottom="true"
