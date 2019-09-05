@@ -1,55 +1,6 @@
 {
   "URL": ["http", "https"],
-
   "FILE": ["file"],
   "MEDIA": ["file, content"],
-  "CONTACT": [""],
-
-
-  "wip": "below",
-
-
-  "__EXAMPLE__": {
-    "schemes": [""],
-    "creator": {
-      "action": "android.intent.action.VIEW",
-      "uri": "https://example.com",
-      "extra": null,
-      "categories": null,
-      "flags": null,
-      "type": null,
-      "request_code": -1
-    },
-    "opener": {
-      "action": "android.intent.action.VIEW",
-      "uri": "https://example.com"
-    }
-  },
-  "__URL__": {
-    "schemes": ["http", "https"],
-    "creator": {
-      "action": "android.intent.action.PICK",
-      "uri": "content://contacts",
-      "extra": null,
-      "categories": null,
-      "flags": null,
-      "type": "",
-      "request_code": 1
-    },
-    "opener": {
-
-    }
-  },
-  "__CONTACT__": {
-    "creator": {
-      "action": "android.intent.action.PICK",
-      "uri": "content://contacts",
-      "type": "vnd.android.cursor.dir/phone_v2",
-      "request_code": 1
-    },
-    "opener": {
-      "action": "android.intent.action.VIEW",
-
-    }
-  }
+  "CONTACT": [""]
 }

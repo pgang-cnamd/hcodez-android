@@ -1,7 +1,5 @@
 package com.hcodez.android.ui;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,7 +10,6 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
 import com.hcodez.android.HcodezApp;
@@ -28,6 +25,8 @@ public class AddCodeActivity extends MainMenuActivity {
 
     private static final String TAG = "AddCodeActivity";
 
+    public static final int REQUEST_CODE_ADD_CONTENT = 2;
+
     private EditText        mCodeNameEditText;
     private Switch          mSwitch;
     private EditText        mPasscodeEditText;
@@ -35,6 +34,8 @@ public class AddCodeActivity extends MainMenuActivity {
     private Button          mAddContentButton;
 
     private CodeService     codeService;
+
+    private Uri currentContentUri = null;
 
     private View.OnClickListener saveButtonOnClickListener = new View.OnClickListener() {
 
@@ -61,18 +62,23 @@ public class AddCodeActivity extends MainMenuActivity {
                 return;
             }
             if (mPasscodeEditText.getText().toString().length() > 16 && buildingPublicCode) {
-                Log.d(TAG, "onClick: pasword is too long");
+                Log.d(TAG, "onClick: password is too long");
                 Toast.makeText(getApplicationContext(), "Password longer than 16 characters", Toast.LENGTH_SHORT).show();
                 return;
             }
-            Log.d(TAG, "onClick: filtered out bas usage");
+            if (currentContentUri == null) {
+                Log.d(TAG, "onClick: empty resource uri");
+                Toast.makeText(getApplicationContext(), "No content", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Log.d(TAG, "onClick: filtered out bad usage");
 
             /*
               Build the content
              */
             final ContentEntity contentEntity = ContentEntity.builder()
                     .description("placeholder")
-                    .resourceURI(Uri.parse("https://example.com"))
+                    .resourceURI(currentContentUri)
                     .build();
 
             /*
@@ -131,20 +137,29 @@ public class AddCodeActivity extends MainMenuActivity {
 
     private View.OnClickListener addContentClick = v -> {
         Intent intent = new Intent(AddCodeActivity.this, AddContentActivity.class);
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, REQUEST_CODE_ADD_CONTENT);
     };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult() called with: requestCode = [" + requestCode + "], resultCode = [" + resultCode + "], data = [" + data + "]");
 
-        if (requestCode == 1) {
-            if (resultCode == Activity.RESULT_OK) {
-                String result = data.getStringExtra("result");
+        Runnable errorToast = () -> {
+            Toast.makeText(this, "Could not create content, please try again", Toast.LENGTH_LONG).show();
+        };
+
+        if (resultCode != RESULT_OK) {
+            runOnUiThread(errorToast);
+        }
+        if (requestCode == REQUEST_CODE_ADD_CONTENT) {
+            String uriString = data.getStringExtra(AddContentActivity.INTENT_STRING_URI_KEY);
+            if (uriString == null) {
+                runOnUiThread(errorToast);
+                Log.w(TAG, "onActivityResult: null resource uri");
+                return;
             }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                String result = null;
-            }
+            currentContentUri = Uri.parse(uriString);
         }
     }
 }
