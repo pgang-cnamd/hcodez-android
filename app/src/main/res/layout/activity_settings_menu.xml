@@ -7,5 +7,14 @@
         android:id="@+id/settings_toolbar"
         layout="@layout/settings_menu_toolbar"></include>
 
+    <Button
+        android:layout_below="@+id/settings_toolbar"
+        android:id="@+id/log_out_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Log out"
+        android:background="@drawable/button_design"
+        android:layout_margin="16dp"/>
+
 
 </RelativeLayout>
