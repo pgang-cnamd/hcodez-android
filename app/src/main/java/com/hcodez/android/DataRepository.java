@@ -5,7 +5,6 @@ import android.util.Log;
 import com.hcodez.android.db.AppDatabase;
 import com.hcodez.android.db.entity.CodeEntity;
 import com.hcodez.android.db.entity.ContentEntity;
-import com.hcodez.android.db.entity.ContentFtsEntity;
 
 import java.util.Arrays;
 import java.util.List;
