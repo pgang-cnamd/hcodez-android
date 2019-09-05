@@ -93,16 +93,15 @@
         android:text="Edit" />
 
     <Button
+        android:background="@drawable/button_design"
         android:id="@+id/code_details_copy_code_button"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_below="@id/code_details_code_string_text_view"
         android:layout_alignParentRight="true"
         android:layout_marginTop="40dp"
-        android:backgroundTint="#FFFFFF"
         android:clickable="true"
         android:contentDescription="copy button"
-        android:foreground="@drawable/copy_code"
-        android:outlineAmbientShadowColor="@color/cardview_shadow_end_color" />
+        android:foreground="@drawable/copy_code" />
 
 </RelativeLayout>
