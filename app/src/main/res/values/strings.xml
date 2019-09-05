@@ -1,22 +1,25 @@
 <resources>
     <string name="app_name">HCode</string>
-    <string name="codename">CodeName</string>
+    <string name="add_code_code_name_hint">Enter a name for your code</string>
     <string name="hint">hint</string>
     <string name="URL">URL</string>
-    <string name="content_choice">content choice</string>
-    <string name="public_code">Public code?</string>
+    <string name="add_code_gallery_button_description">content choice</string>
+    <string name="add_code_public_status_text">Public code?</string>
     <string name="yes_no">Yes/no</string>
-    <string name="save">Save</string>
+    <string name="add_code_save_button_text">Save</string>
     <string name="scan_code">scan code</string>
     <string name="button" />
     <string name="button1" />
     <string name="button2" />
     <string name="hint1" />
-    <string name="password">Password</string>
+    <string name="add_code_password_hint">Enter a password for your code(optional)</string>
     <string name="login">Login</string>
     <string name="sign_up">Sign up?</string>
     <string name="name">Name</string>
     <string name="this_is_your_code">This is your code</string>
     <string name="open">Open</string>
     <string name="delete">Delete</string>
+    <string name="with_passcode">with passcode</string>
+    <string name="no_passcode">No passcode</string>
+    <string name="public_no_passcode">public no passcode</string>
 </resources>

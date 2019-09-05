@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_corners"
+    android:padding="40dp">
+
+    <Button
+        android:outlineAmbientShadowColor="@color/cardview_shadow_end_color"
+        android:layout_alignParentRight="true"
+        android:id="@+id/code_details_open_content_button"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_below="@id/code_details_content_text_view"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_design"
+        android:text="@string/open" />
+
+    <Button
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="100dp"
+        android:id="@+id/code_details_delete_button"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_below="@id/code_details_open_content_button"
+        android:background="@drawable/button_design_delete"
+        android:text="@string/delete" />
+
+    <ImageView
+        android:id="@+id/code_details_public_status"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_below="@+id/code_details_code_string_text_view"
+        android:layout_marginTop="40dp"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/code_details_passcode_protected"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/code_details_code_string_text_view"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="40dp"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/code_details_code_name_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:autoSizeTextType="uniform"
+        android:text="TextView"
+        android:textAlignment="textStart" />
+
+    <TextView
+        android:id="@+id/code_details_code_string_text_view"
+        android:layout_width="250dp"
+        android:layout_height="75dp"
+        android:layout_below="@id/code_details_code_name_text_view"
+        android:autoSizeTextType="uniform"
+        android:text="CodeIdentifier"
+        android:textAlignment="textStart"
+        android:textSize="36sp" />
+
+    <TextView
+        android:layout_marginBottom="20dp"
+        android:textSize="28sp"
+        android:layout_below="@id/code_details_passcode_protected"
+        android:id="@+id/code_details_content_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Content" />
+
+    <ImageView
+        android:layout_marginBottom="16dp"
+        android:id="@+id/code_details_content_type_image_view"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_below="@id/code_details_content_text_view"
+        android:background="@drawable/button_design" />
+
+    <Button
+        android:id="@+id/code_details_edit_button"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_below="@+id/code_details_content_type_image_view"
+        android:background="@drawable/button_design"
+        android:text="Edit" />
+
+    <Button
+        android:id="@+id/code_details_copy_code_button"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/code_details_code_name_text_view"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="#FFFFFF"
+        android:clickable="true"
+        android:contentDescription="copy button"
+        android:foreground="@drawable/copy_code"
+        android:outlineAmbientShadowColor="@color/cardview_shadow_end_color" />
+
+</RelativeLayout>

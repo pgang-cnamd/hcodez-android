@@ -1,23 +1,22 @@
 package com.hcodez.android.viewmodel;
 
 import android.app.Application;
-
-import com.hcodez.android.DataRepository;
-import com.hcodez.android.HcodezApp;
-import com.hcodez.android.db.entity.CodeEntity;
-import com.hcodez.android.ui.fragment.CodeListFragment;
-
-import java.nio.file.attribute.UserDefinedFileAttributeView;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
+import com.hcodez.android.DataRepository;
+import com.hcodez.android.HcodezApp;
+import com.hcodez.android.db.entity.CodeEntity;
+
+import java.util.List;
+
 public class CodeListViewModel extends AndroidViewModel {
+
+    private static final String TAG = "CodeListViewModel";
 
     private final DataRepository mRepository;
 
@@ -26,6 +25,7 @@ public class CodeListViewModel extends AndroidViewModel {
 
     public CodeListViewModel(@NonNull Application application) {
         super(application);
+        Log.d(TAG, "CodeListViewModel() called with: application = [" + application + "]");
 
         this.mObservableCodes = new MediatorLiveData<>();
         // set by default null, until we get data from the database.
@@ -42,6 +42,7 @@ public class CodeListViewModel extends AndroidViewModel {
      * Expose the LiveData Products query so the UI can observe it.
      */
     public LiveData<List<CodeEntity>> getCodes() {
+        Log.d(TAG, "getCodes() called");
         return this.mObservableCodes;
     }
 
@@ -51,6 +52,7 @@ public class CodeListViewModel extends AndroidViewModel {
      * @return live data list of codes
      */
     public LiveData<List<CodeEntity>> searchCodes(String query) {
+        Log.d(TAG, "searchCodes() called with: query = [" + query + "]");
         return mRepository.searchCodes(query);
     }
 }

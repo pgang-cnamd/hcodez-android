@@ -1,12 +1,21 @@
 package com.hcodez.android.ui;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.SearchView;
-import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -17,25 +26,50 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hcodez.android.HcodezApp;
 import com.hcodez.android.R;
 import com.hcodez.android.ui.adapter.CodeAdapter;
+import com.hcodez.android.ui.callback.CodeClickCallback;
+import com.hcodez.android.ui.callback.CodeLongClickCallback;
 import com.hcodez.android.viewmodel.CodeListViewModel;
 
-import java.util.ArrayList;
-import java.util.List;
+public class MainMenuActivity extends AppCompatActivity {
 
-public class MainMenuActivity extends AppCompatActivity implements CodeAdapter.OnNoteListener {
+    private static final String TAG = "MainMenuActivity";
 
-    private FloatingActionButton mAddCodeFloatingActionButton;
-    private FloatingActionButton mFindCodeFloatingActionButton;
-    private SearchView           mCodeSearchView;
-    private RecyclerView         mCodeListRecyclerView;
-    private CodeAdapter          mCodeAdapter;
-    private ArrayList<String>    mCodeItems;
-    private HcodezApp            app;
-    private TextView             mTextView;
+    private FloatingActionButton  mAddCodeFloatingActionButton;
+
+    private FloatingActionButton  mFindCodeFloatingActionButton;
+
+    private SearchView            mCodeSearchView;
+
+    private RecyclerView          mCodeListRecyclerView;
+
+    private CodeAdapter           mCodeAdapter;
+
+    private HcodezApp             app;
+
+    private CodeClickCallback codeClickCallback = codeEntity -> {
+        Log.d(TAG, "codeClickCallback.onClick() called with: codeEntity = [" + codeEntity + "]");
+
+        startActivity(CodeDetailsActivity
+                .craftIntent(getApplicationContext(), codeEntity.getId(), codeEntity.getContentId()));
+    };
+
+    private CodeLongClickCallback codeLongClickCallback = codeEntity -> {
+        Log.d(TAG, "codeLongClickCallback.onLongClick() called with: codeEntity = [" + codeEntity + "]");
+
+        ClipboardManager clipboard = (ClipboardManager)
+                getSystemService(Context.CLIPBOARD_SERVICE);
+
+        ClipData clip = ClipData.newPlainText("code", codeEntity.toString());
+
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText(getApplicationContext(), "Code copied to clipboard", Toast.LENGTH_SHORT).show();
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate() called with: savedInstanceState = [" + savedInstanceState + "]");
         setContentView(R.layout.activity_main_menu);
 
         mAddCodeFloatingActionButton  = findViewById(R.id.buttonAdd);
@@ -44,61 +78,71 @@ public class MainMenuActivity extends AppCompatActivity implements CodeAdapter.O
         mCodeListRecyclerView         = findViewById(R.id.codeList);
         app                           = new HcodezApp();
 
-        createAdapter();
+        mAddCodeFloatingActionButton.setOnClickListener(
+                view -> startActivity(
+                        new Intent(MainMenuActivity.this, AddCodeActivity.class)));
 
-        mAddCodeFloatingActionButton.setOnClickListener(view -> startActivity(new Intent(MainMenuActivity.this, CodeAddActivity.class)));
+        mFindCodeFloatingActionButton.setOnClickListener(
+                view -> startActivity(
+                        new Intent(MainMenuActivity.this, FindCodeActivity.class)));
 
-        mFindCodeFloatingActionButton.setOnClickListener(view -> startActivity(new Intent(MainMenuActivity.this, CodeFindActivity.class)));
+        mCodeSearchView.setOnClickListener(
+                view -> mCodeSearchView.setIconified(false));
 
-        mCodeSearchView.setOnClickListener(view -> mCodeSearchView.setIconified(false));
+        mCodeAdapter = new CodeAdapter(codeClickCallback, codeLongClickCallback);
+        mCodeListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mCodeListRecyclerView.setAdapter(mCodeAdapter);
+
+        final CodeListViewModel model = ViewModelProviders.of(this).get(CodeListViewModel.class);
+
+        model.getCodes().observe(this, codeEntities -> {
+            Log.d(TAG, "onCreate: observed change in code list from view model");
+            if (codeEntities != null) {
+                if (codeEntities.size() != 0) {
+                    mCodeAdapter.updateList(codeEntities);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume() called");
+
+        ViewModelProviders.of(this)
+                .get(CodeListViewModel.class)
+                .getCodes()
+                .observe(this,
+                        codeEntities -> {
+                    Log.d(TAG, "onResume: observed change in code list from view model");
+                    mCodeAdapter.updateList(codeEntities);
+                });
     }
 
     /**
      * Method used for hiding the keyboard when touching outside the text
      */
     public void hideKeyboard(View view) {
+        Log.d(TAG, "hideKeyboard() called with: view = [" + view + "]");
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    /**
-     * Method for creating the adapter and adding an ArrayList
-     */
-    public void createAdapter(){
-        mCodeAdapter = new CodeAdapter();
-        mCodeListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mCodeListRecyclerView.setAdapter(mCodeAdapter);
-        mCodeItems = new ArrayList<>();
-
-        final CodeListViewModel model = ViewModelProviders.of(this).get(CodeListViewModel.class);
-
-        model.getCodes().observe(this, codeEntities -> {
-            if (codeEntities != null) {
-                if (codeEntities.size() != 0) {
-                    mCodeItems.add(
-                            codeEntities.get(0).toString()
-                    );
-                } else {
-                    mCodeItems.add("Empty list");
-                }
-            } else {
-                mCodeItems.add("null code list");
-            }
-        });
-
-        mCodeAdapter.setItems(mCodeItems, this);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
-    public void onNoteClick(int position) {
-        String codeItem = mCodeItems.get(position);
-
-        Intent intent = new Intent(this, ContentRetrievalActivity.class);
-
-        Bundle bundle = new Bundle();
-        bundle.putString("codeItem", codeItem);
-        intent.putExtras(bundle);
-
-        startActivity(intent);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsMenuActivity.class));
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
