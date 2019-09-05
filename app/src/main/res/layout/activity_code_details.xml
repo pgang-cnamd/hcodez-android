@@ -45,16 +45,10 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_below="@id/code_details_code_string_text_view"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="100dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="40dp"
-        android:scaleType="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:scaleType="center" />
 
     <TextView
         android:id="@+id/code_details_code_name_text_view"
@@ -66,13 +60,12 @@
 
     <TextView
         android:id="@+id/code_details_code_string_text_view"
-        android:layout_width="250dp"
-        android:layout_height="75dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_below="@id/code_details_code_name_text_view"
         android:autoSizeTextType="uniform"
         android:text="CodeIdentifier"
-        android:textAlignment="textStart"
-        android:textSize="36sp" />
+        android:textAlignment="textStart" />
 
     <TextView
         android:layout_marginBottom="20dp"
@@ -103,11 +96,10 @@
         android:id="@+id/code_details_copy_code_button"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:layout_below="@id/code_details_code_name_text_view"
+        android:layout_below="@id/code_details_code_string_text_view"
         android:layout_alignParentRight="true"
-        android:layout_centerInParent="true"
         android:layout_marginLeft="45dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="40dp"
         android:backgroundTint="#FFFFFF"
         android:clickable="true"
         android:contentDescription="copy button"
