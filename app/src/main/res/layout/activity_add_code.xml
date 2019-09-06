@@ -15,9 +15,11 @@
         android:background="@drawable/button_design"
         android:contentDescription="@string/add_code_gallery_button_description"
         android:text="Content"
+        android:textColor="#FF424242"
         tools:targetApi="m" />
 
     <TextView
+        android:textColor="#FF424242"
         android:id="@+id/add_code_public_flag_text_view"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
@@ -26,7 +28,7 @@
 
     <Switch
         android:theme="@style/SCBSwitch"
-        android:textColorHighlight="#FF008577"
+        android:textColorHighlight="@color/colorPrimary"
         android:id="@+id/add_code_public_flag_switch"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
@@ -41,7 +43,8 @@
         android:layout_below="@id/add_code_password_edit_text"
         android:layout_centerHorizontal="true"
         android:background="@drawable/button_design"
-        android:text="@string/add_code_save_button_text" />
+        android:text="@string/add_code_save_button_text"
+        android:textColor="#FF424242" />
 
     <EditText
         android:id="@+id/add_code_password_edit_text"

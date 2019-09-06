@@ -14,7 +14,4 @@ public class SplashActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-
-    public static class AddContentActivity {
-    }
 }
