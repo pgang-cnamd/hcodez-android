@@ -1,10 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.hcodez.android">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.hcodez.android">
 
-    <application android:allowBackup="true"
-        android:label="@string/app_name"
+    <application
+        android:name=".HcodezApp"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"/>
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+
+
+        <activity android:name=".ui.EnterTextContentActivity"
+            android:theme="@style/AppTheme.CustomTheme"/>
+
+        <activity android:name=".ui.AddContentActivity"
+            android:theme="@style/AppTheme.CustomTheme"/>
+
+        <activity
+            android:name=".ui.SplashActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.LoginActivity" />
+
+        <activity
+            android:name=".ui.AddCodeActivity"
+            android:label="Add new code"
+            android:theme="@style/AppTheme.CustomTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="video/*" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.FindCodeActivity"
+            android:label="Find a code"
+            android:theme="@style/AppTheme.CustomTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.MainMenuActivity"
+            android:theme="@style/MainMenu.CustomTheme" />
+
+        <activity
+            android:name=".ui.CodeDetailsActivity"
+            android:theme="@style/AppTheme.CustomTheme" />
+
+        <activity
+            android:name=".ui.SettingsMenuActivity"
+            android:theme="@style/AppTheme" />
+
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.hcodez.android.scanner"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
 </manifest>
