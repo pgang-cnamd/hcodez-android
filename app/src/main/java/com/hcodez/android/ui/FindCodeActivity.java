@@ -38,7 +38,9 @@ import javax.annotation.Nonnull;
 
 public class FindCodeActivity extends AppCompatActivity {
 
-    private static final String TAG = "FindCodeActivity";
+    private static final String TAG                       = "FindCodeActivity";
+
+    private static final int    BITMAP_PROCESSING_QUALITY = 10;
 
     private Button textCodeButton;
     private Button imageCodeButton;
@@ -220,7 +222,7 @@ public class FindCodeActivity extends AppCompatActivity {
                 return;
             }
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            img.compress(Bitmap.CompressFormat.JPEG, 25, stream);
+            img.compress(Bitmap.CompressFormat.JPEG, BITMAP_PROCESSING_QUALITY, stream);
             img.recycle();
 
             final CodeScanner codeScanner = CodeScanner.getInstance(getApplicationContext());
