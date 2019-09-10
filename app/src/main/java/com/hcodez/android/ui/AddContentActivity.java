@@ -58,6 +58,11 @@ public class AddContentActivity extends MainMenuActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult() called with: requestCode = [" + requestCode + "], resultCode = [" + resultCode + "], data = [" + data + "]");
 
+        if (data == null) {
+            Log.d(TAG, "onActivityResult: received null data");
+            return;
+        }
+
         if (resultCode != RESULT_OK) {
             Toast.makeText(this, "Could not get your input", Toast.LENGTH_LONG).show();
             return;
