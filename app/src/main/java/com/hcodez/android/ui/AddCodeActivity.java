@@ -28,14 +28,18 @@ public class AddCodeActivity extends MainMenuActivity {
     public static final int REQUEST_CODE_ADD_CONTENT = 2;
 
     private EditText        mCodeNameEditText;
+
     private Switch          mSwitch;
+
     private EditText        mPasscodeEditText;
+
     private Button          mSaveButton;
+
     private Button          mAddContentButton;
 
     private CodeService     codeService;
 
-    private Uri currentContentUri = null;
+    private Uri             currentContentUri = null;
 
     private View.OnClickListener saveButtonOnClickListener = new View.OnClickListener() {
 

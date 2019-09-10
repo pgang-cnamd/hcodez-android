@@ -15,11 +15,11 @@ public class EnterTextContentActivity extends AppCompatActivity {
 
     private static final String TAG = "EnterTextContentActivit";
 
-    public static final String INTENT_STRING_EXTRA_KEY = "result";
+    public static final  String INTENT_STRING_EXTRA_KEY = "result";
 
     private EditText contentResourceUriEditText;
 
-    private Button resultButton;
+    private Button   resultButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

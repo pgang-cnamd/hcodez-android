@@ -50,7 +50,9 @@ public class FindCodeActivity extends AppCompatActivity {
     private static final int    BITMAP_PROCESSING_QUALITY = 10;
 
     private Button textCodeButton;
+
     private Button imageCodeButton;
+
     private Button scanButton;
 
     /**
