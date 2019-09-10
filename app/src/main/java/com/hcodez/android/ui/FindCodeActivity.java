@@ -1,9 +1,12 @@
 package com.hcodez.android.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -40,6 +43,10 @@ public class FindCodeActivity extends AppCompatActivity {
 
     private static final String TAG                       = "FindCodeActivity";
 
+    /**
+     * Quality of the bitmap send further to Google Cloud Vision
+     * for processing
+     */
     private static final int    BITMAP_PROCESSING_QUALITY = 10;
 
     private Button textCodeButton;
@@ -67,6 +74,13 @@ public class FindCodeActivity extends AppCompatActivity {
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             Log.d(TAG, "onCreate: received ACTION_SEND");
+
+            if (!isNetworkAvailable(this)) {
+                Toast.makeText(this, "Internet connectivity is required for code scanning", Toast.LENGTH_LONG).show();
+                finish();
+                return;
+            }
+
             if ("text/plain".equals(type)) {
                 Log.d(TAG, "onCreate: received text from intent");
                 handleIncomingText(intent
@@ -86,6 +100,10 @@ public class FindCodeActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Handle incoming text(parse codes)
+     * @param sharedText the text that needs to be handled
+     */
     private void handleIncomingText(final String sharedText) {
         Log.d(TAG, "handleIncomingText() called with: sharedText = [" + sharedText + "]");
 
@@ -150,6 +168,10 @@ public class FindCodeActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Handle an incoming image for processing
+     * @param imageUri the Uri to the image
+     */
     private void handleIncomingImage(Uri imageUri) {
         Log.d(TAG, "handleIncomingImage() called with: imageUri = [" + imageUri + "]");
         if (imageUri == null) {
@@ -174,8 +196,17 @@ public class FindCodeActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Dispatch an intent requesting the camera app to take a picture and save it
+     */
     private void dispatchTakePictureIntent() {
         Log.d(TAG, "dispatchTakePictureIntent() called");
+
+        if (!isNetworkAvailable(this)) {
+            Toast.makeText(this, "Internet connectivity is required for code scanning", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             Log.d(TAG, "dispatchTakePictureIntent: camera available");
@@ -202,6 +233,10 @@ public class FindCodeActivity extends AppCompatActivity {
         Log.d(TAG, "dispatchTakePictureIntent() returned");
     }
 
+    /**
+     * Process the image(to find codes)
+     * @param imageUri the uri to the image
+     */
     private void processImage(Uri imageUri) {
         final MutableLiveData<String> textLiveData = new MutableLiveData<>();
 
@@ -274,6 +309,11 @@ public class FindCodeActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Create a file for the picture to be stored in
+     * @return the file for the image
+     * @throws IOException exception regarding the filesystem
+     */
     private File createImageFile() throws IOException {
         // Create an image file name
         @SuppressLint("SimpleDateFormat")
@@ -292,6 +332,12 @@ public class FindCodeActivity extends AppCompatActivity {
         return image;
     }
 
+    /**
+     * Extract an InputStream from an Uri(to be used with content Uris)
+     * @param uri the Uri to be used
+     * @return an InputStream
+     * @throws FileNotFoundException if the file was not found
+     */
     private InputStream getInputStreamFromUri(@Nonnull Uri uri) throws FileNotFoundException {
         Log.d(TAG, "getInputStreamFromUri() called with: uri = [" + uri + "]");
 
@@ -308,5 +354,29 @@ public class FindCodeActivity extends AppCompatActivity {
             return getContentResolver().openInputStream(uri);
         }
         throw new FileNotFoundException("bad uri scheme");
+    }
+
+    /**
+     * Checks whether the device is connected to the internet or not
+     * @return network connectivity status
+     */
+    public boolean isNetworkAvailable(Context context) {
+        Log.d(TAG, "isNetworkAvailable() called");
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        if (activeNetworkInfo == null) {
+            Log.w(TAG, "isNetworkAvailable: network info not available");
+            return false;
+        }
+
+        if (!activeNetworkInfo.isConnected()) {
+            Log.w(TAG, "isNetworkAvailable: device is not connected to the internet");
+            return false;
+        }
+
+        Log.d(TAG, "isNetworkAvailable: device is connected to the internet");
+        return true;
     }
 }
