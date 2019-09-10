@@ -14,7 +14,7 @@
         android:layout_centerVertical="true"
         android:background="@drawable/button_design"
         android:forceHasOverlappingRendering="true"
-        android:foreground="@drawable/ic_code_scan"
+        android:foreground="@drawable/ic_code"
         tools:targetApi="m" />
 
     <Button
@@ -23,8 +23,7 @@
         android:layout_height="75dp"
         android:layout_centerInParent="true"
         android:background="@drawable/button_design"
-        android:foreground="@drawable/ic_gallery_scan"
-        android:foregroundTint="#FF424242" />
+        android:foreground="@drawable/ic_gallery_scan" />
 
     <Button
         android:id="@+id/find_code_scan_code_button"

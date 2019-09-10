@@ -85,7 +85,7 @@
 
         <activity
             android:name=".ui.CodeDetailsActivity"
-            android:theme="@style/AppTheme.CustomTheme" />
+            android:theme="@style/CodeDetails.CustomTheme" />
 
         <activity
             android:name=".ui.SettingsMenuActivity"
