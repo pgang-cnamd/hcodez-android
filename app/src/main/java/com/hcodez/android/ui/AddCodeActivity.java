@@ -149,6 +149,11 @@ public class AddCodeActivity extends MainMenuActivity {
             Toast.makeText(this, "Could not create content, please try again", Toast.LENGTH_LONG).show();
         };
 
+        if (data == null) {
+            Log.d(TAG, "onActivityResult: received null data");
+            return;
+        }
+
         if (resultCode != RESULT_OK) {
             runOnUiThread(errorToast);
         }
