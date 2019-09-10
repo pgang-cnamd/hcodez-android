@@ -14,8 +14,8 @@
 
     <Button
         android:id="@+id/code_details_open_content_button"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_below="@id/code_details_content_text_view"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="100dp"
@@ -62,8 +62,8 @@
 
     <Button
         android:id="@+id/share_code_button"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_below="@id/code_details_content_text_view"
         android:layout_alignParentStart="true"
         android:layout_marginRight="100dp"
