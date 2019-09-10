@@ -27,64 +27,62 @@ public enum ContentType {
     private static final String TAG = "ContentType";
 
     /**
-     * Map of content types and schemes
+     * Map of content types and metadata
      */
-    private static Map<ContentType, Set<String>> schemes;
+    private static Map<ContentType, ContentTypeMetadata> metadata;
 
     /**
-     * Get the schemes that a content type has
-     * @return the schemes
+     * Get the metadata that a content type has
+     * @return the metadata
      */
-    public Set<String> getSchemes() {
-        Log.d(TAG, "getSchemes() called");
+    public ContentTypeMetadata getMetadata() {
+        Log.d(TAG, "getMetadata() called");
 
-        if (schemes == null) {
+        if (metadata == null) {
             synchronized (ContentType.class) {
-                if (schemes == null) {
-                    loadSchemes();
+                if (metadata == null) {
+                    loadMetadata();
                 }
             }
         }
-        return schemes.get(this);
+        return metadata.get(this);
     }
 
     /**
-     * Load all schemes
+     * Load all metadata
      */
-    private static void loadSchemes() {
-        Log.d(TAG, "getSchemes() called");
+    private static void loadMetadata() {
+        Log.d(TAG, "getMetadata() called");
 
-        if (schemes == null) {
+        if (metadata == null) {
             synchronized (ContentType.class) {
-                if (schemes == null) {
-                    Log.d(TAG, "loadSchemes: loading schemes from resource file");
-                    schemes = new HashMap<>();
+                if (metadata == null) {
+                    Log.d(TAG, "loadMetadata: loading metadata from resource file");
+                    metadata = new HashMap<>();
                     InputStream inputStream = ContentType.class.getResourceAsStream("/res/raw/content_types.json");
                     if (inputStream == null) {
-                        Log.e(TAG, "loadSchemes: failed to open resource file");
+                        Log.e(TAG, "loadMetadata: failed to open resource file");
                         return;
                     }
 
-                    Map<String, Set<String>> data;
-                    Type typeToken = new TypeToken<Map<String, Set<String>>>(){}.getType();
+                    Map<String, ContentTypeMetadata> data;
+                    Type typeToken = new TypeToken<Map<String, Set<ContentTypeMetadata>>>(){}.getType();
                     data = GsonUtil.getGsonInstance().fromJson(new InputStreamReader(inputStream), typeToken);
 
                     if (data == null) {
-                        Log.e(TAG, "loadSchemes: failed to extract content types");
+                        Log.e(TAG, "loadMetadata: failed to extract content type metadata");
                         return;
                     }
 
                     for (ContentType contentType : ContentType.values()) {
-                        Set<String> set = data.getOrDefault(contentType.toString(), new HashSet<>());
-                        if (set == null) {
-                            Log.w(TAG, "loadSchemes: failed to load schemes for content type " + contentType.toString());
+                        ContentTypeMetadata metadata = data.getOrDefault(contentType.toString(), null);
+                        if (metadata == null) {
+                            Log.w(TAG, "loadMetadata: failed to load metadata for content type " + contentType.toString());
                             continue;
                         }
-                        schemes.put(contentType, set);
+                        ContentType.metadata.put(contentType, metadata);
                     }
-
-                    Log.i(TAG, "getSchemes: loaded schemes");
-
+                    Log.i(TAG, "getMetadata: loaded metadata");
                 }
             }
         }
@@ -106,13 +104,13 @@ public enum ContentType {
             return Optional.empty();
         }
 
-        if (schemes == null) {
-            loadSchemes();
+        if (metadata == null) {
+            loadMetadata();
         }
 
         Log.d(TAG, "get: checking scheme");
-        for (ContentType contentType : schemes.keySet()) {
-            for (String scheme : contentType.getSchemes()) {
+        for (ContentType contentType : metadata.keySet()) {
+            for (String scheme : contentType.getMetadata().getSchemes()) {
                 if (uri.getScheme().equals(scheme)) {
                     return Optional.of(contentType);
                 }
