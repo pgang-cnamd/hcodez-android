@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/cardview_dark_background</item>
+        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
@@ -20,12 +21,14 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
         <item name="android:windowBackground">@drawable/rounded_corners</item>
+        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
     </style>
 
     <style name="MainMenu.CustomTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/cardview_light_background</item>
+        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
     </style>
 
     <style name="CodeDetails.CustomTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -36,6 +39,7 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
         <item name="android:windowBackground">@drawable/rounded_corners</item>
+        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
     </style>
 
     <style name="SCBSwitch" parent="Theme.AppCompat.Light">
@@ -49,6 +53,13 @@
         <!-- inactive track color (30% transparency) -->
         <item name="android:colorForeground">#42221f1f
         </item>
+    </style>
+
+    <style name="CustomActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
     </style>
 
 </resources>
