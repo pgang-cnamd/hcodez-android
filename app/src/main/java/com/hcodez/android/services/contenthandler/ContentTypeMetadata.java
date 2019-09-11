@@ -3,6 +3,7 @@ package com.hcodez.android.services.contenthandler;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.google.gson.annotations.SerializedName;
@@ -32,16 +33,16 @@ public class ContentTypeMetadata {
      * or to open a content type)
      */
     @Data
-    private class IntentData {
+    public class IntentData {
 
-        @SerializedName("enter_text_activity") private Boolean             enterTextActivity;
-        @SerializedName("action")              private String              action;
-        @SerializedName("uri")                 private String              uri;
-        @SerializedName("extra")               private Map<String, Object> extra;
-        @SerializedName("categories")          private Set<String>         categories;
-        @SerializedName("flags")               private Set<Integer>        flags;
-        @SerializedName("type")                private String              type;
-        @SerializedName("request_code")        private Integer             requestCode;
+        @SerializedName("enter_text_activity") public Boolean             enterTextActivity;
+        @SerializedName("action")              public String              action;
+        @SerializedName("uri")                 public String              uri;
+        @SerializedName("extra")               public Map<String, Object> extra;
+        @SerializedName("categories")          public Set<String>         categories;
+        @SerializedName("flags")               public Set<Integer>        flags;
+        @SerializedName("type")                public String              type;
+        @SerializedName("request_code")        public Integer             requestCode;
 
     }
 
@@ -75,9 +76,10 @@ public class ContentTypeMetadata {
 
         final Intent intent = new Intent(opener.getAction(), uri);
 
-//        if (opener.getExtra() != null) {
-//            openerIntent.putExtras(opener.getExtra())
-//        }
+        if (creator.getExtra() != null) {
+            Log.d(TAG, "buildOpenerIntent: adding extra");
+            intent.putExtras(mapToBundle(creator.getExtra()));
+        }
 
         if (opener.getCategories() != null) {
             Log.d(TAG, "buildOpenerIntent: adding categories");
@@ -104,17 +106,20 @@ public class ContentTypeMetadata {
     public Intent buildCreatorIntent(Context context) {
         Log.d(TAG, "buildCreatorIntent() called with: context = [" + context + "]");
 
-        if (creator.getEnterTextActivity()) {
-            Log.d(TAG, "buildCreatorIntent: building enter text content intent");
-            return new Intent(context, EnterTextContentActivity.class);
+        if (creator.getEnterTextActivity() != null) {
+            if (creator.getEnterTextActivity()) {
+                Log.d(TAG, "buildCreatorIntent: building enter text content intent");
+                return new Intent(context, EnterTextContentActivity.class);
+            }
         }
         Log.d(TAG, "buildCreatorIntent: building complex intent");
 
         final Intent intent = new Intent(creator.getAction(), Uri.parse(creator.getUri()));
 
-//        if (creator.getExtra() != null) {
-//            intent.putExtras(creator.getExtra())
-//        }
+        if (creator.getExtra() != null) {
+            Log.d(TAG, "buildOpenerIntent: adding extra");
+            intent.putExtras(mapToBundle(creator.getExtra()));
+        }
 
         if (creator.getCategories() != null) {
             Log.d(TAG, "buildCreatorIntent: adding categories");
@@ -136,5 +141,70 @@ public class ContentTypeMetadata {
         }
 
         return intent;
+    }
+
+    private Bundle mapToBundle(Map<String, Object> map) {
+        Log.d(TAG, "mapToBundle() called with: map = [" + map + "]");
+
+        final Bundle bundle = new Bundle();
+
+        for (String key: map.keySet()) {
+            if (key == null) {
+                Log.d(TAG, "mapToBundle: null key, skipping");
+                continue;
+            }
+            if (key.equals("")) {
+                Log.d(TAG, "mapToBundle: empty key, skipping");
+                continue;
+            }
+
+            Object object = map.get(key);
+            if (object instanceof Integer) {
+                printLogMessage(key, int.class, object);
+                bundle.putInt(key, (int) object);
+                continue;
+            }
+            if (object instanceof Double) {
+                printLogMessage(key, double.class, object);
+                bundle.putDouble(key, (double) object);
+                continue;
+            }
+            if (object instanceof Float) {
+                printLogMessage(key, float.class, object);
+                bundle.putFloat(key, (float) object);
+                continue;
+            }
+            if (object instanceof String) {
+                printLogMessage(key, String.class, object);
+                bundle.putString(key, (String) object);
+                continue;
+            }
+            if (object instanceof Short) {
+                printLogMessage(key, short.class, object);
+                bundle.putShort(key, (short) object);
+                continue;
+            }
+            if (object instanceof Long) {
+                printLogMessage(key, long.class, object);
+                bundle.putLong(key, (long) object);
+                continue;
+            }
+            if (object instanceof Boolean) {
+                printLogMessage(key, boolean.class, object);
+                bundle.putBoolean(key, (boolean) object);
+                continue;
+            }
+            Log.d(TAG, "mapToBundle: key " + key + " has unsupported type");
+        }
+        return bundle;
+    }
+
+    private void printLogMessage(String key, Class clazz, Object object) {
+        Log.d(TAG, "mapToBundle: key "
+                + key
+                + ", class "
+                + clazz.getName()
+                + " , object "
+                + object.toString());
     }
 }

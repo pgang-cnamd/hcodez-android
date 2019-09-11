@@ -45,7 +45,7 @@ public abstract class ContentHandler {
     /**
      * Get the appropriate content opener for an Uri
      * @param uri the uri
-     * @return the content opener
+     * @return the content handler
      */
     public static ContentHandler get(Uri uri) {
         Log.d(TAG, "get() called with: uri = [" + uri + "]");
@@ -63,14 +63,17 @@ public abstract class ContentHandler {
             Log.d(TAG, "get: received null content type");
             return null;
         }
-        switch (contentType) {
-            case URL:
-                return new UrlContentHandler(uri);
-            case MEDIA:
-            case FILE:
-            case CONTACT:
-            default:
-                return new IntentContentHandler(uri);
-        }
+        return new ContentHandler(uri) {
+            private final ContentTypeMetadata metadata = contentType.getMetadata();
+            @Override
+            public Intent getOpenerIntent() {
+                return metadata.buildOpenerIntent(this.uri);
+            }
+
+            @Override
+            public Intent getCreatorIntent(Context context) {
+                return metadata.buildCreatorIntent(context);
+            }
+        };
     }
 }

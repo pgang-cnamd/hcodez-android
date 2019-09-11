@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.hcodez.android.R;
 import com.hcodez.android.services.contenthandler.ContentType;
+import com.hcodez.android.services.contenthandler.ContentTypeMetadata;
 
 import java.util.ArrayList;
 
@@ -18,15 +19,20 @@ public class AddContentActivity extends MainMenuActivity {
     private static final String TAG = "AddContentActivity";
 
     public  static final String INTENT_STRING_URI_KEY           = "content_resource_uri";
-    private static final int    REQUEST_CODE_ENTER_TEXT_CONTENT = 1;
 
     private ListView mContentTypesListView;
 
 
     private AdapterView.OnItemClickListener itemClickListener = (parent, view, position, id) -> {
         Log.d(TAG, "itemClickListener.onClick() called");
-        Intent intent = new Intent(AddContentActivity.this, EnterTextContentActivity.class);
-        startActivityForResult(intent, REQUEST_CODE_ENTER_TEXT_CONTENT);
+
+        if (!(mContentTypesListView.getAdapter() instanceof ArrayAdapter)) {
+            Log.e(TAG, "itemClickListener.onClick: can't get list adapter");
+            return;
+        }
+        ArrayAdapter<String> adapter = (ArrayAdapter<String>) mContentTypesListView.getAdapter();
+        ContentTypeMetadata metadata = ContentType.valueOf(adapter.getItem(position)).getMetadata();
+        startActivityForResult(metadata.buildCreatorIntent(getApplicationContext()), metadata.getCreator().getRequestCode());
     };
 
 
