@@ -51,11 +51,13 @@
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_below="@+id/add_code_public_flag_text_view"
+        android:layout_marginTop="-2dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/add_code_password_hint"
         android:inputType="textPassword"
-        android:textColor="@android:color/tertiary_text_light" />
+        android:textColor="@android:color/tertiary_text_light"
+        android:visibility="gone"/>
 
     <EditText
         android:id="@+id/add_code_name_edit_text"

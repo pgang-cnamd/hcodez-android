@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -20,6 +21,10 @@ import com.hcodez.android.services.CodeService;
 import com.hcodez.codeengine.model.CodeType;
 
 import org.joda.time.Instant;
+
+import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 
 public class AddCodeActivity extends MainMenuActivity {
 
@@ -135,8 +140,22 @@ public class AddCodeActivity extends MainMenuActivity {
 
         mSaveButton.setOnClickListener(saveButtonOnClickListener);
         mAddContentButton.setOnClickListener(addContentClick);
+        mSwitch.setOnCheckedChangeListener(this::onCheckedChanged);
 
         codeService = CodeService.getInstance(new HcodezApp());
+    }
+
+    public void onCheckedChanged (CompoundButton buttonView, boolean isChecked){
+
+        switch (buttonView.getId()) {
+            case R.id.add_code_public_flag_switch:
+                if (isChecked == true) {
+                    mPasscodeEditText.setVisibility(View.VISIBLE);
+                } else {
+                    mPasscodeEditText.setVisibility(View.GONE);
+                }
+                break;
+        }
     }
 
     private View.OnClickListener addContentClick = v -> {
