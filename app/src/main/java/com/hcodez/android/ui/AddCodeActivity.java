@@ -151,6 +151,7 @@ public class AddCodeActivity extends MainMenuActivity {
             case R.id.add_code_public_flag_switch:
                 if (isChecked == true) {
                     mPasscodeEditText.setVisibility(View.VISIBLE);
+                    mPasscodeEditText.setText(null);
                 } else {
                     mPasscodeEditText.setVisibility(View.GONE);
                 }

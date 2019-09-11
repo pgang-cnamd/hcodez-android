@@ -30,7 +30,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.LoginActivity"
+            android:theme="@style/MainMenu.CustomTheme"/>
 
         <activity
             android:name=".ui.AddCodeActivity"
