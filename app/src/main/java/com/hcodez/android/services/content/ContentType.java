@@ -1,4 +1,4 @@
-package com.hcodez.android.services.contenthandler;
+package com.hcodez.android.services.content;
 
 import android.net.Uri;
 import android.util.Log;

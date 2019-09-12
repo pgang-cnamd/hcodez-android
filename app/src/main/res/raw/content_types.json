@@ -10,19 +10,12 @@
       "categories": null,
       "flags": null,
       "type": null
-    },
-    "opener": {
-      "action": "android.intent.action.VIEW",
-      "uri": "https://example.com"
     }
   },
   "URL": {
     "schemes": ["http", "https"],
     "creator": {
       "enter_text_activity": true
-    },
-    "opener": {
-      "action": "android.intent.action.VIEW"
     }
   },
   "CONTACT": {
@@ -31,9 +24,6 @@
       "action": "android.intent.action.PICK",
       "uri": "content://contacts",
       "type": "vnd.android.cursor.dir/phone_v2"
-    },
-    "opener": {
-      "action": "android.intent.action.VIEW"
     }
   }
 }

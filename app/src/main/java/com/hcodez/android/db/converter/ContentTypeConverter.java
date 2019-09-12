@@ -4,7 +4,7 @@ import android.util.Log;
 
 import androidx.room.TypeConverter;
 
-import com.hcodez.android.services.contenthandler.ContentType;
+import com.hcodez.android.services.content.ContentType;
 
 public class ContentTypeConverter {
 

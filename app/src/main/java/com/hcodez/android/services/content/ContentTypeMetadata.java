@@ -1,4 +1,4 @@
-package com.hcodez.android.services.contenthandler;
+package com.hcodez.android.services.content;
 
 import android.content.Context;
 import android.content.Intent;
@@ -48,7 +48,6 @@ public class ContentTypeMetadata {
     @SerializedName("schemes")          private Set<String> schemes;
     @SerializedName("validation_regex") private String      validationRegex;
     @SerializedName("creator")          private IntentData  creator;
-    @SerializedName("opener")           private IntentData  opener;
 
     private transient Pattern validationPattern;
 
@@ -68,38 +67,6 @@ public class ContentTypeMetadata {
             }
         }
         return validationPattern;
-    }
-
-    public Intent buildOpenerIntent(Uri uri) {
-        Log.d(TAG, "buildOpenerIntent() called with: uri = [" + uri + "]");
-
-        final Intent intent = new Intent(opener.getAction(), uri);
-
-        if (creator.getExtra() != null) {
-            Log.d(TAG, "buildOpenerIntent: adding extra");
-            intent.putExtras(mapToBundle(creator.getExtra()));
-        }
-
-        if (opener.getCategories() != null) {
-            Log.d(TAG, "buildOpenerIntent: adding categories");
-            for (String category : opener.getCategories()) {
-                intent.addCategory(category);
-            }
-        }
-
-        if (opener.getFlags() != null) {
-            Log.d(TAG, "buildOpenerIntent: adding flags");
-            for (Integer flag : opener.getFlags()) {
-                intent.addFlags(flag);
-            }
-        }
-
-        if (opener.getType() != null) {
-            Log.d(TAG, "buildOpenerIntent: adding type");
-            intent.setType(opener.getType());
-        }
-
-        return intent;
     }
 
     public Intent buildCreatorIntent(Context context) {

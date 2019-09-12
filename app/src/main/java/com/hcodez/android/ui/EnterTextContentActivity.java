@@ -3,6 +3,7 @@ package com.hcodez.android.ui;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -14,8 +15,6 @@ import com.hcodez.android.R;
 public class EnterTextContentActivity extends AppCompatActivity {
 
     public static final String TAG = "EnterTextContentActivit";
-
-    public static final String INTENT_STRING_EXTRA_KEY = "result";
 
     private EditText contentResourceUriEditText;
 
@@ -37,10 +36,8 @@ public class EnterTextContentActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "No resource Uri entered", Toast.LENGTH_SHORT).show();
                 return;
             }
-            Intent data = new Intent()
-                    .putExtra(INTENT_STRING_EXTRA_KEY,
-                            contentResourceUriEditText.getText().toString())
-                    .putExtra(TAG, true);
+            Intent data = new Intent().setData(
+                    Uri.parse(contentResourceUriEditText.getText().toString()));
             if (getParent() == null) {
                 setResult(RESULT_OK, data);
             } else {
