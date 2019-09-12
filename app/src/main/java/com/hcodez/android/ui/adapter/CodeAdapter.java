@@ -107,6 +107,7 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
             }
         });
         mCodeList = newCodeList;
+        mCodeListFull = new ArrayList<>(newCodeList);
         result.dispatchUpdatesTo(this);
         Log.d(TAG, "updateList: dispatches updates to adapter");
     }
