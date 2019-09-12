@@ -20,7 +20,8 @@ public class AddContentActivity extends MainMenuActivity {
 
     public  static final String INTENT_STRING_URI_KEY           = "content_resource_uri";
 
-    private ListView mContentTypesListView;
+    private ListView             mContentTypesListView;
+    private ArrayAdapter<String> mContentTypesListAdapter;
 
 
     private AdapterView.OnItemClickListener itemClickListener = (parent, view, position, id) -> {
@@ -30,8 +31,7 @@ public class AddContentActivity extends MainMenuActivity {
             Log.e(TAG, "itemClickListener.onClick: can't get list adapter");
             return;
         }
-        ArrayAdapter<String> adapter = (ArrayAdapter<String>) mContentTypesListView.getAdapter();
-        ContentTypeMetadata metadata = ContentType.valueOf(adapter.getItem(position)).getMetadata();
+        ContentTypeMetadata metadata = ContentType.valueOf(mContentTypesListAdapter.getItem(position)).getMetadata();
         startActivityForResult(metadata.buildCreatorIntent(getApplicationContext()), metadata.getCreator().getRequestCode());
     };
 
@@ -48,13 +48,12 @@ public class AddContentActivity extends MainMenuActivity {
             mContentList.add(contentType.toString());
         }
 
-        ArrayAdapter<String> contentTypesListAdapter =
-                new ArrayAdapter<>(this,
-                        R.layout.item_content_types_list,
-                        R.id.content_list_text_view,
-                        mContentList);
+        mContentTypesListAdapter = new ArrayAdapter<>(this,
+                R.layout.item_content_types_list,
+                R.id.content_list_text_view,
+                mContentList);
 
-        mContentTypesListView.setAdapter(contentTypesListAdapter);
+        mContentTypesListView.setAdapter(mContentTypesListAdapter);
 
         mContentTypesListView.setOnItemClickListener(itemClickListener);
     }
