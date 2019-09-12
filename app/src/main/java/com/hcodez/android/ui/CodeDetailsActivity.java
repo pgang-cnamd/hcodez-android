@@ -163,7 +163,13 @@ public class CodeDetailsActivity extends MainMenuActivity{
                         Log.d(TAG, "openContentOnClick: null resource uri");
                         return;
                     }
-                    startActivity(ContentHandler.get(contentEntity.getResourceURI()).getOpenerIntent());
+                    ContentHandler handler = ContentHandler.get(contentEntity.getResourceURI());
+                    if (handler == null) {
+                        Log.e(TAG, "onCreate: cannot open content");
+                        Toast.makeText(getApplicationContext(), "Cannot open content", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    startActivity(handler.getOpenerIntent());
         }));
     }
 

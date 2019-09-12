@@ -109,6 +109,10 @@ public enum ContentType {
 
         Log.d(TAG, "get: checking scheme");
         for (ContentType contentType : metadata.keySet()) {
+            if (contentType.getMetadata().getSchemes() == null) {
+                Log.w(TAG, "get: no schemes, cannot return content type");
+                return Optional.empty();
+            }
             for (String scheme : contentType.getMetadata().getSchemes()) {
                 if (uri.getScheme().equals(scheme)) {
                     return Optional.of(contentType);

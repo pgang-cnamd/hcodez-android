@@ -25,8 +25,6 @@ public class AddCodeActivity extends MainMenuActivity {
 
     private static final String TAG = "AddCodeActivity";
 
-    public static final int REQUEST_CODE_ADD_CONTENT = 2;
-
     private EditText        mCodeNameEditText;
     private Switch          mSwitch;
     private EditText        mPasscodeEditText;
@@ -137,7 +135,7 @@ public class AddCodeActivity extends MainMenuActivity {
 
     private View.OnClickListener addContentClick = v -> {
         Intent intent = new Intent(AddCodeActivity.this, AddContentActivity.class);
-        startActivityForResult(intent, REQUEST_CODE_ADD_CONTENT);
+        startActivityForResult(intent, 0);
     };
 
     @Override
@@ -157,14 +155,14 @@ public class AddCodeActivity extends MainMenuActivity {
         if (resultCode != RESULT_OK) {
             runOnUiThread(errorToast);
         }
-        if (requestCode == REQUEST_CODE_ADD_CONTENT) {
-            String uriString = data.getStringExtra(AddContentActivity.INTENT_STRING_URI_KEY);
-            if (uriString == null) {
-                runOnUiThread(errorToast);
-                Log.w(TAG, "onActivityResult: null resource uri");
-                return;
-            }
-            currentContentUri = Uri.parse(uriString);
+        Log.d(TAG, "onActivityResult: data " + data.toString());
+
+        String uriString = data.getStringExtra(AddContentActivity.INTENT_STRING_URI_KEY);
+        if (uriString == null) {
+            runOnUiThread(errorToast);
+            Log.w(TAG, "onActivityResult: null resource uri");
+            return;
         }
+        currentContentUri = Uri.parse(uriString);
     }
 }

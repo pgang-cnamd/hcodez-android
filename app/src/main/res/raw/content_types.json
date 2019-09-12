@@ -9,8 +9,7 @@
       "extra": null,
       "categories": null,
       "flags": null,
-      "type": null,
-      "request_code": -1
+      "type": null
     },
     "opener": {
       "action": "android.intent.action.VIEW",
@@ -20,19 +19,18 @@
   "URL": {
     "schemes": ["http", "https"],
     "creator": {
-      "enter_text_activity": true,
-      "request_code": 1
+      "enter_text_activity": true
     },
     "opener": {
       "action": "android.intent.action.VIEW"
     }
   },
   "CONTACT": {
+    "schemes": ["content"],
     "creator": {
       "action": "android.intent.action.PICK",
       "uri": "content://contacts",
-      "type": "vnd.android.cursor.dir/phone_v2",
-      "request_code": 2
+      "type": "vnd.android.cursor.dir/phone_v2"
     },
     "opener": {
       "action": "android.intent.action.VIEW"

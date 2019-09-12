@@ -13,7 +13,7 @@ import com.hcodez.android.R;
 
 public class EnterTextContentActivity extends AppCompatActivity {
 
-    private static final String TAG = "EnterTextContentActivit";
+    public static final String TAG = "EnterTextContentActivit";
 
     public static final String INTENT_STRING_EXTRA_KEY = "result";
 
@@ -38,9 +38,9 @@ public class EnterTextContentActivity extends AppCompatActivity {
                 return;
             }
             Intent data = new Intent()
-                    .putExtra(
-                            INTENT_STRING_EXTRA_KEY,
-                            contentResourceUriEditText.getText().toString());
+                    .putExtra(INTENT_STRING_EXTRA_KEY,
+                            contentResourceUriEditText.getText().toString())
+                    .putExtra(TAG, true);
             if (getParent() == null) {
                 setResult(RESULT_OK, data);
             } else {

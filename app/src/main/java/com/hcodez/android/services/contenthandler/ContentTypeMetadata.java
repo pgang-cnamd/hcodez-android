@@ -35,15 +35,14 @@ public class ContentTypeMetadata {
     @Data
     public class IntentData {
 
-        @SerializedName("enter_text_activity") public Boolean             enterTextActivity;
-        @SerializedName("action")              public String              action;
-        @SerializedName("uri")                 public String              uri;
-        @SerializedName("extra")               public Map<String, Object> extra;
-        @SerializedName("categories")          public Set<String>         categories;
-        @SerializedName("flags")               public Set<Integer>        flags;
-        @SerializedName("type")                public String              type;
-        @SerializedName("request_code")        public Integer             requestCode;
-
+        @SerializedName("enter_text_activity") private Boolean             enterTextActivity;
+        @SerializedName("action")              private String              action;
+        @SerializedName("uri")                 private String              uri;
+        @SerializedName("extra")               private Map<String, Object> extra;
+        @SerializedName("categories")          private Set<String>         categories;
+        @SerializedName("flags")               private Set<Integer>        flags;
+        @SerializedName("type")                private String              type;
+        @SerializedName("request_code")        private Integer             requestCode;
     }
 
     @SerializedName("schemes")          private Set<String> schemes;

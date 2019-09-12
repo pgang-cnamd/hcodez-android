@@ -18,11 +18,10 @@ public class AddContentActivity extends MainMenuActivity {
 
     private static final String TAG = "AddContentActivity";
 
-    public  static final String INTENT_STRING_URI_KEY           = "content_resource_uri";
+    public static final String INTENT_STRING_URI_KEY = "content_resource_uri";
 
     private ListView             mContentTypesListView;
     private ArrayAdapter<String> mContentTypesListAdapter;
-
 
     private AdapterView.OnItemClickListener itemClickListener = (parent, view, position, id) -> {
         Log.d(TAG, "itemClickListener.onClick() called");
@@ -31,8 +30,9 @@ public class AddContentActivity extends MainMenuActivity {
             Log.e(TAG, "itemClickListener.onClick: can't get list adapter");
             return;
         }
+//        awaitedContentType = ContentType.valueOf(mContentTypesListAdapter.getItem(position));
         ContentTypeMetadata metadata = ContentType.valueOf(mContentTypesListAdapter.getItem(position)).getMetadata();
-        startActivityForResult(metadata.buildCreatorIntent(getApplicationContext()), metadata.getCreator().getRequestCode());
+        startActivityForResult(metadata.buildCreatorIntent(getApplicationContext()), 0);
     };
 
 
@@ -72,10 +72,22 @@ public class AddContentActivity extends MainMenuActivity {
             Toast.makeText(this, "Could not get your input", Toast.LENGTH_LONG).show();
             return;
         }
-        String result = data.getStringExtra(EnterTextContentActivity.INTENT_STRING_EXTRA_KEY);
 
+        Log.d(TAG, "onActivityResult: data " + data.toString());
+
+        final String resultUri;
+
+        if (data.getStringExtra(EnterTextContentActivity.INTENT_STRING_EXTRA_KEY) != null) {
+            Log.d(TAG, "onActivityResult: content provided by EnterTextContentActivity");
+            resultUri = data.getStringExtra(EnterTextContentActivity.INTENT_STRING_EXTRA_KEY);
+        } else {
+            Log.d(TAG, "onActivityResult: content provided by external source");
+            resultUri = data.getData() != null ? data.getData().toString() : null;
+        }
+
+        Log.d(TAG, "onActivityResult: building intent");
         Intent contentData = new Intent();
-        contentData.putExtra(INTENT_STRING_URI_KEY, result);
+        contentData.putExtra(INTENT_STRING_URI_KEY, resultUri);
         if (getParent() == null) {
             setResult(RESULT_OK, contentData);
         } else {
