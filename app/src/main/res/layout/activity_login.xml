@@ -21,7 +21,7 @@
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="75dp"
         android:layout_below="@id/loginPass"
         android:layout_centerHorizontal="true"
