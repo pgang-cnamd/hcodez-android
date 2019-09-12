@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/cardview_dark_background</item>
-        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
+        <item name="android:windowAnimationStyle">@style/CustomPopupAnimation</item>
     </style>
 
     <style name="SettingsTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -29,7 +29,7 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
         <item name="android:windowBackground">@drawable/rounded_corners</item>
-        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
+        <item name="android:windowAnimationStyle">@style/CustomPopupAnimation</item>
     </style>
 
     <style name="MainMenu.CustomTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -47,7 +47,7 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
         <item name="android:windowBackground">@drawable/rounded_corners</item>
-        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
+        <item name="android:windowAnimationStyle">@style/CustomPopupAnimation</item>
     </style>
 
     <style name="SCBSwitch" parent="Theme.AppCompat.Light">
@@ -63,7 +63,7 @@
         </item>
     </style>
 
-    <style name="CustomActivityAnimation" parent="@android:style/Animation.Activity">
+    <style name="CustomPopupAnimation" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
         <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
         <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
@@ -71,7 +71,7 @@
     </style>
 
     <style name="CustomActivityAnimationSimple" parent="@android:style/Animation.Activity">
-        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right_activity</item>
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right_simple</item>
         <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
         <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
         <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
