@@ -46,7 +46,7 @@ public final class Migrations {
             Log.d(TAG, "migrate() called with: database = [" + database + "]");
 
             database.execSQL("ALTER TABLE `content`" +
-                    "ADD `content_type` TEXT NOT NULL DEFAULT 'URL'");
+                    "ADD `content_type` TEXT");
         }
     };
 }
