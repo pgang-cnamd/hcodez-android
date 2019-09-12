@@ -6,6 +6,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.hcodez.android.services.contenthandler.ContentType;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,4 +29,7 @@ public class ContentEntity {
 
     @ColumnInfo(name = "resource_uri")
     private Uri resourceURI;
+
+    @ColumnInfo(name = "content_type")
+    private ContentType contentType;
 }
