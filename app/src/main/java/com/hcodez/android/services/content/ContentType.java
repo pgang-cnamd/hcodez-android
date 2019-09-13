@@ -4,18 +4,10 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
-import com.google.gson.reflect.TypeToken;
 import com.hcodez.android.services.content.handlers.ContactHandler;
+import com.hcodez.android.services.content.handlers.FileHandler;
 import com.hcodez.android.services.content.handlers.MediaHandler;
 import com.hcodez.android.services.content.handlers.UrlHandler;
-import com.hcodez.codeengine.json.serialization.GsonUtil;
-
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 
 import javax.annotation.Nullable;
 
@@ -67,6 +59,8 @@ public enum ContentType {
                 return new ContactHandler(context, uri);
             case MEDIA:
                 return new MediaHandler(uri);
+            case FILE:
+                return new FileHandler(uri);
         }
         return null;
     }

@@ -11,6 +11,7 @@ import androidx.room.PrimaryKey;
 import com.hcodez.android.services.content.handlers.ContactHandler;
 import com.hcodez.android.services.content.ContentHandler;
 import com.hcodez.android.services.content.ContentType;
+import com.hcodez.android.services.content.handlers.FileHandler;
 import com.hcodez.android.services.content.handlers.MediaHandler;
 import com.hcodez.android.services.content.handlers.UrlHandler;
 
@@ -67,6 +68,8 @@ public class ContentEntity {
                 return new ContactHandler(context, resourceURI);
             case MEDIA:
                 return new MediaHandler(resourceURI);
+            case FILE:
+                return new FileHandler(resourceURI);
         }
         return null;
     }
