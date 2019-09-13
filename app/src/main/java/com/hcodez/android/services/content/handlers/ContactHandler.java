@@ -1,4 +1,4 @@
-package com.hcodez.android.services.content;
+package com.hcodez.android.services.content.handlers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,34 +7,42 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.util.Log;
 
-public class ContactOpener implements ContentOpener {
+import com.hcodez.android.services.content.ContentHandler;
 
-    private static final String TAG = "ContactOpener";
+public class ContactHandler implements ContentHandler {
+
+    private static final String TAG = "ContactHandler";
 
     private final Context context;
 
     private final Uri uri;
 
-    public ContactOpener(Context context, Uri uri) {
+    public ContactHandler(Context context, Uri uri) {
+        Log.d(TAG, "ContactHandler() called with: context = [" + context + "], uri = [" + uri + "]");
         this.context = context;
         this.uri = uri;
     }
 
     @Override
     public Intent getOpenerIntent() {
+        Log.d(TAG, "getOpenerIntent() called");
 
         Intent intent = null;
         Cursor cursor;
         String phoneNumber;
         try {
             cursor = context.getContentResolver().query(uri, null, null, null, null);
-            cursor.moveToFirst();
+            if (cursor != null) {
+                cursor.moveToFirst();
+            } else {
+                Log.e(TAG, "getOpenerIntent: null cursor");
+                return null;
+            }
             int phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
             phoneNumber = cursor.getString(phoneIndex);
             cursor.close();
 
-            intent = new IntentOpener(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber))
-                    .getOpenerIntent();
+            intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber));
         } catch (NullPointerException npe) {
             Log.e(TAG, "getOpenerIntent: error", npe);
             npe.printStackTrace();
@@ -43,5 +51,11 @@ public class ContactOpener implements ContentOpener {
             e.printStackTrace();
         }
         return intent;
+    }
+
+    @Override
+    public Intent getCreatorIntent() {
+        Log.d(TAG, "getCreatorIntent() called");
+        return null;
     }
 }

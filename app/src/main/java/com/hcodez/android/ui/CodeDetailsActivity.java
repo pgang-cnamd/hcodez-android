@@ -17,7 +17,7 @@ import androidx.lifecycle.LiveData;
 import com.hcodez.android.HcodezApp;
 import com.hcodez.android.R;
 import com.hcodez.android.services.CodeService;
-import com.hcodez.android.services.content.ContentOpener;
+import com.hcodez.android.services.content.ContentHandler;
 import com.hcodez.android.viewmodel.CodeViewModel;
 import com.hcodez.codeengine.model.CodeType;
 
@@ -150,7 +150,7 @@ public class CodeDetailsActivity extends MainMenuActivity{
                     if (contentEntity.getContentType() == null) {
                         Log.e(TAG, "onCreate: null content type");
                     }
-                    ContentOpener opener = contentEntity.getOpener(getApplicationContext());
+                    ContentHandler opener = contentEntity.getContentHandler(getApplicationContext());
                     if (opener == null) {
                         Log.e(TAG, "onCreate: cannot open content");
                         Toast.makeText(getApplicationContext(), "Cannot open content", Toast.LENGTH_LONG).show();

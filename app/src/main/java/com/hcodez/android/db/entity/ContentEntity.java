@@ -8,10 +8,11 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.hcodez.android.services.content.ContactOpener;
-import com.hcodez.android.services.content.ContentOpener;
+import com.hcodez.android.services.content.handlers.ContactHandler;
+import com.hcodez.android.services.content.ContentHandler;
 import com.hcodez.android.services.content.ContentType;
-import com.hcodez.android.services.content.IntentOpener;
+import com.hcodez.android.services.content.handlers.MediaHandler;
+import com.hcodez.android.services.content.handlers.UrlHandler;
 
 import javax.annotation.Nullable;
 
@@ -47,23 +48,25 @@ public class ContentEntity {
      * @return the content opener
      */
     @Nullable
-    public ContentOpener getOpener(Context context) {
-        Log.d(TAG, "getOpener() called");
+    public ContentHandler getContentHandler(Context context) {
+        Log.d(TAG, "getContentHandler() called");
 
         if (this.getResourceURI() == null) {
-            Log.e(TAG, "getOpener: null resource uri");
+            Log.e(TAG, "getContentHandler: null resource uri");
             return null;
         }
         if (this.getContentType() == null) {
-            Log.e(TAG, "getOpener: null content type");
+            Log.e(TAG, "getContentHandler: null content type");
             return null;
         }
 
         switch (this.getContentType()) {
             case URL:
-                return new IntentOpener(null, this.getResourceURI());
+                return new UrlHandler(context, resourceURI);
             case CONTACT:
-                return new ContactOpener(context, this.getResourceURI());
+                return new ContactHandler(context, resourceURI);
+            case MEDIA:
+                return new MediaHandler(resourceURI);
         }
         return null;
     }

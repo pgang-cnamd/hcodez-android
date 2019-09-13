@@ -12,8 +12,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.hcodez.android.R;
+import com.hcodez.android.services.content.ContentHandler;
 import com.hcodez.android.services.content.ContentType;
-import com.hcodez.android.services.content.ContentTypeMetadata;
 
 import java.util.ArrayList;
 
@@ -35,8 +35,12 @@ public class AddContentActivity extends MainMenuActivity {
 
         canClearAwaitedContentType = false;
         awaitedContentType = ContentType.valueOf(mContentTypesListAdapter.getItem(position));
-        ContentTypeMetadata metadata = awaitedContentType.getMetadata();
-        startActivityForResult(metadata.buildCreatorIntent(getApplicationContext()), 0);
+        ContentHandler handler = awaitedContentType.getContentHandler(getApplicationContext(), Uri.parse("https://example.com"));
+        if (handler == null) {
+            Log.e(TAG, "itemClickListener.onClick: can't create content handler");
+            return;
+        }
+        startActivityForResult(handler.getCreatorIntent(), 0);
     };
 
 
