@@ -91,13 +91,6 @@ public class AddContentActivity extends MainMenuActivity {
 
         final String resultUri;
 
-        if (awaitedContentType.getMetadata().getCreator().getEnterTextActivity() != null) {
-            if (awaitedContentType.getMetadata().getCreator().getEnterTextActivity()) {
-                Log.d(TAG, "onActivityResult: content provided by EnterTextContentActivity");
-            } else {
-                Log.d(TAG, "onActivityResult: content provided by external source");
-            }
-        }
         resultUri = data.getData() != null ? data.getData().toString() : null;
 
         Log.d(TAG, "onActivityResult: building intent");
