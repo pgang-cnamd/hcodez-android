@@ -53,6 +53,10 @@ public class AddContentActivity extends MainMenuActivity {
         mContentTypesListView = findViewById(R.id.add_content_content_types_list_view);
         ArrayList<String> mContentList = new ArrayList<>();
         for (ContentType contentType : ContentType.values()) {
+            if (contentType == null) {
+                Log.w(TAG, "onCreate: null content type, skipping");
+                continue;
+            }
             mContentList.add(contentType.toString());
         }
 
