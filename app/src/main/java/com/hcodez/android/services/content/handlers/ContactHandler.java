@@ -56,6 +56,6 @@ public class ContactHandler implements ContentHandler {
     @Override
     public Intent getCreatorIntent() {
         Log.d(TAG, "getCreatorIntent() called");
-        return null;
+        return new Intent(Intent.ACTION_PICK, Uri.parse("content://contacts")).setType("vnd.android.cursor.dir/phone_v2");
     }
 }

@@ -20,7 +20,7 @@ public class MediaHandler implements ContentHandler {
     @Override
     public Intent getOpenerIntent() {
         Log.d(TAG, "getOpenerIntent() called");
-        return null;
+        return new Intent(Intent.ACTION_VIEW, uri);
     }
 
     @Override
@@ -36,6 +36,6 @@ public class MediaHandler implements ContentHandler {
         Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
 
-        return chooserIntent;
+        return pickIntent;
     }
 }
