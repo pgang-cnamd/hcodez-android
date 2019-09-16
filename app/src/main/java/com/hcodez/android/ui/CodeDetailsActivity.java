@@ -6,12 +6,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.LiveData;
 
 import com.hcodez.android.HcodezApp;
@@ -21,50 +26,27 @@ import com.hcodez.android.services.contenthandler.ContentHandler;
 import com.hcodez.android.viewmodel.CodeViewModel;
 import com.hcodez.codeengine.model.CodeType;
 
-public class CodeDetailsActivity extends MainMenuActivity{
+public class CodeDetailsActivity extends AppCompatActivity {
 
     private static final String TAG = "CodeDetailsActivity";
 
-    private TextView  mCodeStringValue;
-    private TextView  mCodeNameTextView;
-    private Button    mDeleteCodeButton;
-    private Button    mOpenContentButton;
-    private Button    mCopyCodeButton;
-    private ImageView mItemPublicStatus;
-    private ImageView mItemPasscodeProtected;
+    private TextView      mCodeStringValue;
 
-    private CodeService codeService;
+    private TextView      mCodeNameTextView;
+
+    private Button        mOpenContentButton;
+
+    private Button        mCopyCodeButton;
+
+    private ImageView     mItemPublicStatus;
+
+    private ImageView     mItemPasscodeProtected;
+
+    private Toolbar       toolbar;
+
+    private CodeService   codeService;
 
     private CodeViewModel codeViewModel;
-
-    private View.OnClickListener deleteButtonOnClickListener = new View.OnClickListener() {
-
-        private static final String TAG = "SaveButtonOnClick";
-        @Override
-        public void onClick(View v) {
-            codeViewModel.getObservableCode().observe(CodeDetailsActivity.this, codeEntity -> {
-                if (codeEntity == null) {
-                    Log.d(TAG, "onClick: null code entity");
-                    return;
-                }
-
-                LiveData<Boolean> codeEntityLiveData = codeService.delete(codeEntity);
-
-                codeEntityLiveData.observe(CodeDetailsActivity.this, result -> {
-                    if (result == null) {
-                        Log.d(TAG, "null result");
-                        return;
-                    }
-                    if (!result) {
-                        Log.e(TAG, "failed to delete code");
-                        return;
-                    }
-                    Log.i(TAG, "deleted code successfully");
-                    finish();
-                });
-            });
-        }
-    };
 
     private View.OnClickListener codeLongClickCallback = codeEntity -> {
         Log.d(TAG, "codeLongClickCallback.onLongClick() called with: codeEntity = [" + codeEntity + "]");
@@ -85,13 +67,14 @@ public class CodeDetailsActivity extends MainMenuActivity{
         Log.d(TAG, "onCreate() called with: savedInstanceState = [" + savedInstanceState + "]");
         setContentView(R.layout.activity_code_details);
 
-        mDeleteCodeButton      = findViewById(R.id.code_details_delete_button);
         mCodeStringValue       = findViewById(R.id.code_details_code_string_text_view);
         mCodeNameTextView      = findViewById(R.id.code_details_code_name_text_view);
         mOpenContentButton     = findViewById(R.id.code_details_open_content_button);
-        mCopyCodeButton = findViewById(R.id.code_details_copy_code_button);
+        mCopyCodeButton        = findViewById(R.id.code_details_copy_code_button);
         mItemPublicStatus      = findViewById(R.id.code_details_public_status);
         mItemPasscodeProtected = findViewById(R.id.code_details_passcode_protected);
+        toolbar                = findViewById(R.id.code_details_toolbar);
+        setSupportActionBar(toolbar);
 
         codeService = CodeService.getInstance(new HcodezApp());
 
@@ -152,7 +135,6 @@ public class CodeDetailsActivity extends MainMenuActivity{
             });
         });
 
-        mDeleteCodeButton.setOnClickListener(deleteButtonOnClickListener);
         mOpenContentButton.setOnClickListener(v ->
                 codeViewModel.getObservableContent().observe(CodeDetailsActivity.this, contentEntity -> {
                     if (contentEntity == null) {
@@ -179,5 +161,46 @@ public class CodeDetailsActivity extends MainMenuActivity{
         intent.putExtras(bundle);
 
         return intent;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.code_details_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_delete_code:
+                onDeleteCodeClick();
+                return false;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void onDeleteCodeClick(){
+        codeViewModel.getObservableCode().observe(CodeDetailsActivity.this, codeEntity -> {
+            if (codeEntity == null) {
+                Log.d(TAG, "onClick: null code entity");
+                return;
+            }
+
+            LiveData<Boolean> codeEntityLiveData = codeService.delete(codeEntity);
+
+            codeEntityLiveData.observe(CodeDetailsActivity.this, result -> {
+                if (result == null) {
+                    Log.d(TAG, "null result");
+                    return;
+                }
+                if (!result) {
+                    Log.e(TAG, "failed to delete code");
+                    return;
+                }
+                Log.i(TAG, "deleted code successfully");
+                finish();
+            });
+        });
     }
 }

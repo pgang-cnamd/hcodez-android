@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -21,6 +22,10 @@ import com.hcodez.codeengine.model.CodeType;
 
 import org.joda.time.Instant;
 
+import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
+
 public class AddCodeActivity extends MainMenuActivity {
 
     private static final String TAG = "AddCodeActivity";
@@ -28,14 +33,18 @@ public class AddCodeActivity extends MainMenuActivity {
     public static final int REQUEST_CODE_ADD_CONTENT = 2;
 
     private EditText        mCodeNameEditText;
+
     private Switch          mSwitch;
+
     private EditText        mPasscodeEditText;
+
     private Button          mSaveButton;
+
     private Button          mAddContentButton;
 
     private CodeService     codeService;
 
-    private Uri currentContentUri = null;
+    private Uri             currentContentUri = null;
 
     private View.OnClickListener saveButtonOnClickListener = new View.OnClickListener() {
 
@@ -131,8 +140,23 @@ public class AddCodeActivity extends MainMenuActivity {
 
         mSaveButton.setOnClickListener(saveButtonOnClickListener);
         mAddContentButton.setOnClickListener(addContentClick);
+        mSwitch.setOnCheckedChangeListener(this::onCheckedChanged);
 
         codeService = CodeService.getInstance(new HcodezApp());
+    }
+
+    public void onCheckedChanged (CompoundButton buttonView, boolean isChecked){
+
+        switch (buttonView.getId()) {
+            case R.id.add_code_public_flag_switch:
+                if (isChecked == true) {
+                    mPasscodeEditText.setVisibility(View.VISIBLE);
+                    mPasscodeEditText.setText(null);
+                } else {
+                    mPasscodeEditText.setVisibility(View.GONE);
+                }
+                break;
+        }
     }
 
     private View.OnClickListener addContentClick = v -> {

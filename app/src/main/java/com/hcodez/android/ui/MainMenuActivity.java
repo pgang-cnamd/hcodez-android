@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Filter;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -75,6 +76,19 @@ public class MainMenuActivity extends AppCompatActivity {
         mCodeSearchView               = findViewById(R.id.codeSearch);
         mCodeListRecyclerView         = findViewById(R.id.codeList);
         app                           = new HcodezApp();
+
+        mCodeSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mCodeAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
 
         mAddCodeFloatingActionButton.setOnClickListener(
                 view -> startActivity(

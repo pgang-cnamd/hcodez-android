@@ -14,7 +14,9 @@ public class LoginActivity extends MainMenuActivity {
     private static final String TAG = "LoginActivity";
 
     private EditText mUsernameEditText;
+
     private EditText mPasswordEditText;
+
     private Button   mLoginButton;
 
     @Override

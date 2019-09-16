@@ -20,7 +20,7 @@ public class AddContentActivity extends MainMenuActivity {
     public  static final String INTENT_STRING_URI_KEY           = "content_resource_uri";
     private static final int    REQUEST_CODE_ENTER_TEXT_CONTENT = 1;
 
-    private ListView mContentTypesListView;
+    private ListView            mContentTypesListView;
 
 
     private AdapterView.OnItemClickListener itemClickListener = (parent, view, position, id) -> {
