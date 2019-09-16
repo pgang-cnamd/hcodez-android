@@ -39,4 +39,14 @@ public final class Migrations {
                     "SELECT `id`, `description` FROM content");
         }
     };
+
+    public static final Migration MIGRATION_3_4 = new Migration(3,4) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            Log.d(TAG, "migrate() called with: database = [" + database + "]");
+
+            database.execSQL("ALTER TABLE `content`" +
+                    "ADD `content_type` TEXT");
+        }
+    };
 }

@@ -18,19 +18,14 @@ import com.hcodez.android.R;
 import com.hcodez.android.db.entity.CodeEntity;
 import com.hcodez.android.db.entity.ContentEntity;
 import com.hcodez.android.services.CodeService;
+import com.hcodez.android.services.content.ContentType;
 import com.hcodez.codeengine.model.CodeType;
 
 import org.joda.time.Instant;
 
-import static android.view.View.GONE;
-import static android.view.View.INVISIBLE;
-import static android.view.View.VISIBLE;
-
 public class AddCodeActivity extends MainMenuActivity {
 
     private static final String TAG = "AddCodeActivity";
-
-    public static final int REQUEST_CODE_ADD_CONTENT = 2;
 
     private EditText        mCodeNameEditText;
 
@@ -44,7 +39,8 @@ public class AddCodeActivity extends MainMenuActivity {
 
     private CodeService     codeService;
 
-    private Uri             currentContentUri = null;
+    private Uri         currentContentUri  = null;
+    private ContentType currentContentType = null;
 
     private View.OnClickListener saveButtonOnClickListener = new View.OnClickListener() {
 
@@ -80,6 +76,10 @@ public class AddCodeActivity extends MainMenuActivity {
                 Toast.makeText(getApplicationContext(), "No content", Toast.LENGTH_SHORT).show();
                 return;
             }
+            if (currentContentType == null) {
+                Log.e(TAG, "onClick: missing content type");
+                return;
+            }
             Log.d(TAG, "onClick: filtered out bad usage");
 
             /*
@@ -88,6 +88,7 @@ public class AddCodeActivity extends MainMenuActivity {
             final ContentEntity contentEntity = ContentEntity.builder()
                     .description("placeholder")
                     .resourceURI(currentContentUri)
+                    .contentType(currentContentType)
                     .build();
 
             /*
@@ -161,7 +162,7 @@ public class AddCodeActivity extends MainMenuActivity {
 
     private View.OnClickListener addContentClick = v -> {
         Intent intent = new Intent(AddCodeActivity.this, AddContentActivity.class);
-        startActivityForResult(intent, REQUEST_CODE_ADD_CONTENT);
+        startActivityForResult(intent, 0);
     };
 
     @Override
@@ -181,14 +182,23 @@ public class AddCodeActivity extends MainMenuActivity {
         if (resultCode != RESULT_OK) {
             runOnUiThread(errorToast);
         }
-        if (requestCode == REQUEST_CODE_ADD_CONTENT) {
-            String uriString = data.getStringExtra(AddContentActivity.INTENT_STRING_URI_KEY);
-            if (uriString == null) {
-                runOnUiThread(errorToast);
-                Log.w(TAG, "onActivityResult: null resource uri");
-                return;
-            }
-            currentContentUri = Uri.parse(uriString);
+        Log.d(TAG, "onActivityResult: data " + data.toString());
+
+        String uriString = data.getData() != null ?
+                data.getData().toString()
+                : null;
+        if (uriString == null) {
+            runOnUiThread(errorToast);
+            Log.w(TAG, "onActivityResult: null resource uri");
+            return;
         }
+        currentContentUri = Uri.parse(uriString);
+        Log.d(TAG, "onActivityResult: content uri " + currentContentUri);
+        currentContentType =
+                data.getStringExtra(AddContentActivity.INTENT_CONTENT_TYPE_KEY) != null ?
+                        ContentType.valueOf(
+                                data.getStringExtra(AddContentActivity.INTENT_CONTENT_TYPE_KEY))
+                        : null;
+        Log.d(TAG, "onActivityResult: content type " + currentContentType);
     }
 }

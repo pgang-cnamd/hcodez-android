@@ -22,7 +22,7 @@ import androidx.lifecycle.LiveData;
 import com.hcodez.android.HcodezApp;
 import com.hcodez.android.R;
 import com.hcodez.android.services.CodeService;
-import com.hcodez.android.services.contenthandler.ContentHandler;
+import com.hcodez.android.services.content.ContentHandler;
 import com.hcodez.android.viewmodel.CodeViewModel;
 import com.hcodez.codeengine.model.CodeType;
 
@@ -47,19 +47,6 @@ public class CodeDetailsActivity extends AppCompatActivity {
     private CodeService   codeService;
 
     private CodeViewModel codeViewModel;
-
-    private View.OnClickListener codeLongClickCallback = codeEntity -> {
-        Log.d(TAG, "codeLongClickCallback.onLongClick() called with: codeEntity = [" + codeEntity + "]");
-
-        ClipboardManager clipboard = (ClipboardManager)
-                getSystemService(Context.CLIPBOARD_SERVICE);
-
-        ClipData clip = ClipData.newPlainText("code", codeEntity.toString());
-
-        clipboard.setPrimaryClip(clip);
-        Toast.makeText(getApplicationContext(), "Code copied to clipboard", Toast.LENGTH_SHORT).show();
-    };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,19 +106,16 @@ public class CodeDetailsActivity extends AppCompatActivity {
                                     : R.drawable.no_passcode_protected_code
                             : R.drawable.passcode_protected_code);
 
-            mCopyCodeButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d(TAG, "codeLongClickCallback.onLongClick() called with: codeEntity = [" + codeEntity + "]");
+            mCopyCodeButton.setOnClickListener(v -> {
+                Log.d(TAG, "codeLongClickCallback.onLongClick() called with: codeEntity = [" + codeEntity + "]");
 
-                    ClipboardManager clipboard = (ClipboardManager)
-                            getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipboardManager clipboard = (ClipboardManager)
+                        getSystemService(Context.CLIPBOARD_SERVICE);
 
-                    ClipData clip = ClipData.newPlainText("code", codeEntity.toString());
+                ClipData clip = ClipData.newPlainText("code", codeEntity.toString());
 
-                    clipboard.setPrimaryClip(clip);
-                    Toast.makeText(getApplicationContext(), "Code copied to clipboard", Toast.LENGTH_SHORT).show();
-                }
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(getApplicationContext(), "Code copied to clipboard", Toast.LENGTH_SHORT).show();
             });
         });
 
@@ -142,10 +126,19 @@ public class CodeDetailsActivity extends AppCompatActivity {
                         return;
                     }
                     if (contentEntity.getResourceURI() == null) {
-                        Log.d(TAG, "openContentOnClick: null resource uri");
+                        Log.e(TAG, "openContentOnClick: null resource uri");
                         return;
                     }
-                    startActivity(ContentHandler.get(contentEntity.getResourceURI()).getOpenerIntent());
+                    if (contentEntity.getContentType() == null) {
+                        Log.e(TAG, "onCreate: null content type");
+                    }
+                    ContentHandler opener = contentEntity.getContentHandler(getApplicationContext());
+                    if (opener == null) {
+                        Log.e(TAG, "onCreate: cannot open content");
+                        Toast.makeText(getApplicationContext(), "Cannot open content", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    startActivity(opener.getOpenerIntent());
         }));
     }
 

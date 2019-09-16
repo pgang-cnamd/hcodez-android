@@ -12,7 +12,7 @@ public class CodeTypeConverter {
 
     @TypeConverter
     public static CodeType toCodeType(String codeType) {
-        Log.d(TAG, "toCodeType() called with: codeType = [" + codeType + "]");
+        Log.d(TAG, "toContentType() called with: codeType = [" + codeType + "]");
         if (codeType == null) {
             return null;
         }

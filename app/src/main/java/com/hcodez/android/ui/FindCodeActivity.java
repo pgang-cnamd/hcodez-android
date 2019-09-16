@@ -41,19 +41,21 @@ import javax.annotation.Nonnull;
 
 public class FindCodeActivity extends AppCompatActivity {
 
-    private static final String TAG                       = "FindCodeActivity";
+    private static final String TAG = "FindCodeActivity";
 
     /**
-     * Quality of the bitmap send further to Google Cloud Vision
+     * Quality of the bitmap sent further to Google Cloud Vision
      * for processing
      */
-    private static final int    BITMAP_PROCESSING_QUALITY = 10;
+    private static final int    BITMAP_PROCESSING_QUALITY = 20;
 
     private Button textCodeButton;
 
     private Button imageCodeButton;
 
     private Button scanButton;
+
+    private boolean spawnedByIntent = false;
 
     /**
      * Request code for requesting a photo to be captured in order to be scanned
@@ -77,6 +79,8 @@ public class FindCodeActivity extends AppCompatActivity {
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             Log.d(TAG, "onCreate: received ACTION_SEND");
 
+            spawnedByIntent = true;
+
             if (!isNetworkAvailable(this)) {
                 Toast.makeText(this, "Internet connectivity is required for code scanning", Toast.LENGTH_LONG).show();
                 finish();
@@ -93,6 +97,9 @@ public class FindCodeActivity extends AppCompatActivity {
             }
         } else {
             Log.d(TAG, "onCreate: no action received, displaying UI");
+
+            spawnedByIntent = false;
+
             setContentView(R.layout.activity_find_code);
 
             textCodeButton = findViewById(R.id.find_code_enter_text_button);
@@ -125,6 +132,7 @@ public class FindCodeActivity extends AppCompatActivity {
 
             if (code == null) {
                 Log.d(TAG, "handleIncomingText: no code was parsed");
+                mutableLiveData.postValue(CodeEntity.builder().id(-1).build());
                 return;
             }
 
@@ -155,10 +163,17 @@ public class FindCodeActivity extends AppCompatActivity {
                 Log.d(TAG, "handleIncomingText: null received");
                 return;
             }
-            if (codeEntity.getId() == null || codeEntity.getContentId() == null) {
-                Log.e(TAG, "didn't find a code");
+            if (codeEntity.getId() == null) {
+                Log.w(TAG, "didn't find a code in the database");
                 Toast.makeText(getApplicationContext(), "No matching code was found in the database", Toast.LENGTH_LONG).show();
-                finish();
+                if (spawnedByIntent)
+                    finish();
+                return;
+            } else if (codeEntity.getContentId() == null) {
+                Log.w(TAG, "handleIncomingText: no code was parsed");
+                Toast.makeText(getApplicationContext(), "No code was scanned", Toast.LENGTH_LONG).show();
+                if (spawnedByIntent)
+                    finish();
                 return;
             }
 

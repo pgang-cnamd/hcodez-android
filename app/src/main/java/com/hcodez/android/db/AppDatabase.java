@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.hcodez.android.AppExecutors;
 import com.hcodez.android.db.converter.CodeTypeConverter;
+import com.hcodez.android.db.converter.ContentTypeConverter;
 import com.hcodez.android.db.converter.InstantConverter;
 import com.hcodez.android.db.converter.UriConverter;
 import com.hcodez.android.db.converter.URLConverter;
@@ -31,11 +32,12 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
             CodeFtsEntity.class,
             ContentEntity.class,
             ContentFtsEntity.class},
-        version = 3)
+        version = 4)
 @TypeConverters({InstantConverter.class,
         URLConverter.class,
         CodeTypeConverter.class,
-        UriConverter.class})
+        UriConverter.class,
+        ContentTypeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String TAG = "AppDatabase";
@@ -103,7 +105,9 @@ public abstract class AppDatabase extends RoomDatabase {
                         });
                     }
                 })
-                .addMigrations(Migrations.MIGRATION_1_2, Migrations.MIGRATION_2_3)
+                .addMigrations(Migrations.MIGRATION_1_2,
+                        Migrations.MIGRATION_2_3,
+                        Migrations.MIGRATION_3_4)
                 .build();
     }
 
