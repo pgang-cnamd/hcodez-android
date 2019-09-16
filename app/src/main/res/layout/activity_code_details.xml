@@ -16,7 +16,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_below="@id/code_details_content_text_view"
-        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="100dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/button_design_no_stroke"
@@ -60,6 +60,7 @@
         android:scaleType="center" />
 
     <Button
+        android:visibility="gone"
         android:id="@+id/share_code_button"
         android:layout_width="60dp"
         android:layout_height="60dp"

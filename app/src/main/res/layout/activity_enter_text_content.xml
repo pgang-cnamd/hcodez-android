@@ -13,9 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/enter_text_content_text_view"
         android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:hint="Enter some content.."
         android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:hint="Enter some content..."
         android:inputType="text" />
 
     <TextView

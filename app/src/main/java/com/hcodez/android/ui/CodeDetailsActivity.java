@@ -169,6 +169,10 @@ public class CodeDetailsActivity extends AppCompatActivity {
             case R.id.action_delete_code:
                 onDeleteCodeClick();
                 return false;
+
+            case R.id.action_edit_code:
+                startActivity(new Intent(CodeDetailsActivity.this, AddCodeActivity.class));
+                return false;
         }
         return super.onOptionsItemSelected(item);
     }

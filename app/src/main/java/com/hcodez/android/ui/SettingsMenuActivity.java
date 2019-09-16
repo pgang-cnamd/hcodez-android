@@ -1,6 +1,7 @@
 package com.hcodez.android.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -20,8 +21,9 @@ public class SettingsMenuActivity extends AppCompatActivity {
         mLogOutButton = findViewById(R.id.log_out_button);
 
         mLogOutButton.setOnClickListener(v -> {
-            Intent intent = new Intent(SettingsMenuActivity.this, LoginActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(SettingsMenuActivity.this, LoginActivity.class);
+//            startActivity(intent);
+            finish();
         });
     }
 }

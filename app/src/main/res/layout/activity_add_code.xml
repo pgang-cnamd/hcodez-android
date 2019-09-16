@@ -25,6 +25,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/add_code_name_edit_text"
+        android:visibility="gone"
         android:text="@string/add_code_public_status_text" />
 
     <Switch
@@ -35,7 +36,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/add_code_name_edit_text"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/add_code_save_button"
