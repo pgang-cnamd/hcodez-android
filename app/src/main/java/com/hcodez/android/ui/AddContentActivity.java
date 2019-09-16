@@ -1,15 +1,19 @@
 package com.hcodez.android.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.hcodez.android.R;
 import com.hcodez.android.services.content.ContentHandler;
@@ -17,7 +21,7 @@ import com.hcodez.android.services.content.ContentType;
 
 import java.util.ArrayList;
 
-public class AddContentActivity extends MainMenuActivity {
+public class AddContentActivity extends AppCompatActivity {
 
     private static final String TAG = "AddContentActivity";
 
@@ -29,6 +33,15 @@ public class AddContentActivity extends MainMenuActivity {
     private static final String AWAITED_CONTENT_TYPE_KEY   = "awaited_content_type";
     private ContentType         awaitedContentType         = null;
     private boolean             canClearAwaitedContentType = false;
+
+    /**
+     * Method used for hiding the keyboard when touching outside the text
+     */
+    public void hideKeyboard(View view) {
+        Log.d(TAG, "hideKeyboard() called with: view = [" + view + "]");
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 
     private AdapterView.OnItemClickListener itemClickListener = (parent, view, position, id) -> {
         Log.d(TAG, "itemClickListener.onClick() called");

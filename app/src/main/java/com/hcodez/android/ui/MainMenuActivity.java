@@ -12,7 +12,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Filter;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -99,7 +98,9 @@ public class MainMenuActivity extends AppCompatActivity {
                         new Intent(MainMenuActivity.this, FindCodeActivity.class)));
 
         mCodeSearchView.setOnClickListener(
-                view -> mCodeSearchView.setIconified(false));
+                view -> {
+                    mCodeSearchView.setIconified(false);
+                });
 
         mCodeAdapter = new CodeAdapter(codeClickCallback, codeLongClickCallback);
         mCodeListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -130,6 +131,21 @@ public class MainMenuActivity extends AppCompatActivity {
                     Log.d(TAG, "onResume: observed change in code list from view model");
                     mCodeAdapter.updateList(codeEntities);
                 });
+    }
+
+    /**
+     * If focus for window is changed, the code list will update
+     * @param hasFocus Checking the window focus
+     */
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        if(!hasFocus) {
+            mCodeSearchView.setQuery(null, false);
+            mCodeSearchView.clearFocus();
+            mCodeSearchView.onActionViewCollapsed();
+        }
     }
 
     /**

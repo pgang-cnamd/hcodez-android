@@ -1,16 +1,19 @@
 package com.hcodez.android.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
 import com.hcodez.android.HcodezApp;
@@ -23,7 +26,7 @@ import com.hcodez.codeengine.model.CodeType;
 
 import org.joda.time.Instant;
 
-public class AddCodeActivity extends MainMenuActivity {
+public class AddCodeActivity extends AppCompatActivity {
 
     private static final String TAG = "AddCodeActivity";
 
@@ -41,6 +44,15 @@ public class AddCodeActivity extends MainMenuActivity {
 
     private Uri         currentContentUri  = null;
     private ContentType currentContentType = null;
+
+    /**
+     * Method used for hiding the keyboard when touching outside the text
+     */
+    public void hideKeyboard(View view) {
+        Log.d(TAG, "hideKeyboard() called with: view = [" + view + "]");
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 
     private View.OnClickListener saveButtonOnClickListener = new View.OnClickListener() {
 

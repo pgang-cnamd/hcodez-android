@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.hcodez.android.R;
 
-public class SettingsMenuActivity extends MainMenuActivity{
+public class SettingsMenuActivity extends AppCompatActivity {
 
     private Button mLogOutButton;
 
