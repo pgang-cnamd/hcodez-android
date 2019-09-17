@@ -49,7 +49,7 @@ public class FindCodeActivity extends AppCompatActivity {
      */
     private static final int    BITMAP_PROCESSING_QUALITY = 20;
 
-    private Button textCodeButton;
+//    private Button textCodeButton;
 
     private Button imageCodeButton;
 
@@ -102,10 +102,16 @@ public class FindCodeActivity extends AppCompatActivity {
 
             setContentView(R.layout.activity_find_code);
 
-            textCodeButton = findViewById(R.id.find_code_enter_text_button);
+//            textCodeButton = findViewById(R.id.find_code_enter_text_button);
             imageCodeButton = findViewById(R.id.find_code_parse_image_button);
             scanButton = findViewById(R.id.find_code_scan_code_button);
+
             scanButton.setOnClickListener(v -> dispatchTakePictureIntent());
+            imageCodeButton.setOnClickListener(v -> {
+                Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                pickIntent.setDataAndType(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                startActivity(pickIntent);
+            });
         }
     }
 
@@ -207,10 +213,28 @@ public class FindCodeActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult() called with: requestCode = [" + requestCode + "], resultCode = [" + resultCode + "], data = [" + data + "]");
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+
+        if (resultCode != RESULT_OK && resultCode != RESULT_CANCELED) {
+            Log.e(TAG, "onActivityResult: result code is not RESULT_OK");
+            Toast.makeText(this, "Unknown error", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE) {
             Log.d(TAG, "onActivityResult: received result from REQUEST_IMAGE_CAPTURE");
             processImage(currentPhotoUri);
         }
+
+        Log.d(TAG, "onActivityResult: result from scan image from gallery");
+        if (data == null) {
+            Log.w(TAG, "onActivityResult: received nothing");
+            return;
+        }
+        if (data.getData() == null) {
+            Log.w(TAG, "onActivityResult: received nothing");
+            return;
+        }
+        handleIncomingImage(data.getData());
     }
 
     /**

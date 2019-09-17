@@ -25,6 +25,8 @@ import com.hcodez.android.services.content.ContentHandler;
 import com.hcodez.android.viewmodel.CodeViewModel;
 import com.hcodez.codeengine.model.CodeType;
 
+import java.util.regex.Pattern;
+
 public class CodeDetailsActivity extends AppCompatActivity {
 
     private static final String TAG = "CodeDetailsActivity";
@@ -89,6 +91,8 @@ public class CodeDetailsActivity extends AppCompatActivity {
                 Log.d(TAG, "onCreate: null code entity");
                 return;
             }
+            codeViewModel.setCode(codeEntity);
+
             mCodeNameTextView.setText(codeEntity.getName());
             mCodeStringValue.setText(codeEntity.toString());
 
@@ -116,6 +120,14 @@ public class CodeDetailsActivity extends AppCompatActivity {
                 clipboard.setPrimaryClip(clip);
                 Toast.makeText(getApplicationContext(), "Code copied to clipboard", Toast.LENGTH_SHORT).show();
             });
+        });
+
+        codeViewModel.getObservableContent().observe(this, contentEntity -> {
+            if (contentEntity == null) {
+                Log.d(TAG, "onCreate: null content entity");
+                return;
+            }
+            codeViewModel.setContent(contentEntity);
         });
 
         mOpenContentButton.setOnClickListener(v ->
@@ -166,12 +178,23 @@ public class CodeDetailsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_delete_code:
+                Log.d(TAG, "onOptionsItemSelected: pressed delete");
                 onDeleteCodeClick();
-                return false;
+                return true;
 
             case R.id.action_edit_code:
-                startActivity(new Intent(CodeDetailsActivity.this, AddCodeActivity.class));
-                return false;
+                Log.d(TAG, "onOptionsItemSelected: pressed edit");
+                if (codeViewModel.code.get() == null
+                        || codeViewModel.content.get() == null) {
+                    Log.w(TAG, "onOptionsItemSelected: null code&content, can't extract ids and send them to edit code");
+                    return true;
+                }
+                Intent intent = new Intent(this, AddCodeActivity.class)
+                        .putExtra("code_id", codeViewModel.code.get().getId())
+                        .putExtra("content_id", codeViewModel.content.get().getId());
+                startActivity(intent);
+                finish();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

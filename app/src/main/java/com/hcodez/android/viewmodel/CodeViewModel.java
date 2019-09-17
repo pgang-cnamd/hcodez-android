@@ -33,6 +33,7 @@ public class CodeViewModel extends AndroidViewModel {
 
     // what does this do?
     public ObservableField<CodeEntity> code = new ObservableField<>();
+    public ObservableField<ContentEntity> content = new ObservableField<>();
 
 
     public CodeViewModel(@NonNull Application application,
@@ -61,6 +62,11 @@ public class CodeViewModel extends AndroidViewModel {
     public void setCode(CodeEntity code) {
         Log.d(TAG, "setCode() called with: code = [" + code + "]");
         this.code.set(code);
+    }
+
+    public void setContent(ContentEntity content) {
+        Log.d(TAG, "setContent() called with: content = [" + content + "]");
+        this.content.set(content);
     }
 
     /**

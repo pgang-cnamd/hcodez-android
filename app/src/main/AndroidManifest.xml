@@ -37,13 +37,13 @@
             android:name=".ui.AddCodeActivity"
             android:label="Add new code"
             android:theme="@style/AppTheme.CustomTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.SEND" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
 
-                <data android:mimeType="text/plain" />
-            </intent-filter>
+<!--                <data android:mimeType="text/plain" />-->
+<!--            </intent-filter>-->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -51,13 +51,13 @@
 
                 <data android:mimeType="image/*" />
             </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.SEND" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
 
-                <data android:mimeType="video/*" />
-            </intent-filter>
+<!--                <data android:mimeType="video/*" />-->
+<!--            </intent-filter>-->
         </activity>
 
         <activity
