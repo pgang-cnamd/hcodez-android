@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        if (userName.length() < 4) {
+        if (userName.length() < 3) {
             Log.d(TAG, "login: user name is too short");
             Toast.makeText(getApplicationContext(), "Username is too short(at least 4 characters long)", Toast.LENGTH_LONG).show();
             return;
