@@ -162,7 +162,7 @@ public class AddCodeActivity extends AppCompatActivity {
 
         switch (buttonView.getId()) {
             case R.id.add_code_public_flag_switch:
-                if (isChecked == true) {
+                if (isChecked) {
                     mPasscodeEditText.setVisibility(View.VISIBLE);
                     mPasscodeEditText.setText(null);
                 } else {
