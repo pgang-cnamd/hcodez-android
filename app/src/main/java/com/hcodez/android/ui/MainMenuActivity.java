@@ -170,6 +170,12 @@ public class MainMenuActivity extends AppCompatActivity {
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsMenuActivity.class));
                 return true;
+
+            case R.id.log_out:
+                deleteSharedPreferences("login_prefs");
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

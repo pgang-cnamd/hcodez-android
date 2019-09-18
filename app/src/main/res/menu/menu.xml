@@ -8,4 +8,10 @@
         app:showAsAction="never"
         ></item>
 
+    <item
+        android:id="@+id/log_out"
+        android:title="LogOut"
+        app:showAsAction="never"
+        ></item>
+
 </menu>
