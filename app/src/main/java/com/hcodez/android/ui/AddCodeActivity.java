@@ -104,12 +104,23 @@ public class AddCodeActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Password longer than 16 characters", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (contentEntity.getResourceURI() == null && currentContentUri == null) {
+            if (contentEntity != null) {
+                if (contentEntity.getResourceURI() == null && currentContentUri == null) {
+                    Log.d(TAG, "onClick: empty resource uri");
+                    Toast.makeText(getApplicationContext(), "No content", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            } else if (currentContentUri == null) {
                 Log.d(TAG, "onClick: empty resource uri");
                 Toast.makeText(getApplicationContext(), "No content", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (contentEntity.getContentType() == null && currentContentType == null) {
+            if (contentEntity != null) {
+                if (contentEntity.getContentType() == null && currentContentType == null) {
+                    Log.e(TAG, "onClick: missing content type");
+                    return;
+                }
+            } else if (currentContentType == null) {
                 Log.e(TAG, "onClick: missing content type");
                 return;
             }
@@ -154,25 +165,27 @@ public class AddCodeActivity extends AppCompatActivity {
                 Log.d(TAG, "onClick: reusing code entity");
             }
 
-            /*
-              check if a new content was selected if editing
-             */
-            if (spawnLevel == SPAWN_LEVEL_EDIT_CODE) {
-                Log.d(TAG, "onClick: checking if a new content was selected");
-                if (contentEntity.getContentType() != null) {
-                        if (!contentEntity.getContentType().toString().equals(currentContentType.toString())
-                                || !contentEntity.getResourceURI().toString().equals(currentContentUri.toString())) {
-                            Log.d(TAG, "onClick: new content was selected, deleting old one");
-                            new Thread(() -> appDatabase.contentDao().delete(contentEntity)).start();
-                            Log.d(TAG, "onClick: deleted content entity, creating a new one");
-                            contentEntity = ContentEntity.builder()
-                                    .description("placeholder")
-                                    .contentType(currentContentType)
-                                    .resourceURI(currentContentUri)
-                                    .build();
-                        }
-                }
-            }
+//            /*
+//              check if a new content was selected if editing
+//             */
+//            if (spawnLevel == SPAWN_LEVEL_EDIT_CODE) {
+//                Log.d(TAG, "onClick: checking if a new content was selected");
+//                if (contentEntity.getContentType() != null) {
+//                    if (contentEntity.getContentType().toString() != null) {
+//                        if (!contentEntity.getContentType().toString().equals(currentContentType.toString())
+//                                || !contentEntity.getResourceURI().toString().equals(currentContentUri.toString())) {
+//                            Log.d(TAG, "onClick: new content was selected, deleting old one");
+//                            new Thread(() -> appDatabase.contentDao().delete(contentEntity)).start();
+//                            Log.d(TAG, "onClick: deleted content entity, creating a new one");
+//                            contentEntity = ContentEntity.builder()
+//                                    .description("placeholder")
+//                                    .contentType(currentContentType)
+//                                    .resourceURI(currentContentUri)
+//                                    .build();
+//                        }
+//                    }
+//                }
+//            }
 
             LiveData<CodeEntity> codeEntityLiveData = codeService.addNew(codeEntity, contentEntity);
             codeEntityLiveData.observe(AddCodeActivity.this, observedCodeEntity -> {
@@ -316,7 +329,7 @@ public class AddCodeActivity extends AppCompatActivity {
             Log.w(TAG, "onActivityResult: null resource uri");
             return;
         }
-        Uri currentContentUri = Uri.parse(uriString);
+        currentContentUri = Uri.parse(uriString);
         Log.d(TAG, "onActivityResult: content uri " + currentContentUri);
         currentContentType = data
                 .getStringExtra(AddContentActivity.INTENT_CONTENT_TYPE_KEY) != null ?

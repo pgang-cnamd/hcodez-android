@@ -103,7 +103,9 @@ public class CodeService implements DatabaseService<CodeEntity> {
             throw new IllegalArgumentException(entity.toString() + " does not have a content id");
         }
 
-        entity.setIdentifier(generateRandomIdentifier());
+        if (entity.getIdentifier() == null) {
+            entity.setIdentifier(generateRandomIdentifier());
+        }
 
         long id = database.codeDao().insert(entity);
         final CodeEntity codeEntity = database.codeDao().loadCodeSync((int) id);
