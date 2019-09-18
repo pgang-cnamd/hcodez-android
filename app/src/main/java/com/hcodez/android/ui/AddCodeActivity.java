@@ -209,10 +209,22 @@ public class AddCodeActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: checking spawn level");
         if (getIntent() == null) {
-            Log.d(TAG, "onCreate: spawned internally");
+            Log.d(TAG, "onCreate: no intent");
             return;
         }
         Log.d(TAG, "onCreate: intent " + getIntent());
+
+        if (getIntent().getClipData() == null && getIntent().getExtras() == null) {
+            Log.d(TAG, "onCreate: spawned internally");
+            return;
+        }
+        if (getIntent().getExtras() != null) {
+            if (getIntent().getExtras().isEmpty()) {
+                Log.d(TAG, "onCreate: spawned internally");
+                return;
+            }
+        }
+
         int codeId = -1;
         int contentId = -1;
         if (getIntent().getClipData() != null) {
