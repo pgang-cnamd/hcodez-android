@@ -133,7 +133,8 @@ public class FindCodeActivity extends AppCompatActivity {
         new Thread(() -> {
             Log.d(TAG, "handleIncomingText: started thread");
             Code code = new CodeParser()
-                    .addCodeTypes(CodeType.all())
+//                    .addCodeTypes(CodeType.all())
+                    .addCodeType(CodeType.PRIVATE) // for demo only
                     .parseSingle(sharedText);
 
             if (code == null) {

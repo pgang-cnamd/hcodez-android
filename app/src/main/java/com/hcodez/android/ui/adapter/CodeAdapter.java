@@ -250,8 +250,10 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            mCodeList.clear();
-            mCodeList.addAll((List) results.values);
+            if (mCodeList != null) {
+                mCodeList.clear();
+                mCodeList.addAll((List) results.values);
+            }
             notifyDataSetChanged();
         }
     };
