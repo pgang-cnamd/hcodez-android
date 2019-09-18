@@ -36,6 +36,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.Nonnull;
 
@@ -47,7 +48,7 @@ public class FindCodeActivity extends AppCompatActivity {
      * Quality of the bitmap sent further to Google Cloud Vision
      * for processing
      */
-    private static final int    BITMAP_PROCESSING_QUALITY = 20;
+    private static final int BITMAP_PROCESSING_QUALITY = 20;
 
 //    private Button textCodeButton;
 
@@ -82,7 +83,6 @@ public class FindCodeActivity extends AppCompatActivity {
             spawnedByIntent = true;
 
             if (!isNetworkAvailable(this)) {
-                Toast.makeText(this, "Internet connectivity is required for code scanning", Toast.LENGTH_LONG).show();
                 finish();
                 return;
             }
@@ -206,7 +206,6 @@ public class FindCodeActivity extends AppCompatActivity {
             return;
         }
         processImage(imageUri);
-
     }
 
     @Override
@@ -244,7 +243,6 @@ public class FindCodeActivity extends AppCompatActivity {
         Log.d(TAG, "dispatchTakePictureIntent() called");
 
         if (!isNetworkAvailable(this)) {
-            Toast.makeText(this, "Internet connectivity is required for code scanning", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -281,20 +279,29 @@ public class FindCodeActivity extends AppCompatActivity {
     private void processImage(Uri imageUri) {
         final MutableLiveData<String> textLiveData = new MutableLiveData<>();
 
-        new Thread(() -> {
+        final Object threadLock = new Object();
+        AtomicBoolean threadFinished = new AtomicBoolean(false);
+        AtomicBoolean threadError = new AtomicBoolean(false);
+        final Thread processingThread = new Thread(() -> {
             Log.d(TAG, "processImage: start thread");
 
             Log.d(TAG, "processImage: open image and rescale before processing");
-            Bitmap img = null;
+            Bitmap img;
             try {
                 img = BitmapFactory.decodeStream(getInputStreamFromUri(imageUri));
             } catch (FileNotFoundException e) {
                 Log.e(TAG, "processImage: failed to open image file", e);
                 e.printStackTrace();
+                synchronized (threadLock) {
+                    threadError.set(true);
+                }
                 return;
             }
             if (img == null) {
                 Log.e(TAG, "processImage: could not open image file");
+                synchronized (threadLock) {
+                    threadError.set(true);
+                }
                 return;
             }
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -317,7 +324,7 @@ public class FindCodeActivity extends AppCompatActivity {
             if (processedText != null) {
                 textLiveData.postValue(processedText);
             } else {
-                textLiveData.removeObservers(this);
+                runOnUiThread(() -> textLiveData.removeObservers(this));
                 runOnUiThread(() -> Toast
                         .makeText(getApplicationContext(), "No code found in image", Toast.LENGTH_LONG).show());
             }
@@ -334,6 +341,65 @@ public class FindCodeActivity extends AppCompatActivity {
                 }
             } catch (Exception e){
                 Log.w(TAG, "processImage: could not delete scanned photo", e);
+            }
+            synchronized (threadLock) {
+                threadFinished.set(true);
+            }
+        });
+        processingThread.start();
+
+        new Thread(() -> {
+            Log.d(TAG, "processImage: started timeout checker thread");
+            final Runnable errRunnable = () ->
+                    Toast.makeText(this,
+                            "Encountered an error while processing the image",
+                            Toast.LENGTH_LONG).show();
+            final Runnable timeoutRunnable = () ->
+                    Toast.makeText(this,
+                            "Processing timed out",
+                            Toast.LENGTH_LONG).show();
+            synchronized (threadLock) {
+                Log.d(TAG, "processImage: checker thread initial check");
+                if (threadError.get()) {
+                    Log.w(TAG, "processImage: processing thread encountered an error and exited");
+                    runOnUiThread(errRunnable);
+                    return;
+                }
+                if (threadFinished.get()) {
+                    Log.d(TAG, "processImage: processing thread finished, terminating");
+                    return;
+                }
+            }
+            for (int i = 0; i < 60; i++) {
+                Log.d(TAG, "processImage: waiting " + (i+1) + " second out of 60");
+                try {
+                    synchronized (this) {
+                        wait(1000);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    return;
+                }
+                synchronized (threadLock) {
+                    if (threadError.get()) {
+                        Log.w(TAG, "processImage: processing thread encountered an error and exited");
+                        runOnUiThread(errRunnable);
+                        return;
+                    }
+                    if (threadFinished.get()) {
+                        Log.d(TAG, "processImage: processing thread finished, terminating");
+                        return;
+                    }
+                }
+            }
+            synchronized (threadLock) {
+                if (!threadFinished.get()) {
+                    runOnUiThread(timeoutRunnable);
+                    Log.w(TAG, "processImage: interrupting processing thread due to timeout");
+                    synchronized (processingThread) {
+                        processingThread.interrupt();
+                    }
+                }
             }
         }).start();
 
@@ -407,13 +473,20 @@ public class FindCodeActivity extends AppCompatActivity {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 
+        Runnable errRunnable = () ->
+                Toast.makeText(this,
+                        "Internet connectivity is required for code scanning",
+                        Toast.LENGTH_LONG).show();
+
         if (activeNetworkInfo == null) {
             Log.w(TAG, "isNetworkAvailable: network info not available");
+            runOnUiThread(errRunnable);
             return false;
         }
 
         if (!activeNetworkInfo.isConnected()) {
             Log.w(TAG, "isNetworkAvailable: device is not connected to the internet");
+            runOnUiThread(errRunnable);
             return false;
         }
 
