@@ -8,31 +8,65 @@
     android:paddingVertical="16dp">
 
     <Button
+        android:visibility="gone"
         android:id="@+id/find_code_enter_text_button"
+        android:layout_marginBottom="40dp"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_centerVertical="true"
-        android:background="@drawable/button_design"
+        android:background="@drawable/button_design_no_stroke"
         android:forceHasOverlappingRendering="true"
-        android:foreground="@drawable/ic_code_scan"
+        android:foreground="@drawable/ic_code"
         tools:targetApi="m" />
 
     <Button
+        android:layout_marginBottom="40dp"
+        android:layout_below="@id/find_code_enter_text_button"
         android:id="@+id/find_code_parse_image_button"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/button_design"
-        android:foreground="@drawable/ic_gallery_scan"
-        android:foregroundTint="#FF424242" />
+        android:background="@drawable/button_design_no_stroke"
+        android:foreground="@drawable/ic_gallery_scan" />
 
     <Button
+        android:layout_below="@id/find_code_parse_image_button"
         android:id="@+id/find_code_scan_code_button"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:background="@drawable/button_design"
+        android:background="@drawable/button_design_no_stroke"
         android:foreground="@drawable/ic_camera_scan" />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/find_code_enter_text_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="25dp"
+        android:layout_toRightOf="@id/find_code_enter_text_button"
+        android:text="Find an online code"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/find_code_parse_image_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/find_code_enter_text_button"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="25dp"
+        android:layout_toRightOf="@id/find_code_parse_image_button"
+        android:text="Acces gallery"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/find_code_scan_code_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/find_code_parse_image_button"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="25dp"
+        android:layout_toRightOf="@id/find_code_scan_code_button"
+        android:text="Scan an image"
+        android:textSize="18sp" />
 
 </RelativeLayout>

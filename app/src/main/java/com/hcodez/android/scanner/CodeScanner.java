@@ -136,7 +136,14 @@ public class CodeScanner {
         BatchAnnotateImagesRequest batchRequest = new BatchAnnotateImagesRequest();
         batchRequest.setRequests(Collections.singletonList(request));
 
-        BatchAnnotateImagesResponse batchResponse = vision.images().annotate(batchRequest).execute();
+        BatchAnnotateImagesResponse batchResponse;
+        try {
+            batchResponse = vision.images().annotate(batchRequest).execute();
+        } catch (Exception e) {
+            Log.e(TAG, "getTextFromImageSync: encountered an error retrieving the response", e);
+            e.printStackTrace();
+            return null;
+        }
 
         StringBuilder stringBuilder = new StringBuilder();
 

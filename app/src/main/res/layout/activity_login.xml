@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:onClick="hideKeyboard"
     >
 
     <EditText
+        android:visibility="gone"
         android:id="@+id/loginPass"
         android:layout_width="match_parent"
         android:layout_height="75dp"
@@ -21,7 +23,7 @@
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="75dp"
         android:layout_below="@id/loginPass"
         android:layout_centerHorizontal="true"
@@ -30,6 +32,7 @@
         android:textColor="#FF424242" />
 
     <TextView
+        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="32dp"

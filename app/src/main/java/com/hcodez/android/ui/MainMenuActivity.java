@@ -76,6 +76,19 @@ public class MainMenuActivity extends AppCompatActivity {
         mCodeListRecyclerView         = findViewById(R.id.codeList);
         app                           = new HcodezApp();
 
+        mCodeSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mCodeAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
         mAddCodeFloatingActionButton.setOnClickListener(
                 view -> startActivity(
                         new Intent(MainMenuActivity.this, AddCodeActivity.class)));
@@ -85,7 +98,9 @@ public class MainMenuActivity extends AppCompatActivity {
                         new Intent(MainMenuActivity.this, FindCodeActivity.class)));
 
         mCodeSearchView.setOnClickListener(
-                view -> mCodeSearchView.setIconified(false));
+                view -> {
+                    mCodeSearchView.setIconified(false);
+                });
 
         mCodeAdapter = new CodeAdapter(codeClickCallback, codeLongClickCallback);
         mCodeListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -119,6 +134,21 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     /**
+     * If focus for window is changed, the code list will update
+     * @param hasFocus Checking the window focus
+     */
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        if(!hasFocus) {
+            mCodeSearchView.setQuery(null, false);
+            mCodeSearchView.clearFocus();
+            mCodeSearchView.onActionViewCollapsed();
+        }
+    }
+
+    /**
      * Method used for hiding the keyboard when touching outside the text
      */
     public void hideKeyboard(View view) {
@@ -139,6 +169,12 @@ public class MainMenuActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsMenuActivity.class));
+                return true;
+
+            case R.id.log_out:
+                deleteSharedPreferences("login_prefs");
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);

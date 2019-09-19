@@ -1,6 +1,0 @@
-{
-  "URL": ["http", "https"],
-  "FILE": ["file"],
-  "MEDIA": ["file, content"],
-  "CONTACT": [""]
-}

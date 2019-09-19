@@ -1,9 +1,12 @@
 package com.hcodez.android.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -33,6 +36,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.Nonnull;
 
@@ -40,9 +44,19 @@ public class FindCodeActivity extends AppCompatActivity {
 
     private static final String TAG = "FindCodeActivity";
 
-    private Button textCodeButton;
+    /**
+     * Quality of the bitmap sent further to Google Cloud Vision
+     * for processing
+     */
+    private static final int BITMAP_PROCESSING_QUALITY = 20;
+
+//    private Button textCodeButton;
+
     private Button imageCodeButton;
+
     private Button scanButton;
+
+    private boolean spawnedByIntent = false;
 
     /**
      * Request code for requesting a photo to be captured in order to be scanned
@@ -65,6 +79,14 @@ public class FindCodeActivity extends AppCompatActivity {
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             Log.d(TAG, "onCreate: received ACTION_SEND");
+
+            spawnedByIntent = true;
+
+            if (!isNetworkAvailable(this)) {
+                finish();
+                return;
+            }
+
             if ("text/plain".equals(type)) {
                 Log.d(TAG, "onCreate: received text from intent");
                 handleIncomingText(intent
@@ -75,15 +97,28 @@ public class FindCodeActivity extends AppCompatActivity {
             }
         } else {
             Log.d(TAG, "onCreate: no action received, displaying UI");
+
+            spawnedByIntent = false;
+
             setContentView(R.layout.activity_find_code);
 
-            textCodeButton = findViewById(R.id.find_code_enter_text_button);
+//            textCodeButton = findViewById(R.id.find_code_enter_text_button);
             imageCodeButton = findViewById(R.id.find_code_parse_image_button);
             scanButton = findViewById(R.id.find_code_scan_code_button);
+
             scanButton.setOnClickListener(v -> dispatchTakePictureIntent());
+            imageCodeButton.setOnClickListener(v -> {
+                Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                pickIntent.setDataAndType(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                startActivity(pickIntent);
+            });
         }
     }
 
+    /**
+     * Handle incoming text(parse codes)
+     * @param sharedText the text that needs to be handled
+     */
     private void handleIncomingText(final String sharedText) {
         Log.d(TAG, "handleIncomingText() called with: sharedText = [" + sharedText + "]");
 
@@ -98,11 +133,13 @@ public class FindCodeActivity extends AppCompatActivity {
         new Thread(() -> {
             Log.d(TAG, "handleIncomingText: started thread");
             Code code = new CodeParser()
-                    .addCodeTypes(CodeType.all())
+//                    .addCodeTypes(CodeType.all())
+                    .addCodeType(CodeType.PRIVATE) // for demo only
                     .parseSingle(sharedText);
 
             if (code == null) {
                 Log.d(TAG, "handleIncomingText: no code was parsed");
+                mutableLiveData.postValue(CodeEntity.builder().id(-1).build());
                 return;
             }
 
@@ -133,10 +170,17 @@ public class FindCodeActivity extends AppCompatActivity {
                 Log.d(TAG, "handleIncomingText: null received");
                 return;
             }
-            if (codeEntity.getId() == null || codeEntity.getContentId() == null) {
-                Log.e(TAG, "didn't find a code");
+            if (codeEntity.getId() == null) {
+                Log.w(TAG, "didn't find a code in the database");
                 Toast.makeText(getApplicationContext(), "No matching code was found in the database", Toast.LENGTH_LONG).show();
-                finish();
+                if (spawnedByIntent)
+                    finish();
+                return;
+            } else if (codeEntity.getContentId() == null) {
+                Log.w(TAG, "handleIncomingText: no code was parsed");
+                Toast.makeText(getApplicationContext(), "No code was scanned", Toast.LENGTH_LONG).show();
+                if (spawnedByIntent)
+                    finish();
                 return;
             }
 
@@ -148,6 +192,10 @@ public class FindCodeActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Handle an incoming image for processing
+     * @param imageUri the Uri to the image
+     */
     private void handleIncomingImage(Uri imageUri) {
         Log.d(TAG, "handleIncomingImage() called with: imageUri = [" + imageUri + "]");
         if (imageUri == null) {
@@ -159,21 +207,46 @@ public class FindCodeActivity extends AppCompatActivity {
             return;
         }
         processImage(imageUri);
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult() called with: requestCode = [" + requestCode + "], resultCode = [" + resultCode + "], data = [" + data + "]");
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+
+        if (resultCode != RESULT_OK && resultCode != RESULT_CANCELED) {
+            Log.e(TAG, "onActivityResult: result code is not RESULT_OK");
+            Toast.makeText(this, "Unknown error", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE) {
             Log.d(TAG, "onActivityResult: received result from REQUEST_IMAGE_CAPTURE");
             processImage(currentPhotoUri);
         }
+
+        Log.d(TAG, "onActivityResult: result from scan image from gallery");
+        if (data == null) {
+            Log.w(TAG, "onActivityResult: received nothing");
+            return;
+        }
+        if (data.getData() == null) {
+            Log.w(TAG, "onActivityResult: received nothing");
+            return;
+        }
+        handleIncomingImage(data.getData());
     }
 
+    /**
+     * Dispatch an intent requesting the camera app to take a picture and save it
+     */
     private void dispatchTakePictureIntent() {
         Log.d(TAG, "dispatchTakePictureIntent() called");
+
+        if (!isNetworkAvailable(this)) {
+            return;
+        }
+
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             Log.d(TAG, "dispatchTakePictureIntent: camera available");
@@ -200,27 +273,40 @@ public class FindCodeActivity extends AppCompatActivity {
         Log.d(TAG, "dispatchTakePictureIntent() returned");
     }
 
+    /**
+     * Process the image(to find codes)
+     * @param imageUri the uri to the image
+     */
     private void processImage(Uri imageUri) {
         final MutableLiveData<String> textLiveData = new MutableLiveData<>();
 
-        new Thread(() -> {
+        final Object threadLock = new Object();
+        AtomicBoolean threadFinished = new AtomicBoolean(false);
+        AtomicBoolean threadError = new AtomicBoolean(false);
+        final Thread processingThread = new Thread(() -> {
             Log.d(TAG, "processImage: start thread");
 
             Log.d(TAG, "processImage: open image and rescale before processing");
-            Bitmap img = null;
+            Bitmap img;
             try {
                 img = BitmapFactory.decodeStream(getInputStreamFromUri(imageUri));
             } catch (FileNotFoundException e) {
                 Log.e(TAG, "processImage: failed to open image file", e);
                 e.printStackTrace();
+                synchronized (threadLock) {
+                    threadError.set(true);
+                }
                 return;
             }
             if (img == null) {
                 Log.e(TAG, "processImage: could not open image file");
+                synchronized (threadLock) {
+                    threadError.set(true);
+                }
                 return;
             }
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            img.compress(Bitmap.CompressFormat.JPEG, 25, stream);
+            img.compress(Bitmap.CompressFormat.JPEG, BITMAP_PROCESSING_QUALITY, stream);
             img.recycle();
 
             final CodeScanner codeScanner = CodeScanner.getInstance(getApplicationContext());
@@ -239,7 +325,7 @@ public class FindCodeActivity extends AppCompatActivity {
             if (processedText != null) {
                 textLiveData.postValue(processedText);
             } else {
-                textLiveData.removeObservers(this);
+                runOnUiThread(() -> textLiveData.removeObservers(this));
                 runOnUiThread(() -> Toast
                         .makeText(getApplicationContext(), "No code found in image", Toast.LENGTH_LONG).show());
             }
@@ -257,6 +343,65 @@ public class FindCodeActivity extends AppCompatActivity {
             } catch (Exception e){
                 Log.w(TAG, "processImage: could not delete scanned photo", e);
             }
+            synchronized (threadLock) {
+                threadFinished.set(true);
+            }
+        });
+        processingThread.start();
+
+        new Thread(() -> {
+            Log.d(TAG, "processImage: started timeout checker thread");
+            final Runnable errRunnable = () ->
+                    Toast.makeText(this,
+                            "Encountered an error while processing the image",
+                            Toast.LENGTH_LONG).show();
+            final Runnable timeoutRunnable = () ->
+                    Toast.makeText(this,
+                            "Processing timed out",
+                            Toast.LENGTH_LONG).show();
+            synchronized (threadLock) {
+                Log.d(TAG, "processImage: checker thread initial check");
+                if (threadError.get()) {
+                    Log.w(TAG, "processImage: processing thread encountered an error and exited");
+                    runOnUiThread(errRunnable);
+                    return;
+                }
+                if (threadFinished.get()) {
+                    Log.d(TAG, "processImage: processing thread finished, terminating");
+                    return;
+                }
+            }
+            for (int i = 0; i < 60; i++) {
+                Log.d(TAG, "processImage: waiting " + (i+1) + " second out of 60");
+                try {
+                    synchronized (this) {
+                        wait(1000);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    return;
+                }
+                synchronized (threadLock) {
+                    if (threadError.get()) {
+                        Log.w(TAG, "processImage: processing thread encountered an error and exited");
+                        runOnUiThread(errRunnable);
+                        return;
+                    }
+                    if (threadFinished.get()) {
+                        Log.d(TAG, "processImage: processing thread finished, terminating");
+                        return;
+                    }
+                }
+            }
+            synchronized (threadLock) {
+                if (!threadFinished.get()) {
+                    runOnUiThread(timeoutRunnable);
+                    Log.w(TAG, "processImage: interrupting processing thread due to timeout");
+                    synchronized (processingThread) {
+                        processingThread.interrupt();
+                    }
+                }
+            }
         }).start();
 
         textLiveData.observe(this, text -> {
@@ -272,6 +417,11 @@ public class FindCodeActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Create a file for the picture to be stored in
+     * @return the file for the image
+     * @throws IOException exception regarding the filesystem
+     */
     private File createImageFile() throws IOException {
         // Create an image file name
         @SuppressLint("SimpleDateFormat")
@@ -290,6 +440,12 @@ public class FindCodeActivity extends AppCompatActivity {
         return image;
     }
 
+    /**
+     * Extract an InputStream from an Uri(to be used with content Uris)
+     * @param uri the Uri to be used
+     * @return an InputStream
+     * @throws FileNotFoundException if the file was not found
+     */
     private InputStream getInputStreamFromUri(@Nonnull Uri uri) throws FileNotFoundException {
         Log.d(TAG, "getInputStreamFromUri() called with: uri = [" + uri + "]");
 
@@ -306,5 +462,36 @@ public class FindCodeActivity extends AppCompatActivity {
             return getContentResolver().openInputStream(uri);
         }
         throw new FileNotFoundException("bad uri scheme");
+    }
+
+    /**
+     * Checks whether the device is connected to the internet or not
+     * @return network connectivity status
+     */
+    public boolean isNetworkAvailable(Context context) {
+        Log.d(TAG, "isNetworkAvailable() called");
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        Runnable errRunnable = () ->
+                Toast.makeText(this,
+                        "Internet connectivity is required for code scanning",
+                        Toast.LENGTH_LONG).show();
+
+        if (activeNetworkInfo == null) {
+            Log.w(TAG, "isNetworkAvailable: network info not available");
+            runOnUiThread(errRunnable);
+            return false;
+        }
+
+        if (!activeNetworkInfo.isConnected()) {
+            Log.w(TAG, "isNetworkAvailable: device is not connected to the internet");
+            runOnUiThread(errRunnable);
+            return false;
+        }
+
+        Log.d(TAG, "isNetworkAvailable: device is connected to the internet");
+        return true;
     }
 }

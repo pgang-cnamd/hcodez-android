@@ -4,6 +4,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hcodez.android.R;
 import com.hcodez.android.db.entity.CodeEntity;
+import com.hcodez.android.ui.MainMenuActivity;
 import com.hcodez.android.ui.callback.CodeClickCallback;
 import com.hcodez.android.ui.callback.CodeLongClickCallback;
 import com.hcodez.codeengine.model.CodeType;
@@ -22,14 +25,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder> {
+public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder> implements Filterable {
 
     private static final String TAG = "CodeAdapter";
 
     /**
      * The adapter's item list
      */
-    private List<CodeEntity> codeList = new ArrayList<>();
+    private List<CodeEntity> mCodeList;
+
+    private List<CodeEntity> mCodeListFull = new ArrayList<>();
 
     /**
      * Callback used when a code item is clicked
@@ -61,10 +66,11 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
             return;
         }
 
-        if (codeList == null) {
+        if (mCodeList == null) {
             Log.d(TAG, "updateList: null old code list");
-            codeList = newCodeList;
-            notifyItemRangeInserted(0, codeList.size());
+            mCodeList = newCodeList;
+            mCodeListFull = new ArrayList<>(newCodeList);
+            notifyItemRangeInserted(0, mCodeList.size());
             return;
         }
 
@@ -72,7 +78,7 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(new DiffUtil.Callback() {
             @Override
             public int getOldListSize() {
-                return codeList.size();
+                return mCodeList.size();
             }
 
             @Override
@@ -82,14 +88,14 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
 
             @Override
             public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                return codeList.get(oldItemPosition).getId()
+                return mCodeList.get(oldItemPosition).getId()
                         .equals(newCodeList.get(newItemPosition).getId());
             }
 
             @Override
             public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
                 CodeEntity newCodeEntity = newCodeList.get(newItemPosition);
-                CodeEntity oldCodeEntity = codeList.get(oldItemPosition);
+                CodeEntity oldCodeEntity = mCodeList.get(oldItemPosition);
 
                 return newCodeEntity.getId().equals(oldCodeEntity.getId()) &&
                         Objects.equals(newCodeEntity.getCodeType(), oldCodeEntity.getCodeType()) &&
@@ -101,7 +107,8 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
                         newCodeEntity.getUpdateTime().getMillis() == oldCodeEntity.getUpdateTime().getMillis();
             }
         });
-        codeList = newCodeList;
+        mCodeList = newCodeList;
+        mCodeListFull = new ArrayList<>(newCodeList);
         result.dispatchUpdatesTo(this);
         Log.d(TAG, "updateList: dispatches updates to adapter");
     }
@@ -118,19 +125,19 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
     @Override
     public void onBindViewHolder(@NonNull CodeViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder() called with: holder = [" + holder + "], position = [" + position + "]");
-        holder.bind(codeList.get(position));
+        holder.bind(mCodeList.get(position));
     }
 
     @Override
     public int getItemCount() {
         Log.d(TAG, "getItemCount() called");
-        return codeList != null ? codeList.size() : 0;
+        return mCodeList != null ? mCodeList.size() : 0;
     }
 
     @Override
     public long getItemId(int position) {
         Log.d(TAG, "getItemId() called with: position = [" + position + "]");
-        return codeList.get(position).getId();
+        return mCodeList.get(position).getId();
     }
 
     /**
@@ -196,4 +203,58 @@ public class CodeAdapter extends RecyclerView.Adapter<CodeAdapter.CodeViewHolder
             return true;
         }
     }
+
+    /**
+     * Method for searching a code or code name in the searchView
+     */
+
+    public Filter getFilter(){
+        return codeFilter;
+    }
+
+    /**
+     * Filter the code list
+     */
+
+    private Filter codeFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<CodeEntity> filteredCodeList = new ArrayList<>();
+
+            if(constraint == null || constraint.length() == 0){
+                filteredCodeList.addAll(mCodeListFull);
+            } else {
+                String filterCodeName       = constraint.toString().toLowerCase().trim();
+                String filterCodeIdentifier = constraint.toString().trim();
+
+                for(CodeEntity entity : mCodeListFull){
+                    if(entity.getName().toLowerCase().contains(filterCodeName)){
+                        filteredCodeList.add(entity);
+                    } else if(entity.getIdentifier().contains(filterCodeIdentifier)){
+                            filteredCodeList.add(entity);
+                        }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredCodeList;
+
+            return results;
+        }
+
+        /**
+         * Publish the filtered result to the recyclerView
+         * @param constraint Searched CharSequence
+         * @param results Results for the searched string
+         */
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            if (mCodeList != null) {
+                mCodeList.clear();
+                mCodeList.addAll((List) results.values);
+            }
+            notifyDataSetChanged();
+        }
+    };
 }
