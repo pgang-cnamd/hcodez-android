@@ -25,6 +25,7 @@
         android:textColor="#FF424242" />
 
     <Button
+        android:layout_marginRight="3dp"
         android:id="@+id/code_details_copy_code_button"
         android:layout_width="45dp"
         android:layout_height="45dp"

@@ -19,6 +19,7 @@
         tools:targetApi="m" />
 
     <Button
+        android:layout_marginLeft="1dp"
         android:layout_marginBottom="40dp"
         android:layout_below="@id/find_code_enter_text_button"
         android:id="@+id/find_code_parse_image_button"
@@ -28,6 +29,8 @@
         android:foreground="@drawable/ic_gallery_scan" />
 
     <Button
+        android:layout_marginLeft="1dp"
+        android:layout_marginBottom="3dp"
         android:layout_below="@id/find_code_parse_image_button"
         android:id="@+id/find_code_scan_code_button"
         android:layout_width="75dp"
